@@ -5,4 +5,9 @@ import { lazy } from 'react';
 // rápido en el celular). Cada paso nuevo agrega una línea acá.
 export const COMPONENTES = {
   demo: lazy(() => import('./Demo/Demo.jsx')),
+  angulos: lazy(() => import('./Angulos/Angulos.jsx')),
+  triangulos: lazy(() => import('./Triangulos/Triangulos.jsx')),
+  cuadrilateros: lazy(() => import('./Cuadrilateros/Cuadrilateros.jsx')),
+  circulo: lazy(() => import('./CirculoPoligonos/CirculoPoligonos.jsx')),
+  'perimetro-area': lazy(() => import('./PerimetroArea/PerimetroArea.jsx')),
 };

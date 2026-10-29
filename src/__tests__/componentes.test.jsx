@@ -154,9 +154,11 @@ describe('App (menú y navegación)', () => {
     render(<App />);
     expect(screen.getByText(/Geometría en acción/)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Prueba de componentes/ })).toBeEnabled();
-    const triangulos = screen.getByRole('button', { name: /Triángulos/ });
-    expect(triangulos).toBeDisabled();
-    expect(within(triangulos).getByText('Próximamente')).toBeInTheDocument();
+    const triangulos = screen.getByText('Triángulos', { selector: 'span' }).closest('button');
+    expect(triangulos).toBeEnabled();
+    const pitagoras = screen.getByRole('button', { name: /Pitágoras/ });
+    expect(pitagoras).toBeDisabled();
+    expect(within(pitagoras).getByText('Próximamente')).toBeInTheDocument();
   });
 
   it('el filtro por año oculta lo que no corresponde', async () => {

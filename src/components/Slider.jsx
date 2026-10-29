@@ -18,7 +18,7 @@ export default function Slider({ etiqueta, valor, onChange, min = 0, max = 100, 
         <span className="font-medium text-slate-700">{etiqueta}</span>
         <span className="text-lg font-bold tabular-nums text-teal-700">
           {fmt(valor, decimales)}
-          {unidad && ` ${unidad}`}
+          {unidad && `${/^[°%]/.test(unidad) ? '' : ' '}${unidad}`}
         </span>
       </div>
       <div className="flex items-center gap-3">

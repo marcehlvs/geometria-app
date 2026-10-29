@@ -54,7 +54,7 @@ export default function StepNav({ pasos, onFinish, textoFinal = 'Terminar ✓' }
       </p>
       <h2 className="mb-3 text-xl font-bold">{actual.titulo}</h2>
 
-      <div className="space-y-4">{actual.contenido}</div>
+      <div key={indice} className="space-y-4">{actual.contenido}</div>
 
       <div className="mt-6 flex items-center gap-3">
         <button

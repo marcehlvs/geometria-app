@@ -178,14 +178,14 @@ triangulos: lazy(() => import('./Triangulos/Triangulos.jsx')),
 
 ### FASE 2 — Figuras planas
 
-#### ☐ Paso 4 · Ángulos y triángulos
+#### ✅ Paso 4 · Ángulos y triángulos
 **Qué hacer**
 - **Ángulos:** SVG con transportador, un deslizador de 0° a 180° que clasifica en vivo; dos pares de ángulos (complementarios y suplementarios) donde se mueve uno y el otro se ajusta; paralelas cortadas por una transversal con los 8 ángulos coloreados.
 - **Triángulos:** vértices arrastrables, clasificación automática por lados y ángulos, suma de ángulos (muestra 180° siempre), desigualdad triangular con tres deslizadores («¿se puede armar?»).
 
 **Por qué:** arrastrar y ver que la suma da siempre 180° convence más que enunciarlo. Es la actividad «primero hacer, después nombrar».
 
-#### ☐ Paso 5 · Cuadriláteros, círculo y polígonos regulares
+#### ✅ Paso 5 · Cuadriláteros, círculo y polígonos regulares
 **Qué hacer**
 - Árbol de clasificación de cuadriláteros; al tocar uno se resaltan sus propiedades (lados, ángulos, diagonales).
 - «¿Qué cuadrilátero soy?» con pistas progresivas.
@@ -194,7 +194,7 @@ triangulos: lazy(() => import('./Triangulos/Triangulos.jsx')),
 
 **Por qué:** la jerarquía «el cuadrado también es rectángulo» es el error conceptual más común en 1.º; verla en un árbol lo aclara.
 
-#### ☐ Paso 6 · Perímetro y área
+#### ✅ Paso 6 · Perímetro y área
 **Qué hacer**
 - Una pantalla por figura (rectángulo, triángulo, paralelogramo, trapecio, rombo, círculo) con deslizadores y el cálculo mostrado paso a paso: fórmula → reemplazo → resultado con unidad.
 - Actividad «misma área, distinto perímetro» sobre una cuadrícula.
@@ -353,9 +353,9 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 1 · Proyecto
 - [x] Paso 2 · Utilidades y datos
 - [x] Paso 3 · Componentes base y navegación
-- [ ] Paso 4 · Ángulos y triángulos
-- [ ] Paso 5 · Cuadriláteros, círculo y polígonos
-- [ ] Paso 6 · Perímetro y área
+- [x] Paso 4 · Ángulos y triángulos
+- [x] Paso 5 · Cuadriláteros, círculo y polígonos
+- [x] Paso 6 · Perímetro y área
 - [ ] Paso 7 · Pitágoras
 - [ ] Paso 8 · Cuerpos y elementos
 - [ ] Paso 9 · Desarrollo plano interactivo
