@@ -12,4 +12,5 @@ export const COMPONENTES = {
   'perimetro-area': lazy(() => import('./PerimetroArea/PerimetroArea.jsx')),
   pitagoras: lazy(() => import('./Pitagoras/Pitagoras.jsx')),
   cuerpos: lazy(() => import('./Cuerpos/Cuerpos.jsx')),
+  desarrollo: lazy(() => import('./DesarrolloPlano/DesarrolloPlano.jsx')),
 };

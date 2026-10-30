@@ -8,6 +8,56 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 
 ---
 
+## 📍 Estado actual (29/10/2026)
+
+**Avance: 8 de 17 pasos terminados + el Paso 9 funcionando en el menú (le faltan detalles menores).**
+
+**Verificación del estado actual del repo**
+- `npm run test:utils`: 22 pruebas OK.
+- `npm test`: 55 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 20).
+- `npm run build`: compila sin errores.
+- El módulo del Paso 9 está registrado, se abre desde el menú y entra en el build.
+
+### ✅ Resuelto
+
+| Paso | Módulo | Qué quedó funcionando |
+|---|---|---|
+| 1 | Proyecto | React 19 + Vite 7 + Tailwind 4 + KaTeX |
+| 2 | Utilidades y datos | `geometry.js`, `format.js`, `rand.js`, `figuras.js`, `cuerpos.js`, y `check-utils.mjs` |
+| 3 | Componentes y navegación | `Formula`, `StepNav`, `Slider`, `Quiz`, `NumInput`, `ProgressBar`, `ModuloLayout`, `BarraAjustes`, `AppContext` (año, π, progreso), menú por `#hash` y carga diferida |
+| 4 | Ángulos y Triángulos | Dos módulos interactivos |
+| 5 | Cuadriláteros y Círculo/polígonos | Dos módulos interactivos |
+| 6 | Perímetro y área | Una pantalla por figura con cálculo paso a paso |
+| 7 | Pitágoras | Demostración visual y ejercicios |
+| 8 | Cuerpos y elementos | Galería, CSS 3D (`solidos3d.js`) y tabla comparativa |
+
+### 🟡 Casi listo: Paso 9 · Desarrollo plano interactivo
+Ya está registrado en `src/modules/index.js` y se abre desde el menú.
+
+- Hecho: `data/nets.js` (8 desarrollos: cubo, ortoedro, prismas triangular, pentagonal y hexagonal, pirámides triangular, cuadrada y pentagonal), `modules/DesarrolloPlano/DesarrolloPlano.jsx` (5 pasos: plegado con deslizador, giro de la vista, colorear caras iguales, área total = suma de las caras, cilindro y cono que se desenrollan, mini quiz) y pruebas (`paso9.test.jsx`: 18 sobre los datos; `paso9-modulo.test.jsx`: 2 sobre el menú).
+- Falta: botón para mostrar/ocultar las medidas en el desarrollo.
+- Falta: una prueba que recorra el módulo completo hasta el ✓, como en los Pasos 4 a 8.
+
+### ☐ Pendiente
+
+| Paso | Qué falta |
+|---|---|
+| 10 | ¿Arma un cubo?: los 11 desarrollos válidos, los inválidos y el juego con puntaje |
+| 11 | Fórmula de Euler: tabla para completar, predicción y poliedros regulares |
+| 12 | Áreas y volúmenes: valores editables, unidades y animación 3 pirámides = 1 prisma |
+| 13 | Formulario con buscador, filtro por año, mini calculadora e impresión (`data/figuras.js` y `cuerpos.js` ya tienen las fórmulas) |
+| 14 | Problemas de resolución: crear `data/problemas.js` (no existe) y el módulo |
+| 15 | Modo evaluación con puntaje, impresión y clave del docente |
+| Extras | Ninguno empezado (vistas de un cuerpo, simetrías, regla y compás, memotest, etc.) |
+| 16 | Revisión: borrar el módulo `Demo` (sigue en el repo), revisar fórmulas con π = 3,14 y exacto, probar en celular de 360 px y sin `localStorage` |
+| 17 | Publicación: descomentar `base: '/geometria-app/'` en `vite.config.js` si va a GitHub Pages, o conectar Vercel |
+
+Mientras no estén hechos, los módulos de los Pasos 10 a 15 aparecen en el menú como **«Próximamente»**.
+
+**Próximo paso sugerido:** seguir con el Paso 10 (¿Arma un cubo?), que reutiliza el plegado de `nets.js`.
+
+---
+
 ## 1. Decisiones de diseño (y por qué)
 
 | Decisión | Elección | Por qué |
@@ -93,7 +143,7 @@ geometria-app/
    │  ├─ PerimetroArea/
    │  ├─ Pitagoras/
    │  ├─ Cuerpos/
-   │  ├─ DesarrolloPlano/
+   │  ├─ DesarrolloPlano/    # (Paso 9)
    │  ├─ ArmaUnCubo/
    │  ├─ Euler/
    │  ├─ AreasVolumenes/
@@ -108,6 +158,7 @@ geometria-app/
    │  └─ problemas.js        # plantillas de problemas (Paso 14)
    └─ utils/
       ├─ geometry.js         # áreas, perímetros, volúmenes, Pitágoras, unidades
+      ├─ solidos3d.js        # geometría de los cuerpos para CSS 3D (Paso 8)
       ├─ format.js           # números en es-AR, parseNum, tolerancia
       └─ rand.js             # aleatorios con semilla
 ```
@@ -221,7 +272,9 @@ triangulos: lazy(() => import('./Triangulos/Triangulos.jsx')),
 
 **Por qué:** una sola fuente de datos alimenta galería, tabla, Euler y problemas.
 
-#### ☐ Paso 9 · Desarrollo plano interactivo ⭐
+#### 🟡 Paso 9 · Desarrollo plano interactivo ⭐
+> **Estado:** funcionando y registrado en el menú; falta el botón de mostrar/ocultar medidas y una prueba del recorrido completo (ver «Estado actual»).
+
 **Qué hacer**
 - Modelar cada desarrollo en `data/nets.js` como un árbol de caras unidas por charnelas:
 ```js
@@ -358,7 +411,7 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 6 · Perímetro y área
 - [x] Paso 7 · Pitágoras
 - [x] Paso 8 · Cuerpos y elementos
-- [ ] Paso 9 · Desarrollo plano interactivo
+- [~] Paso 9 · Desarrollo plano interactivo (funciona; faltan mostrar/ocultar medidas y prueba del recorrido)
 - [ ] Paso 10 · ¿Arma un cubo?
 - [ ] Paso 11 · Fórmula de Euler
 - [ ] Paso 12 · Áreas y volúmenes
