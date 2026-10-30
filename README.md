@@ -202,7 +202,7 @@ triangulos: lazy(() => import('./Triangulos/Triangulos.jsx')),
 
 **Por qué:** mostrar de dónde sale la fórmula (descomposición) reduce el aprendizaje de memoria.
 
-#### ☐ Paso 7 · Pitágoras (2.º año)
+#### ✅ Paso 7 · Pitágoras (2.º año)
 **Qué hacer**
 - Triángulo rectángulo con tres cuadrados sobre los lados; las áreas se calculan en vivo y se ve que a² + b² = c².
 - Ejercicios: hallar hipotenusa o cateto; verificar ternas (3-4-5, 5-12-13, 8-15-17); «¿es rectángulo?».
@@ -213,7 +213,7 @@ triangulos: lazy(() => import('./Triangulos/Triangulos.jsx')),
 
 ### FASE 3 — Cuerpos (lo más distintivo de la app)
 
-#### ☐ Paso 8 · Cuerpos y sus elementos
+#### ✅ Paso 8 · Cuerpos y sus elementos
 **Qué hacer**
 - Galería con prismas, pirámides, cilindro, cono y esfera; al tocar uno, un cuerpo que rota (CSS 3D) con caras, aristas y vértices resaltables.
 - Clasificación poliedros vs. cuerpos redondos con un mini quiz.
@@ -356,8 +356,8 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 4 · Ángulos y triángulos
 - [x] Paso 5 · Cuadriláteros, círculo y polígonos
 - [x] Paso 6 · Perímetro y área
-- [ ] Paso 7 · Pitágoras
-- [ ] Paso 8 · Cuerpos y elementos
+- [x] Paso 7 · Pitágoras
+- [x] Paso 8 · Cuerpos y elementos
 - [ ] Paso 9 · Desarrollo plano interactivo
 - [ ] Paso 10 · ¿Arma un cubo?
 - [ ] Paso 11 · Fórmula de Euler

@@ -10,4 +10,6 @@ export const COMPONENTES = {
   cuadrilateros: lazy(() => import('./Cuadrilateros/Cuadrilateros.jsx')),
   circulo: lazy(() => import('./CirculoPoligonos/CirculoPoligonos.jsx')),
   'perimetro-area': lazy(() => import('./PerimetroArea/PerimetroArea.jsx')),
+  pitagoras: lazy(() => import('./Pitagoras/Pitagoras.jsx')),
+  cuerpos: lazy(() => import('./Cuerpos/Cuerpos.jsx')),
 };
