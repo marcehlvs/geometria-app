@@ -10,11 +10,11 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 
 ## 📍 Estado actual (29/10/2026)
 
-**Avance: 8 de 17 pasos terminados + el Paso 9 funcionando en el menú (le faltan detalles menores).**
+**Avance: 10 de 17 pasos hechos (el Paso 9 con dos detalles menores pendientes).**
 
 **Verificación del estado actual del repo**
 - `npm run test:utils`: 22 pruebas OK.
-- `npm test`: 55 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 20).
+- `npm test`: 64 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 20, Paso 10: 9).
 - `npm run build`: compila sin errores.
 - El módulo del Paso 9 está registrado, se abre desde el menú y entra en el build.
 
@@ -30,6 +30,13 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 | 6 | Perímetro y área | Una pantalla por figura con cálculo paso a paso |
 | 7 | Pitágoras | Demostración visual y ejercicios |
 | 8 | Cuerpos y elementos | Galería, CSS 3D (`solidos3d.js`) y tabla comparativa |
+| 10 | ¿Arma un cubo? | Ver más abajo |
+
+### ✅ Paso 10 · ¿Arma un cubo?
+- `data/cuboNets.js`: genera los **35 hexaminós** (figuras de 6 cuadrados) y decide cuáles arman un cubo **rodando un cubo sobre la figura** (si dos cuadrados caen en la misma cara, se superponen). Da exactamente **11**, en cuatro familias: 1-4-1 (6), 2-3-1 (3), 2-2-2 (1) y 3-3 (1). No hay figuras copiadas a mano.
+- `components/Net3D.jsx`: el plegado 3D se sacó de `DesarrolloPlano` a un componente compartido; el Paso 9 lo sigue usando.
+- `modules/ArmaUnCubo/ArmaUnCubo.jsx` (4 pasos): 1) plegar la cruz, 2) desafío de 6 figuras (3 que arman y 3 que no, con giros y espejos al azar), con comprobación animada, cuadrados superpuestos marcados en rojo y puntaje, 3) galería de las 11 y pregunta, 4) cierre.
+- Pruebas (`paso10.test.jsx`, 9): 35 hexaminós y 11 válidos, cantidades conocidas de poliominós, familias, independencia de giros/espejos, **coincidencia con el plegado 3D real**, rondas reproducibles con semilla y recorrido completo del módulo.
 
 ### 🟡 Casi listo: Paso 9 · Desarrollo plano interactivo
 Ya está registrado en `src/modules/index.js` y se abre desde el menú.
@@ -42,7 +49,6 @@ Ya está registrado en `src/modules/index.js` y se abre desde el menú.
 
 | Paso | Qué falta |
 |---|---|
-| 10 | ¿Arma un cubo?: los 11 desarrollos válidos, los inválidos y el juego con puntaje |
 | 11 | Fórmula de Euler: tabla para completar, predicción y poliedros regulares |
 | 12 | Áreas y volúmenes: valores editables, unidades y animación 3 pirámides = 1 prisma |
 | 13 | Formulario con buscador, filtro por año, mini calculadora e impresión (`data/figuras.js` y `cuerpos.js` ya tienen las fórmulas) |
@@ -54,7 +60,7 @@ Ya está registrado en `src/modules/index.js` y se abre desde el menú.
 
 Mientras no estén hechos, los módulos de los Pasos 10 a 15 aparecen en el menú como **«Próximamente»**.
 
-**Próximo paso sugerido:** seguir con el Paso 10 (¿Arma un cubo?), que reutiliza el plegado de `nets.js`.
+**Próximo paso sugerido:** Paso 11 (Fórmula de Euler), que usa `data/cuerpos.js` (ya cumple C + V = A + 2 en todos los poliedros).
 
 ---
 
@@ -131,6 +137,7 @@ geometria-app/
    │  ├─ Quiz.jsx            # opción múltiple con feedback
    │  ├─ NumInput.jsx        # respuesta numérica (coma o punto, tolerancia)
    │  ├─ ProgressBar.jsx
+   │  ├─ Net3D.jsx           # desarrollo plano que se pliega (CSS 3D), compartido por los Pasos 9 y 10
    │  ├─ ModuloLayout.jsx    # marco común de cada módulo
    │  └─ BarraAjustes.jsx    # selector de año y de π
    ├─ modules/
@@ -144,7 +151,7 @@ geometria-app/
    │  ├─ Pitagoras/
    │  ├─ Cuerpos/
    │  ├─ DesarrolloPlano/    # (Paso 9)
-   │  ├─ ArmaUnCubo/
+   │  ├─ ArmaUnCubo/         # (Paso 10)
    │  ├─ Euler/
    │  ├─ AreasVolumenes/
    │  ├─ Formulario/
@@ -155,6 +162,7 @@ geometria-app/
    │  ├─ figuras.js          # fórmulas y propiedades de figuras planas
    │  ├─ cuerpos.js          # C, V, A, fórmulas de cada cuerpo
    │  ├─ nets.js             # desarrollos planos (Paso 9)
+   │  ├─ cuboNets.js         # los 35 hexaminós y cuáles arman un cubo (Paso 10)
    │  └─ problemas.js        # plantillas de problemas (Paso 14)
    └─ utils/
       ├─ geometry.js         # áreas, perímetros, volúmenes, Pitágoras, unidades
@@ -296,7 +304,9 @@ export const cubo = {
 
 **Por qué:** el desarrollo plano es la forma más concreta de entender el área total, y se conecta con tu PDF de redes desplegables con hilo (misma idea: mismas caras y medidas).
 
-#### ☐ Paso 10 · ¿Arma un cubo?
+#### ✅ Paso 10 · ¿Arma un cubo?
+> **Estado:** hecho. En vez de guardar los 11 desarrollos a mano, se generan y validan en `data/cuboNets.js` (ver «Estado actual»).
+
 **Qué hacer**
 - Guardar 11 desarrollos válidos y varios inválidos de 6 cuadrados. Mostrar uno al azar; el estudiante responde sí/no y después se anima el plegado para comprobarlo.
 
@@ -412,7 +422,7 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 7 · Pitágoras
 - [x] Paso 8 · Cuerpos y elementos
 - [~] Paso 9 · Desarrollo plano interactivo (funciona; faltan mostrar/ocultar medidas y prueba del recorrido)
-- [ ] Paso 10 · ¿Arma un cubo?
+- [x] Paso 10 · ¿Arma un cubo?
 - [ ] Paso 11 · Fórmula de Euler
 - [ ] Paso 12 · Áreas y volúmenes
 - [ ] Paso 13 · Formulario

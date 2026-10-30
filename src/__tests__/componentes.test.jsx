@@ -156,9 +156,9 @@ describe('App (menú y navegación)', () => {
     expect(screen.getByRole('button', { name: /Prueba de componentes/ })).toBeEnabled();
     const triangulos = screen.getByText('Triángulos', { selector: 'span' }).closest('button');
     expect(triangulos).toBeEnabled();
-    const armaCubo = screen.getByRole('button', { name: /¿Arma un cubo\?/ });
-    expect(armaCubo).toBeDisabled();
-    expect(within(armaCubo).getByText('Próximamente')).toBeInTheDocument();
+    const euler = screen.getByRole('button', { name: /Fórmula de Euler/ });
+    expect(euler).toBeDisabled();
+    expect(within(euler).getByText('Próximamente')).toBeInTheDocument();
   });
 
   it('el filtro por año oculta lo que no corresponde', async () => {
