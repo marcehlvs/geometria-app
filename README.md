@@ -10,11 +10,11 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 
 ## 📍 Estado actual (29/10/2026)
 
-**Avance: 10 de 17 pasos hechos (el Paso 9 con dos detalles menores pendientes).**
+**Avance: 11 de 17 pasos hechos (el Paso 9 con dos detalles menores pendientes).**
 
 **Verificación del estado actual del repo**
 - `npm run test:utils`: 22 pruebas OK.
-- `npm test`: 64 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 20, Paso 10: 9).
+- `npm test`: 68 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 20, Paso 10: 9, Paso 11: 4).
 - `npm run build`: compila sin errores.
 - El módulo del Paso 9 está registrado, se abre desde el menú y entra en el build.
 
@@ -31,12 +31,19 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 | 7 | Pitágoras | Demostración visual y ejercicios |
 | 8 | Cuerpos y elementos | Galería, CSS 3D (`solidos3d.js`) y tabla comparativa |
 | 10 | ¿Arma un cubo? | Ver más abajo |
+| 11 | Fórmula de Euler | Ver más abajo |
 
 ### ✅ Paso 10 · ¿Arma un cubo?
 - `data/cuboNets.js`: genera los **35 hexaminós** (figuras de 6 cuadrados) y decide cuáles arman un cubo **rodando un cubo sobre la figura** (si dos cuadrados caen en la misma cara, se superponen). Da exactamente **11**, en cuatro familias: 1-4-1 (6), 2-3-1 (3), 2-2-2 (1) y 3-3 (1). No hay figuras copiadas a mano.
 - `components/Net3D.jsx`: el plegado 3D se sacó de `DesarrolloPlano` a un componente compartido; el Paso 9 lo sigue usando.
 - `modules/ArmaUnCubo/ArmaUnCubo.jsx` (4 pasos): 1) plegar la cruz, 2) desafío de 6 figuras (3 que arman y 3 que no, con giros y espejos al azar), con comprobación animada, cuadrados superpuestos marcados en rojo y puntaje, 3) galería de las 11 y pregunta, 4) cierre.
 - Pruebas (`paso10.test.jsx`, 9): 35 hexaminós y 11 válidos, cantidades conocidas de poliominós, familias, independencia de giros/espejos, **coincidencia con el plegado 3D real**, rondas reproducibles con semilla y recorrido completo del módulo.
+
+### ✅ Paso 11 · Fórmula de Euler
+- `modules/Euler/Euler.jsx` (6 pasos): 1) el estudiante **cuenta** C, V y A de 5 cuerpos con el modelo 3D (resaltando caras, aristas o vértices) y la app corrige celda por celda; 2) compara C + V con A + 2 y responde qué relación se cumple; 3) **predice**: hallar las aristas de un poliedro con 7 caras y 10 vértices, y decidir si existe uno con 5 caras, 6 vértices y 8 aristas; 4) los 5 poliedros regulares; 5) curiosidad del marco con agujero (C + V − A = 0); 6) cierre.
+- `components/Poliedro3D.jsx`: el modelo 3D en SVG se sacó de `Cuerpos` a un componente compartido (Pasos 8 y 11).
+- Todos los números salen de `data/cuerpos.js` (fuente única) y de `utils/geometry.js`.
+- Pruebas (`paso11.test.jsx`, 4): todos los poliedros y regulares cumplen Euler, el marco da 0, la tabla marca errores y bloquea el avance, y el recorrido completo guarda el progreso.
 
 ### 🟡 Casi listo: Paso 9 · Desarrollo plano interactivo
 Ya está registrado en `src/modules/index.js` y se abre desde el menú.
@@ -49,7 +56,6 @@ Ya está registrado en `src/modules/index.js` y se abre desde el menú.
 
 | Paso | Qué falta |
 |---|---|
-| 11 | Fórmula de Euler: tabla para completar, predicción y poliedros regulares |
 | 12 | Áreas y volúmenes: valores editables, unidades y animación 3 pirámides = 1 prisma |
 | 13 | Formulario con buscador, filtro por año, mini calculadora e impresión (`data/figuras.js` y `cuerpos.js` ya tienen las fórmulas) |
 | 14 | Problemas de resolución: crear `data/problemas.js` (no existe) y el módulo |
@@ -60,7 +66,7 @@ Ya está registrado en `src/modules/index.js` y se abre desde el menú.
 
 Mientras no estén hechos, los módulos de los Pasos 10 a 15 aparecen en el menú como **«Próximamente»**.
 
-**Próximo paso sugerido:** Paso 11 (Fórmula de Euler), que usa `data/cuerpos.js` (ya cumple C + V = A + 2 en todos los poliedros).
+**Próximo paso sugerido:** Paso 12 (Áreas y volúmenes), que usa `utils/geometry.js` (volúmenes, áreas y conversión de unidades ya implementados y probados).
 
 ---
 
@@ -137,6 +143,7 @@ geometria-app/
    │  ├─ Quiz.jsx            # opción múltiple con feedback
    │  ├─ NumInput.jsx        # respuesta numérica (coma o punto, tolerancia)
    │  ├─ ProgressBar.jsx
+   │  ├─ Poliedro3D.jsx      # poliedro en SVG con caras, aristas y vértices resaltables (Pasos 8 y 11)
    │  ├─ Net3D.jsx           # desarrollo plano que se pliega (CSS 3D), compartido por los Pasos 9 y 10
    │  ├─ ModuloLayout.jsx    # marco común de cada módulo
    │  └─ BarraAjustes.jsx    # selector de año y de π
@@ -152,7 +159,7 @@ geometria-app/
    │  ├─ Cuerpos/
    │  ├─ DesarrolloPlano/    # (Paso 9)
    │  ├─ ArmaUnCubo/         # (Paso 10)
-   │  ├─ Euler/
+   │  ├─ Euler/              # (Paso 11)
    │  ├─ AreasVolumenes/
    │  ├─ Formulario/
    │  ├─ Problemas/
@@ -312,7 +319,9 @@ export const cubo = {
 
 **Por qué:** razonamiento espacial con retroalimentación inmediata; funciona muy bien como desafío con puntos.
 
-#### ☐ Paso 11 · Fórmula de Euler ⭐
+#### ✅ Paso 11 · Fórmula de Euler ⭐
+> **Estado:** hecho (ver «Estado actual»).
+
 **Qué hacer**
 - Pantalla 1: tabla con cubo, prisma triangular, pirámide cuadrada, tetraedro, octaedro, etc. El estudiante cuenta y completa **C, V, A**; la app corrige.
 - Pantalla 2: calcular `C + V` y `A + 2` y notar que coinciden. Mostrar `C + V = A + 2`.
@@ -423,7 +432,7 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 8 · Cuerpos y elementos
 - [~] Paso 9 · Desarrollo plano interactivo (funciona; faltan mostrar/ocultar medidas y prueba del recorrido)
 - [x] Paso 10 · ¿Arma un cubo?
-- [ ] Paso 11 · Fórmula de Euler
+- [x] Paso 11 · Fórmula de Euler
 - [ ] Paso 12 · Áreas y volúmenes
 - [ ] Paso 13 · Formulario
 - [ ] Paso 14 · Problemas

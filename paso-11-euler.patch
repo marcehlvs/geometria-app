@@ -1,0 +1,764 @@
+diff --git a/README.md b/README.md
+index 43f6622..92b5c7e 100644
+--- a/README.md
++++ b/README.md
+@@ -10,11 +10,11 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
+ 
+ ## 📍 Estado actual (29/10/2026)
+ 
+-**Avance: 10 de 17 pasos hechos (el Paso 9 con dos detalles menores pendientes).**
++**Avance: 11 de 17 pasos hechos (el Paso 9 con dos detalles menores pendientes).**
+ 
+ **Verificación del estado actual del repo**
+ - `npm run test:utils`: 22 pruebas OK.
+-- `npm test`: 64 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 20, Paso 10: 9).
++- `npm test`: 68 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 20, Paso 10: 9, Paso 11: 4).
+ - `npm run build`: compila sin errores.
+ - El módulo del Paso 9 está registrado, se abre desde el menú y entra en el build.
+ 
+@@ -31,6 +31,7 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
+ | 7 | Pitágoras | Demostración visual y ejercicios |
+ | 8 | Cuerpos y elementos | Galería, CSS 3D (`solidos3d.js`) y tabla comparativa |
+ | 10 | ¿Arma un cubo? | Ver más abajo |
++| 11 | Fórmula de Euler | Ver más abajo |
+ 
+ ### ✅ Paso 10 · ¿Arma un cubo?
+ - `data/cuboNets.js`: genera los **35 hexaminós** (figuras de 6 cuadrados) y decide cuáles arman un cubo **rodando un cubo sobre la figura** (si dos cuadrados caen en la misma cara, se superponen). Da exactamente **11**, en cuatro familias: 1-4-1 (6), 2-3-1 (3), 2-2-2 (1) y 3-3 (1). No hay figuras copiadas a mano.
+@@ -38,6 +39,12 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
+ - `modules/ArmaUnCubo/ArmaUnCubo.jsx` (4 pasos): 1) plegar la cruz, 2) desafío de 6 figuras (3 que arman y 3 que no, con giros y espejos al azar), con comprobación animada, cuadrados superpuestos marcados en rojo y puntaje, 3) galería de las 11 y pregunta, 4) cierre.
+ - Pruebas (`paso10.test.jsx`, 9): 35 hexaminós y 11 válidos, cantidades conocidas de poliominós, familias, independencia de giros/espejos, **coincidencia con el plegado 3D real**, rondas reproducibles con semilla y recorrido completo del módulo.
+ 
++### ✅ Paso 11 · Fórmula de Euler
++- `modules/Euler/Euler.jsx` (6 pasos): 1) el estudiante **cuenta** C, V y A de 5 cuerpos con el modelo 3D (resaltando caras, aristas o vértices) y la app corrige celda por celda; 2) compara C + V con A + 2 y responde qué relación se cumple; 3) **predice**: hallar las aristas de un poliedro con 7 caras y 10 vértices, y decidir si existe uno con 5 caras, 6 vértices y 8 aristas; 4) los 5 poliedros regulares; 5) curiosidad del marco con agujero (C + V − A = 0); 6) cierre.
++- `components/Poliedro3D.jsx`: el modelo 3D en SVG se sacó de `Cuerpos` a un componente compartido (Pasos 8 y 11).
++- Todos los números salen de `data/cuerpos.js` (fuente única) y de `utils/geometry.js`.
++- Pruebas (`paso11.test.jsx`, 4): todos los poliedros y regulares cumplen Euler, el marco da 0, la tabla marca errores y bloquea el avance, y el recorrido completo guarda el progreso.
++
+ ### 🟡 Casi listo: Paso 9 · Desarrollo plano interactivo
+ Ya está registrado en `src/modules/index.js` y se abre desde el menú.
+ 
+@@ -49,7 +56,6 @@ Ya está registrado en `src/modules/index.js` y se abre desde el menú.
+ 
+ | Paso | Qué falta |
+ |---|---|
+-| 11 | Fórmula de Euler: tabla para completar, predicción y poliedros regulares |
+ | 12 | Áreas y volúmenes: valores editables, unidades y animación 3 pirámides = 1 prisma |
+ | 13 | Formulario con buscador, filtro por año, mini calculadora e impresión (`data/figuras.js` y `cuerpos.js` ya tienen las fórmulas) |
+ | 14 | Problemas de resolución: crear `data/problemas.js` (no existe) y el módulo |
+@@ -60,7 +66,7 @@ Ya está registrado en `src/modules/index.js` y se abre desde el menú.
+ 
+ Mientras no estén hechos, los módulos de los Pasos 10 a 15 aparecen en el menú como **«Próximamente»**.
+ 
+-**Próximo paso sugerido:** Paso 11 (Fórmula de Euler), que usa `data/cuerpos.js` (ya cumple C + V = A + 2 en todos los poliedros).
++**Próximo paso sugerido:** Paso 12 (Áreas y volúmenes), que usa `utils/geometry.js` (volúmenes, áreas y conversión de unidades ya implementados y probados).
+ 
+ ---
+ 
+@@ -137,6 +143,7 @@ geometria-app/
+    │  ├─ Quiz.jsx            # opción múltiple con feedback
+    │  ├─ NumInput.jsx        # respuesta numérica (coma o punto, tolerancia)
+    │  ├─ ProgressBar.jsx
++   │  ├─ Poliedro3D.jsx      # poliedro en SVG con caras, aristas y vértices resaltables (Pasos 8 y 11)
+    │  ├─ Net3D.jsx           # desarrollo plano que se pliega (CSS 3D), compartido por los Pasos 9 y 10
+    │  ├─ ModuloLayout.jsx    # marco común de cada módulo
+    │  └─ BarraAjustes.jsx    # selector de año y de π
+@@ -152,7 +159,7 @@ geometria-app/
+    │  ├─ Cuerpos/
+    │  ├─ DesarrolloPlano/    # (Paso 9)
+    │  ├─ ArmaUnCubo/         # (Paso 10)
+-   │  ├─ Euler/
++   │  ├─ Euler/              # (Paso 11)
+    │  ├─ AreasVolumenes/
+    │  ├─ Formulario/
+    │  ├─ Problemas/
+@@ -312,7 +319,9 @@ export const cubo = {
+ 
+ **Por qué:** razonamiento espacial con retroalimentación inmediata; funciona muy bien como desafío con puntos.
+ 
+-#### ☐ Paso 11 · Fórmula de Euler ⭐
++#### ✅ Paso 11 · Fórmula de Euler ⭐
++> **Estado:** hecho (ver «Estado actual»).
++
+ **Qué hacer**
+ - Pantalla 1: tabla con cubo, prisma triangular, pirámide cuadrada, tetraedro, octaedro, etc. El estudiante cuenta y completa **C, V, A**; la app corrige.
+ - Pantalla 2: calcular `C + V` y `A + 2` y notar que coinciden. Mostrar `C + V = A + 2`.
+@@ -423,7 +432,7 @@ Ordenados por valor / esfuerzo:
+ - [x] Paso 8 · Cuerpos y elementos
+ - [~] Paso 9 · Desarrollo plano interactivo (funciona; faltan mostrar/ocultar medidas y prueba del recorrido)
+ - [x] Paso 10 · ¿Arma un cubo?
+-- [ ] Paso 11 · Fórmula de Euler
++- [x] Paso 11 · Fórmula de Euler
+ - [ ] Paso 12 · Áreas y volúmenes
+ - [ ] Paso 13 · Formulario
+ - [ ] Paso 14 · Problemas
+diff --git a/src/__tests__/componentes.test.jsx b/src/__tests__/componentes.test.jsx
+index ebeeeea..4b7dfc9 100644
+--- a/src/__tests__/componentes.test.jsx
++++ b/src/__tests__/componentes.test.jsx
+@@ -156,9 +156,9 @@ describe('App (menú y navegación)', () => {
+     expect(screen.getByRole('button', { name: /Prueba de componentes/ })).toBeEnabled();
+     const triangulos = screen.getByText('Triángulos', { selector: 'span' }).closest('button');
+     expect(triangulos).toBeEnabled();
+-    const euler = screen.getByRole('button', { name: /Fórmula de Euler/ });
+-    expect(euler).toBeDisabled();
+-    expect(within(euler).getByText('Próximamente')).toBeInTheDocument();
++    const areasVol = screen.getByRole('button', { name: /Áreas y volúmenes/ });
++    expect(areasVol).toBeDisabled();
++    expect(within(areasVol).getByText('Próximamente')).toBeInTheDocument();
+   });
+ 
+   it('el filtro por año oculta lo que no corresponde', async () => {
+diff --git a/src/__tests__/paso11.test.jsx b/src/__tests__/paso11.test.jsx
+new file mode 100644
+index 0000000..98e0366
+--- /dev/null
++++ b/src/__tests__/paso11.test.jsx
+@@ -0,0 +1,103 @@
++import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
++import { render, screen, cleanup } from '@testing-library/react';
++import userEvent from '@testing-library/user-event';
++import '@testing-library/jest-dom/vitest';
++
++import { AppProvider } from '../context/AppContext.jsx';
++import Euler from '../modules/Euler/Euler.jsx';
++import { POLIEDROS, REGULARES, CONTRAEJEMPLO_EULER } from '../data/cuerpos.js';
++import { IDS_DIBUJABLES } from '../utils/solidos3d.js';
++
++beforeEach(() => {
++  window.scrollTo = vi.fn();
++  window.localStorage.clear();
++  window.location.hash = '';
++});
++afterEach(cleanup);
++
++const NOMBRES = {
++  cubo: 'Cubo',
++  'prisma-triangular': 'Prisma triangular',
++  'piramide-cuadrada': 'Pirámide cuadrada',
++  tetraedro: 'Tetraedro',
++  'prisma-pentagonal': 'Prisma pentagonal',
++};
++
++describe('Datos de Euler', () => {
++  it('todos los poliedros y los regulares cumplen C + V = A + 2', () => {
++    POLIEDROS.forEach((p) => expect(p.C + p.V).toBe(p.A + 2));
++    REGULARES.forEach((p) => expect(p.C + p.V).toBe(p.A + 2));
++  });
++  it('el marco con agujero da 0 y los cuerpos del módulo se pueden dibujar', () => {
++    const m = CONTRAEJEMPLO_EULER;
++    expect(m.C + m.V - m.A).toBe(0);
++    Object.keys(NOMBRES).forEach((id) => expect(IDS_DIBUJABLES).toContain(id));
++  });
++});
++
++describe('Fórmula de Euler (módulo)', () => {
++  it('marca en rojo lo que está mal y no deja avanzar hasta completar la tabla', async () => {
++    const user = userEvent.setup();
++    render(
++      <AppProvider>
++        <Euler onVolver={() => {}} />
++      </AppProvider>
++    );
++    expect(screen.getByRole('button', { name: /Siguiente/ })).toBeDisabled();
++
++    await user.type(screen.getByLabelText('Caras de Cubo'), '7');
++    await user.click(screen.getByRole('button', { name: 'Comprobar tabla' }));
++    expect(screen.getByText(/Hay números que no coinciden/)).toBeInTheDocument();
++    expect(screen.getByRole('button', { name: /Siguiente/ })).toBeDisabled();
++
++    // corrige y sigue bloqueado: faltan las demás celdas
++    await user.clear(screen.getByLabelText('Caras de Cubo'));
++    await user.type(screen.getByLabelText('Caras de Cubo'), '6');
++    await user.click(screen.getByRole('button', { name: 'Comprobar tabla' }));
++    expect(screen.getByText(/Van 1 de 15 bien/)).toBeInTheDocument();
++    expect(screen.getByRole('button', { name: /Siguiente/ })).toBeDisabled();
++  });
++
++  it('recorre los pasos completos y guarda el progreso', async () => {
++    const user = userEvent.setup();
++    render(
++      <AppProvider>
++        <Euler onVolver={() => {}} />
++      </AppProvider>
++    );
++
++    // Paso 1: tabla completa (con coma o espacios no hace falta: son enteros)
++    for (const [id, nombre] of Object.entries(NOMBRES)) {
++      const d = POLIEDROS.find((p) => p.id === id);
++      await user.type(screen.getByLabelText(`Caras de ${nombre}`), String(d.C));
++      await user.type(screen.getByLabelText(`Vértices de ${nombre}`), String(d.V));
++      await user.type(screen.getByLabelText(`Aristas de ${nombre}`), String(d.A));
++    }
++    await user.click(screen.getByRole('button', { name: 'Comprobar tabla' }));
++    expect(screen.getByText(/Toda la tabla está bien/)).toBeInTheDocument();
++    await user.click(screen.getByRole('button', { name: /Siguiente/ }));
++
++    // Paso 2
++    await user.click(screen.getByRole('button', { name: 'C + V = A + 2' }));
++    await user.click(screen.getByRole('button', { name: /Siguiente/ }));
++
++    // Paso 3: 7 + 10 − 2 = 15 aristas y el poliedro imposible
++    expect(screen.getByRole('button', { name: /Siguiente/ })).toBeDisabled();
++    await user.type(screen.getByRole('textbox'), '15');
++    await user.click(screen.getByRole('button', { name: 'Comprobar' }));
++    await user.click(screen.getByRole('button', { name: 'No, no puede existir' }));
++    await user.click(screen.getByRole('button', { name: /Siguiente/ }));
++
++    // Paso 4: regulares
++    expect(screen.getByRole('rowheader', { name: 'Icosaedro' })).toBeInTheDocument();
++    await user.click(screen.getByRole('button', { name: '5' }));
++    await user.click(screen.getByRole('button', { name: /Siguiente/ }));
++
++    // Paso 5: agujero
++    await user.click(screen.getByRole('button', { name: '0' }));
++    await user.click(screen.getByRole('button', { name: /Siguiente/ }));
++
++    await user.click(screen.getByRole('button', { name: /Terminar/ }));
++    expect(JSON.parse(window.localStorage.getItem('geo:completados'))).toEqual(['euler']);
++  });
++});
+diff --git a/src/components/Poliedro3D.jsx b/src/components/Poliedro3D.jsx
+new file mode 100644
+index 0000000..1197909
+--- /dev/null
++++ b/src/components/Poliedro3D.jsx
+@@ -0,0 +1,71 @@
++import { POLIEDROS } from '../data/cuerpos.js';
++import { construirPoliedro, rotar, caraVisible } from '../utils/solidos3d.js';
++
++// Poliedro en 3D dibujado con SVG (sin librerías). Lo usan «Cuerpos y sus
++// elementos» (Paso 8) y «Fórmula de Euler» (Paso 11).
++//   <Poliedro3D id="cubo" giro={30} resalte="caras" | "aristas" | "vertices" | null />
++
++const CARA_COLOR = { base: '#5eead4', lateral: '#fcd34d' };
++
++// ---------------- Poliedro en 3D (SVG) ----------------
++export default function Poliedro3D({ id, giro, resalte }) {
++  const { vertices, caras, aristas } = construirPoliedro(id);
++  const puntos = rotar(vertices, giro);
++  const E = 62; // escala
++  const proy = ([x, y]) => [120 + x * E, 125 - y * E];
++
++  const info = caras.map((c) => {
++    const pts = c.idx.map((i) => puntos[i]);
++    return { ...c, pts, visible: caraVisible(pts), z: pts.reduce((s, q) => s + q[2], 0) / pts.length };
++  });
++  const ordenadas = [...info].sort((a, b) => a.z - b.z);
++
++  // Una arista se ve si alguna de sus caras vecinas mira hacia nosotros.
++  const aristaVisible = ([a, b]) => info.some((f) => f.visible && f.idx.includes(a) && f.idx.includes(b));
++
++  return (
++    <svg viewBox="0 0 240 250" className="mx-auto h-64 w-full max-w-xs" role="img" aria-label={`Modelo 3D: ${POLIEDROS.find((c) => c.id === id).nombre}`}>
++      {ordenadas.map((f, k) => (
++        <polygon
++          key={k}
++          points={f.pts.map((q) => proy(q).join(',')).join(' ')}
++          fill={resalte === 'caras' ? CARA_COLOR[f.rol] : '#ccfbf1'}
++          fillOpacity={f.visible ? 0.85 : 0.25}
++          stroke="none"
++        />
++      ))}
++      {aristas.map(([a, b], k) => {
++        const [x1, y1] = proy(puntos[a]);
++        const [x2, y2] = proy(puntos[b]);
++        const visible = aristaVisible([a, b]);
++        const resaltada = resalte === 'aristas';
++        return (
++          <line
++            key={k}
++            x1={x1}
++            y1={y1}
++            x2={x2}
++            y2={y2}
++            stroke={resaltada ? '#be123c' : '#0f766e'}
++            strokeWidth={resaltada ? 4 : 2.5}
++            strokeLinecap="round"
++            strokeDasharray={visible ? undefined : '4 4'}
++            opacity={visible ? 1 : 0.55}
++          />
++        );
++      })}
++      {resalte === 'vertices' &&
++        puntos.map((p, k) => {
++          const [x, y] = proy(p);
++          return (
++            <g key={k}>
++              <circle cx={x} cy={y} r="9" fill="#0f172a" />
++              <text x={x} y={y} fontSize="11" fill="#fff" textAnchor="middle" dominantBaseline="central" fontWeight="700">
++                {k + 1}
++              </text>
++            </g>
++          );
++        })}
++    </svg>
++  );
++}
+diff --git a/src/modules/ArmarUnCubo/ArmaUnCubo.jsx b/src/modules/ArmaUnCubo/ArmaUnCubo.jsx
+similarity index 100%
+rename from src/modules/ArmarUnCubo/ArmaUnCubo.jsx
+rename to src/modules/ArmaUnCubo/ArmaUnCubo.jsx
+diff --git a/src/modules/Cuerpos/Cuerpos.jsx b/src/modules/Cuerpos/Cuerpos.jsx
+index 6e02601..759df61 100644
+--- a/src/modules/Cuerpos/Cuerpos.jsx
++++ b/src/modules/Cuerpos/Cuerpos.jsx
+@@ -6,7 +6,8 @@ import Quiz from '../../components/Quiz.jsx';
+ import NumInput from '../../components/NumInput.jsx';
+ import { useApp } from '../../context/AppContext.jsx';
+ import { POLIEDROS, REDONDOS, cuerposPorAnio } from '../../data/cuerpos.js';
+-import { construirPoliedro, rotar, caraVisible, IDS_DIBUJABLES } from '../../utils/solidos3d.js';
++import Poliedro3D from '../../components/Poliedro3D.jsx';
++import { construirPoliedro, IDS_DIBUJABLES } from '../../utils/solidos3d.js';
+ 
+ // Cuerpos de la galería, agrupados.
+ const GRUPOS_GALERIA = [
+@@ -38,71 +39,6 @@ const MODOS_POLIEDRO = [
+   { id: 'vertices', texto: 'Vértices', color: 'slate' },
+ ];
+ 
+-const CARA_COLOR = { base: '#5eead4', lateral: '#fcd34d' };
+-
+-// ---------------- Poliedro en 3D (SVG) ----------------
+-function Poliedro3D({ id, giro, resalte }) {
+-  const { vertices, caras, aristas } = construirPoliedro(id);
+-  const puntos = rotar(vertices, giro);
+-  const E = 62; // escala
+-  const proy = ([x, y]) => [120 + x * E, 125 - y * E];
+-
+-  const info = caras.map((c) => {
+-    const pts = c.idx.map((i) => puntos[i]);
+-    return { ...c, pts, visible: caraVisible(pts), z: pts.reduce((s, q) => s + q[2], 0) / pts.length };
+-  });
+-  const ordenadas = [...info].sort((a, b) => a.z - b.z);
+-
+-  // Una arista se ve si alguna de sus caras vecinas mira hacia nosotros.
+-  const aristaVisible = ([a, b]) => info.some((f) => f.visible && f.idx.includes(a) && f.idx.includes(b));
+-
+-  return (
+-    <svg viewBox="0 0 240 250" className="mx-auto h-64 w-full max-w-xs" role="img" aria-label={`Modelo 3D: ${buscar(id).nombre}`}>
+-      {ordenadas.map((f, k) => (
+-        <polygon
+-          key={k}
+-          points={f.pts.map((q) => proy(q).join(',')).join(' ')}
+-          fill={resalte === 'caras' ? CARA_COLOR[f.rol] : '#ccfbf1'}
+-          fillOpacity={f.visible ? 0.85 : 0.25}
+-          stroke="none"
+-        />
+-      ))}
+-      {aristas.map(([a, b], k) => {
+-        const [x1, y1] = proy(puntos[a]);
+-        const [x2, y2] = proy(puntos[b]);
+-        const visible = aristaVisible([a, b]);
+-        const resaltada = resalte === 'aristas';
+-        return (
+-          <line
+-            key={k}
+-            x1={x1}
+-            y1={y1}
+-            x2={x2}
+-            y2={y2}
+-            stroke={resaltada ? '#be123c' : '#0f766e'}
+-            strokeWidth={resaltada ? 4 : 2.5}
+-            strokeLinecap="round"
+-            strokeDasharray={visible ? undefined : '4 4'}
+-            opacity={visible ? 1 : 0.55}
+-          />
+-        );
+-      })}
+-      {resalte === 'vertices' &&
+-        puntos.map((p, k) => {
+-          const [x, y] = proy(p);
+-          return (
+-            <g key={k}>
+-              <circle cx={x} cy={y} r="9" fill="#0f172a" />
+-              <text x={x} y={y} fontSize="11" fill="#fff" textAnchor="middle" dominantBaseline="central" fontWeight="700">
+-                {k + 1}
+-              </text>
+-            </g>
+-          );
+-        })}
+-    </svg>
+-  );
+-}
+-
+ // ---------------- Cuerpos redondos (SVG) ----------------
+ function Redondo({ id, resalte }) {
+   const baseC = resalte === 'bases' ? '#5eead4' : '#ccfbf1';
+diff --git a/src/modules/Euler/Euler.jsx b/src/modules/Euler/Euler.jsx
+new file mode 100644
+index 0000000..5f186c1
+--- /dev/null
++++ b/src/modules/Euler/Euler.jsx
+@@ -0,0 +1,362 @@
++import { useState } from 'react';
++import ModuloLayout from '../../components/ModuloLayout.jsx';
++import StepNav from '../../components/StepNav.jsx';
++import Slider from '../../components/Slider.jsx';
++import Quiz from '../../components/Quiz.jsx';
++import NumInput from '../../components/NumInput.jsx';
++import Formula from '../../components/Formula.jsx';
++import Poliedro3D from '../../components/Poliedro3D.jsx';
++import { useApp } from '../../context/AppContext.jsx';
++import { POLIEDROS, REGULARES, EULER, CONTRAEJEMPLO_EULER } from '../../data/cuerpos.js';
++import { euler } from '../../utils/geometry.js';
++import { parseNum } from '../../utils/format.js';
++
++// Cuerpos que el estudiante cuenta en el paso 1 (todos se dibujan en 3D).
++const IDS_TABLA = ['cubo', 'prisma-triangular', 'piramide-cuadrada', 'tetraedro', 'prisma-pentagonal'];
++const CORTO = {
++  cubo: 'Cubo',
++  'prisma-triangular': 'Prisma triangular',
++  'piramide-cuadrada': 'Pirámide cuadrada',
++  tetraedro: 'Tetraedro',
++  'prisma-pentagonal': 'Prisma pentagonal',
++};
++const CAMPOS = [
++  { id: 'C', nombre: 'Caras' },
++  { id: 'V', nombre: 'Vértices' },
++  { id: 'A', nombre: 'Aristas' },
++];
++const MODOS = [
++  { id: 'caras', texto: 'Caras' },
++  { id: 'aristas', texto: 'Aristas' },
++  { id: 'vertices', texto: 'Vértices' },
++];
++const DATOS = Object.fromEntries(POLIEDROS.map((p) => [p.id, p]));
++
++const colorBoton = (activo) =>
++  activo ? 'border-teal-600 bg-teal-600 text-white' : 'border-slate-200 bg-white text-slate-700 active:bg-slate-100';
++
++export default function Euler({ onVolver }) {
++  const { marcarCompletado } = useApp();
++
++  // ----- Paso 1: contar y completar la tabla -----
++  const [elegido, setElegido] = useState('cubo');
++  const [resalte, setResalte] = useState('vertices');
++  const [giro, setGiro] = useState(30);
++  const [texto, setTexto] = useState({}); // { 'cubo-C': '6', ... }
++  const [estado, setEstado] = useState({}); // { 'cubo-C': 'ok' | 'mal' }
++
++  // ----- Pasos siguientes -----
++  const [relacionOk, setRelacionOk] = useState(false);
++  const [aristasOk, setAristasOk] = useState(false);
++  const [existeOk, setExisteOk] = useState(false);
++  const [regularesOk, setRegularesOk] = useState(false);
++  const [agujeroOk, setAgujeroOk] = useState(false);
++
++  const celdas = IDS_TABLA.flatMap((id) => CAMPOS.map((c) => ({ k: `${id}|${c.id}`, id, campo: c.id })));
++  const tablaOk = celdas.every(({ k }) => estado[k] === 'ok');
++  const correctas = celdas.filter(({ k }) => estado[k] === 'ok').length;
++  const hayErrores = celdas.some(({ k }) => estado[k] === 'mal');
++
++  const comprobarTabla = () => {
++    const nuevo = {};
++    celdas.forEach(({ k, id, campo }) => {
++      if (estado[k] === 'ok') {
++        nuevo[k] = 'ok';
++        return;
++      }
++      const n = parseNum(texto[k] ?? '');
++      if (Number.isNaN(n)) return; // vacío: sin marcar
++      nuevo[k] = n === DATOS[id][campo] ? 'ok' : 'mal';
++    });
++    setEstado(nuevo);
++  };
++
++  const terminar = () => {
++    marcarCompletado('euler');
++    onVolver();
++  };
++
++  const pasos = [
++    {
++      titulo: 'Contá y completá',
++      bloqueado: !tablaOk,
++      contenido: (
++        <>
++          <p className="text-slate-600">
++            Elegí un cuerpo, mirá el modelo y <strong>contá</strong> sus caras (C), vértices (V) y aristas (A). Completá toda la tabla.
++          </p>
++
++          <div className="rounded-2xl border border-slate-200 bg-white p-4">
++            <div className="flex flex-wrap gap-2" role="group" aria-label="Cuerpo a mirar">
++              {IDS_TABLA.map((id) => (
++                <button
++                  key={id}
++                  type="button"
++                  onClick={() => setElegido(id)}
++                  aria-pressed={elegido === id}
++                  className={`min-h-11 rounded-xl border-2 px-3 text-sm font-semibold transition ${colorBoton(elegido === id)}`}
++                >
++                  {CORTO[id]}
++                </button>
++              ))}
++            </div>
++            <Poliedro3D id={elegido} giro={giro} resalte={resalte} />
++            <div className="flex gap-2" role="group" aria-label="Resaltar">
++              {MODOS.map((m) => (
++                <button
++                  key={m.id}
++                  type="button"
++                  onClick={() => setResalte(m.id)}
++                  aria-pressed={resalte === m.id}
++                  className={`min-h-11 flex-1 rounded-xl border-2 px-2 text-sm font-semibold transition ${colorBoton(resalte === m.id)}`}
++                >
++                  {m.texto}
++                </button>
++              ))}
++            </div>
++            <div className="mt-2">
++              <Slider etiqueta="Girar el cuerpo" valor={giro} onChange={setGiro} min={-180} max={180} paso={10} unidad="°" />
++            </div>
++          </div>
++
++          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
++            <table className="w-full text-left">
++              <thead>
++                <tr className="border-b border-slate-200 text-sm text-slate-500">
++                  <th className="p-2 font-medium">Cuerpo</th>
++                  {CAMPOS.map((c) => (
++                    <th key={c.id} className="p-2 text-center font-medium">
++                      {c.id}
++                    </th>
++                  ))}
++                </tr>
++              </thead>
++              <tbody>
++                {IDS_TABLA.map((id) => (
++                  <tr key={id} className="border-b border-slate-100 last:border-0">
++                    <th scope="row" className="p-2 text-sm font-semibold">
++                      {CORTO[id]}
++                    </th>
++                    {CAMPOS.map((c) => {
++                      const k = `${id}|${c.id}`;
++                      const e = estado[k];
++                      return (
++                        <td key={c.id} className="p-1">
++                          <input
++                            type="text"
++                            inputMode="numeric"
++                            autoComplete="off"
++                            aria-label={`${c.nombre} de ${CORTO[id]}`}
++                            value={texto[k] ?? ''}
++                            readOnly={e === 'ok'}
++                            onChange={(ev) => {
++                              setTexto((t) => ({ ...t, [k]: ev.target.value }));
++                              if (e === 'mal') setEstado((s) => ({ ...s, [k]: undefined }));
++                            }}
++                            className={`h-11 w-full min-w-12 rounded-lg border-2 text-center text-lg outline-none ${
++                              e === 'ok' ? 'border-green-500 bg-green-50' : e === 'mal' ? 'border-red-400 bg-red-50' : 'border-slate-300 bg-white'
++                            }`}
++                          />
++                        </td>
++                      );
++                    })}
++                  </tr>
++                ))}
++              </tbody>
++            </table>
++          </div>
++
++          <button
++            type="button"
++            onClick={comprobarTabla}
++            className="h-12 w-full rounded-xl bg-teal-600 px-4 font-semibold text-white active:bg-teal-700"
++          >
++            Comprobar tabla
++          </button>
++          <p aria-live="polite" className="min-h-6">
++            {tablaOk ? (
++              <span className="text-green-700">✅ ¡Toda la tabla está bien!</span>
++            ) : hayErrores ? (
++              <span className="text-red-600">
++                Hay números que no coinciden (en rojo). Volvé a contar con el modelo. Van {correctas} de {celdas.length} bien.
++              </span>
++            ) : correctas > 0 ? (
++              <span className="text-slate-600">
++                Van {correctas} de {celdas.length} bien.
++              </span>
++            ) : null}
++          </p>
++        </>
++      ),
++    },
++    {
++      titulo: 'Sumá y comparé',
++      bloqueado: !relacionOk,
++      contenido: (
++        <>
++          <p className="text-slate-600">
++            Con tus números, calculá <strong>C + V</strong> por un lado y <strong>A + 2</strong> por el otro. ¿Qué notás?
++          </p>
++          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
++            <table className="w-full text-left">
++              <thead>
++                <tr className="border-b border-slate-200 text-sm text-slate-500">
++                  <th className="p-2 font-medium">Cuerpo</th>
++                  <th className="p-2 text-center font-medium">C + V</th>
++                  <th className="p-2 text-center font-medium">A + 2</th>
++                </tr>
++              </thead>
++              <tbody>
++                {IDS_TABLA.map((id) => {
++                  const d = DATOS[id];
++                  return (
++                    <tr key={id} className="border-b border-slate-100 last:border-0">
++                      <th scope="row" className="p-2 text-sm font-semibold">
++                        {CORTO[id]}
++                      </th>
++                      <td className="p-2 text-center tabular-nums">
++                        {d.C} + {d.V} = <strong>{d.C + d.V}</strong>
++                      </td>
++                      <td className="p-2 text-center tabular-nums">
++                        {d.A} + 2 = <strong>{d.A + 2}</strong>
++                      </td>
++                    </tr>
++                  );
++                })}
++              </tbody>
++            </table>
++          </div>
++          <Quiz
++            pregunta="¿Qué relación se cumple en todos los cuerpos de la tabla?"
++            opciones={['C + V = A', 'C + V = A + 2', 'C + A = V + 2']}
++            correcta={1}
++            explicacion="Siempre coinciden: es la fórmula de Euler para poliedros."
++            onResolver={() => setRelacionOk(true)}
++          />
++          <div className="rounded-2xl border border-slate-200 bg-white p-3 text-center">
++            <Formula block tex={EULER.tex} />
++            <p className="text-sm text-slate-500">C = caras · V = vértices · A = aristas</p>
++          </div>
++        </>
++      ),
++    },
++    {
++      titulo: 'Usá la fórmula para predecir',
++      bloqueado: !(aristasOk && existeOk),
++      contenido: (
++        <>
++          <p className="text-slate-600">
++            Ya no hace falta contar todo: si conocés dos números, el tercero sale de <Formula tex={EULER.tex} />.
++          </p>
++          <NumInput
++            etiqueta="Un poliedro tiene 7 caras y 10 vértices. ¿Cuántas aristas tiene?"
++            correcto={euler.aristas(7, 10)}
++            pista="A = C + V − 2."
++            onResultado={() => setAristasOk(true)}
++          />
++          <Quiz
++            pregunta="¿Puede existir un poliedro con 5 caras, 6 vértices y 8 aristas?"
++            opciones={['Sí, existe', 'No, no puede existir']}
++            correcta={1}
++            explicacion={`C + V = 5 + 6 = 11, pero A + 2 = 8 + 2 = 10. No coinciden, así que no existe ningún poliedro así.`}
++            onResolver={() => setExisteOk(true)}
++          />
++        </>
++      ),
++    },
++    {
++      titulo: 'Los 5 poliedros regulares',
++      bloqueado: !regularesOk,
++      contenido: (
++        <>
++          <p className="text-slate-600">
++            Un poliedro es <strong>regular</strong> si todas sus caras son polígonos regulares iguales y en cada vértice se juntan la misma cantidad de caras. Euler también se cumple en ellos.
++          </p>
++          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
++            <table className="w-full text-left text-sm">
++              <thead>
++                <tr className="border-b border-slate-200 text-slate-500">
++                  <th className="p-2 font-medium">Poliedro</th>
++                  <th className="p-2 font-medium">Cara</th>
++                  <th className="p-2 text-center font-medium">En cada vértice</th>
++                  <th className="p-2 text-center font-medium">C</th>
++                  <th className="p-2 text-center font-medium">V</th>
++                  <th className="p-2 text-center font-medium">A</th>
++                </tr>
++              </thead>
++              <tbody>
++                {REGULARES.map((r) => (
++                  <tr key={r.id} className="border-b border-slate-100 last:border-0">
++                    <th scope="row" className="p-2 font-semibold">
++                      {r.nombre}
++                    </th>
++                    <td className="p-2">{r.cara}</td>
++                    <td className="p-2 text-center">{r.porVertice}</td>
++                    <td className="p-2 text-center tabular-nums">{r.C}</td>
++                    <td className="p-2 text-center tabular-nums">{r.V}</td>
++                    <td className="p-2 text-center tabular-nums">{r.A}</td>
++                  </tr>
++                ))}
++              </tbody>
++            </table>
++          </div>
++          <Quiz
++            pregunta="¿Cuántos poliedros regulares existen?"
++            opciones={['3', '5', '8']}
++            correcta={1}
++            explicacion="Solo 5: tetraedro, cubo, octaedro, dodecaedro e icosaedro. No hay más formas de juntar polígonos regulares iguales alrededor de un vértice."
++            onResolver={() => setRegularesOk(true)}
++          />
++        </>
++      ),
++    },
++    {
++      titulo: 'Curiosidad: un cuerpo con agujero',
++      bloqueado: !agujeroOk,
++      contenido: (
++        <>
++          <p className="text-slate-600">
++            La fórmula tiene una condición: el cuerpo <strong>no puede tener agujeros</strong> que lo atraviesen. Mirá un marco de cuadro:
++          </p>
++          <div className="rounded-2xl border border-slate-200 bg-white p-4">
++            <h3 className="font-bold">{CONTRAEJEMPLO_EULER.nombre}</h3>
++            <p className="mt-1 tabular-nums text-slate-700">
++              C = {CONTRAEJEMPLO_EULER.C} · V = {CONTRAEJEMPLO_EULER.V} · A = {CONTRAEJEMPLO_EULER.A}
++            </p>
++            <p className="mt-1 text-slate-700">
++              C + V = {CONTRAEJEMPLO_EULER.C + CONTRAEJEMPLO_EULER.V} y A + 2 = {CONTRAEJEMPLO_EULER.A + 2}.
++            </p>
++          </div>
++          <Quiz
++            pregunta="En el marco, ¿cuánto da C + V − A?"
++            opciones={['2', '0', '16']}
++            correcta={1}
++            explicacion="16 + 16 − 32 = 0. En los poliedros sin agujeros siempre da 2; con un agujero da 0."
++            onResolver={() => setAgujeroOk(true)}
++          />
++        </>
++      ),
++    },
++    {
++      titulo: '¡Listo!',
++      contenido: (
++        <div className="rounded-2xl border border-slate-200 bg-white p-4">
++          <p className="font-semibold">Para recordar:</p>
++          <Formula block tex={EULER.tex} />
++          <ul className="mt-2 list-disc space-y-1 pl-6 text-slate-700">
++            <li>Vale en todos los poliedros sin agujeros, sean prismas, pirámides o regulares.</li>
++            <li>Si conocés dos números (C, V o A), calculás el tercero.</li>
++            <li>Si no se cumple, el cuerpo no existe o tiene un agujero.</li>
++            <li>No sirve para cilindros, conos ni esferas: no son poliedros.</li>
++          </ul>
++        </div>
++      ),
++    },
++  ];
++
++  return (
++    <ModuloLayout titulo="Fórmula de Euler" icono="🔢" onVolver={onVolver}>
++      <StepNav pasos={pasos} onFinish={terminar} textoFinal="Terminar ✓" />
++    </ModuloLayout>
++  );
++}
+diff --git a/src/modules/index.js b/src/modules/index.js
+index ed2deef..741380c 100644
+--- a/src/modules/index.js
++++ b/src/modules/index.js
+@@ -14,4 +14,5 @@ export const COMPONENTES = {
+   cuerpos: lazy(() => import('./Cuerpos/Cuerpos.jsx')),
+   desarrollo: lazy(() => import('./DesarrolloPlano/DesarrolloPlano.jsx')),
+   'arma-cubo': lazy(() => import('./ArmaUnCubo/ArmaUnCubo.jsx')),
++  euler: lazy(() => import('./Euler/Euler.jsx')),
+ };
