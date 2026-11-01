@@ -10,13 +10,13 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 
 ## 📍 Estado actual (01/11/2026)
 
-**Avance: 12 de 17 pasos hechos (del 1 al 12).**
+**Avance: 13 de 17 pasos hechos (del 1 al 13).**
 
 **Verificación del estado actual del repo**
 - `npm run test:utils`: 22 pruebas OK.
-- `npm test`: 88 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 25, Paso 10: 9, Paso 11: 4, Paso 12: 15).
+- `npm test`: 109 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 25, Paso 10: 9, Paso 11: 4, Paso 12: 15, Paso 13: 21).
 - `npm run build`: compila sin errores.
-- Los módulos de los Pasos 4 a 12 están registrados en `src/modules/index.js`, se abren desde el menú y entran en el build.
+- Los módulos de los Pasos 4 a 13 están registrados en `src/modules/index.js`, se abren desde el menú y entran en el build.
 
 ### ✅ Resuelto
 
@@ -34,6 +34,7 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 | 10 | ¿Arma un cubo? | Ver más abajo |
 | 11 | Fórmula de Euler | Ver más abajo |
 | 12 | Áreas y volúmenes | Ver más abajo |
+| 13 | Formulario | Ver más abajo |
 
 ### ✅ Paso 9 · Desarrollo plano interactivo
 - `data/nets.js`: 8 desarrollos (cubo, ortoedro, prismas triangular, pentagonal y hexagonal, pirámides triangular, cuadrada y pentagonal) modelados como árbol de caras unidas por bisagras. Nuevas funciones: `medidasDeCara` (un lado por cada longitud distinta de la cara) y `carasRepresentativas` (una cara por grupo de caras iguales).
@@ -60,20 +61,28 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 - `modules/AreasVolumenes/AreasVolumenes.jsx` (6 pasos): 1) elegir un cuerpo, cambiar sus medidas con deslizadores y ver cada cálculo con unidad (y el volumen también en litros); con **π = 3,14** el reemplazo muestra 3,14, con **π exacto** muestra el símbolo π y el resultado se marca como aproximado (≈); 2) cambio de unidades (cm² ↔ m², cm³ ↔ dm³ ↔ L) con tabla y un ejercicio; 3) del volumen a los litros con caja, tanque y pileta, y un ejercicio; 4) **animación de llenado**: se vierten 3 pirámides en un prisma de igual base y altura (324 cm³ contra 3 · 108 cm³); 5) quiz de cono y cilindro; 6) cierre.
 - Pruebas (`paso12.test.jsx`, 15): cálculos de los 7 cuerpos con valores conocidos, π escolar y exacto, el cono como tercera parte del cilindro, que todas las fórmulas y reemplazos se rendericen en KaTeX, equivalencias y litros, y el recorrido completo del módulo.
 
+### ✅ Paso 13 · Formulario
+- `data/formulario.js`: arma las **18 tarjetas** a partir de `data/figuras.js` y `data/cuerpos.js` (no se escribió ninguna fórmula nueva de figuras ni de cuerpos redondos): 8 figuras planas + Pitágoras, 7 cuerpos (cubo, ortoedro, prisma recto, pirámide, cilindro, cono y esfera), la fórmula de Euler y las unidades de área, volumen y capacidad (tabla de `data/areasVolumenes.js`).
+- Buscador sin tildes ni mayúsculas (`area` encuentra «Área»); si se escriben varias palabras, todas tienen que aparecer en la tarjeta.
+- Filtro por año (Todos, 1.º, 2.º) que arranca con el año elegido en el menú.
+- **Mini calculadora** en cada tarjeta (todas menos «Unidades»): se completan los datos que se tengan (acepta coma decimal) y aparecen solos los resultados que se pueden calcular, con unidad (mm, cm, dm o m, elegible arriba). Usa `utils/geometry.js` y el valor de π elegido (3,14 o exacto). No muestra resultados imposibles, como un cateto con c menor que b.
+- **Imprimir resumen**: imprime las tarjetas que se ven con el buscador y el filtro aplicados. En `index.css` hay estilos `@media print` que ocultan los controles (clase `no-imprimir`, que también tiene la barra superior de `ModuloLayout`).
+- Es un módulo de consulta (no tiene pasos): queda marcado con ✓ al abrirlo.
+- Pruebas (`paso13.test.jsx`, 21): una tarjeta por figura, fórmulas y variables en KaTeX, buscador, filtro por año, resultados de cada calculadora con valores conocidos, casos inválidos, cambio de unidad, que lo escrito en una calculadora se conserve al buscar y volver, y la impresión.
+
 ### ☐ Pendiente
 
 | Paso | Qué falta |
 |---|---|
-| 13 | Formulario con buscador, filtro por año, mini calculadora e impresión (`data/figuras.js` y `cuerpos.js` ya tienen las fórmulas) |
 | 14 | Problemas de resolución: crear `data/problemas.js` (no existe) y el módulo |
 | 15 | Modo evaluación con puntaje, impresión y clave del docente |
 | Extras | Ninguno empezado (vistas de un cuerpo, simetrías, regla y compás, memotest, etc.) |
 | 16 | Revisión: borrar el módulo `Demo` (sigue en el repo), revisar fórmulas con π = 3,14 y exacto, probar en celular de 360 px y sin `localStorage` |
 | 17 | Publicación: descomentar `base: '/geometria-app/'` en `vite.config.js` si va a GitHub Pages, o conectar Vercel |
 
-Mientras no estén hechos, los módulos de los Pasos 13 a 15 aparecen en el menú como **«Próximamente»**.
+Mientras no estén hechos, los módulos de los Pasos 14 y 15 aparecen en el menú como **«Próximamente»**.
 
-**Próximo paso sugerido:** Paso 13 (Formulario). Las fórmulas ya están en `data/figuras.js` y `data/cuerpos.js` (incluidas `FORMULAS_POLIEDROS` y las de los cuerpos redondos), y el Paso 12 ya muestra cómo reemplazar números en cada una.
+**Próximo paso sugerido:** Paso 14 (Problemas de resolución). Conviene usar `utils/rand.js` (aleatorios con semilla), el desglose de `data/areasVolumenes.js` como modelo de «resolución paso a paso» y las funciones de `utils/geometry.js` para corregir con tolerancia.
 
 ---
 
@@ -137,7 +146,7 @@ geometria-app/
 └─ src/
    ├─ main.jsx
    ├─ App.jsx                # menú de módulos + navegación por #hash
-   ├─ index.css              # Tailwind + KaTeX + deslizador táctil
+   ├─ index.css              # Tailwind + KaTeX + deslizador táctil + estilos de impresión
    ├─ __tests__/             # npm test (Vitest + Testing Library)
    ├─ context/
    │  └─ AppContext.jsx      # año, π (3,14 / exacto) y progreso
@@ -169,7 +178,7 @@ geometria-app/
    │  ├─ ArmaUnCubo/         # (Paso 10)
    │  ├─ Euler/              # (Paso 11)
    │  ├─ AreasVolumenes/     # (Paso 12)
-   │  ├─ Formulario/
+   │  ├─ Formulario/         # (Paso 13)
    │  ├─ Problemas/
    │  └─ Evaluacion/
    ├─ data/
@@ -179,6 +188,7 @@ geometria-app/
    │  ├─ nets.js             # desarrollos planos y medidas de cada cara (Paso 9)
    │  ├─ cuboNets.js         # los 35 hexaminós y cuáles arman un cubo (Paso 10)
    │  ├─ areasVolumenes.js   # desglose de áreas y volúmenes, unidades y capacidad (Paso 12)
+   │  ├─ formulario.js       # tarjetas, buscador y mini calculadoras (Paso 13)
    │  └─ problemas.js        # plantillas de problemas (Paso 14)
    └─ utils/
       ├─ geometry.js         # áreas, perímetros, volúmenes, Pitágoras, unidades
@@ -354,7 +364,9 @@ export const cubo = {
 
 ### FASE 4 — Fórmulas y problemas
 
-#### ☐ Paso 13 · Formulario
+#### ✅ Paso 13 · Formulario
+> **Estado:** hecho (ver «Estado actual»).
+
 **Qué hacer**
 - Tarjetas generadas desde `data/figuras.js` y `data/cuerpos.js` (una sola fuente de verdad), con buscador, filtro por año y mini calculadora en cada tarjeta.
 - Botón «imprimir» para llevar un resumen al cuaderno.
@@ -446,7 +458,7 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 10 · ¿Arma un cubo?
 - [x] Paso 11 · Fórmula de Euler
 - [x] Paso 12 · Áreas y volúmenes
-- [ ] Paso 13 · Formulario
+- [x] Paso 13 · Formulario
 - [ ] Paso 14 · Problemas
 - [ ] Paso 15 · Modo evaluación
 - [ ] Extras

@@ -16,4 +16,5 @@ export const COMPONENTES = {
   'arma-cubo': lazy(() => import('./ArmaUnCubo/ArmaUnCubo.jsx')),
   euler: lazy(() => import('./Euler/Euler.jsx')),
   'areas-volumenes': lazy(() => import('./AreasVolumenes/AreasVolumenes.jsx')),
+  formulario: lazy(() => import('./Formulario/Formulario.jsx')),
 };

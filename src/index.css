@@ -42,3 +42,17 @@ button:disabled { cursor: not-allowed; }
   cursor: pointer;
 }
 .geo-range:focus-visible { outline: 3px solid #5eead4; outline-offset: 4px; }
+
+/* Impresión (Formulario): se oculta todo lo que no sea el contenido */
+@media print {
+  .no-imprimir {
+    display: none !important;
+  }
+  .tarjeta {
+    break-inside: avoid;
+  }
+  body,
+  .min-h-screen {
+    background: #fff !important;
+  }
+}
