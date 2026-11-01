@@ -156,9 +156,11 @@ describe('App (menú y navegación)', () => {
     expect(screen.getByRole('button', { name: /Prueba de componentes/ })).toBeEnabled();
     const triangulos = screen.getByText('Triángulos', { selector: 'span' }).closest('button');
     expect(triangulos).toBeEnabled();
-    const areasVol = screen.getByRole('button', { name: /Áreas y volúmenes/ });
-    expect(areasVol).toBeDisabled();
-    expect(within(areasVol).getByText('Próximamente')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Áreas y volúmenes/ })).toBeEnabled();
+    // «Formulario» (Paso 13) todavía no existe: aparece como próximo
+    const formulario = screen.getByRole('button', { name: /Formulario/ });
+    expect(formulario).toBeDisabled();
+    expect(within(formulario).getByText('Próximamente')).toBeInTheDocument();
   });
 
   it('el filtro por año oculta lo que no corresponde', async () => {

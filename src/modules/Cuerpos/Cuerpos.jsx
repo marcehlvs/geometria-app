@@ -7,6 +7,7 @@ import NumInput from '../../components/NumInput.jsx';
 import { useApp } from '../../context/AppContext.jsx';
 import { POLIEDROS, REDONDOS, cuerposPorAnio } from '../../data/cuerpos.js';
 import Poliedro3D from '../../components/Poliedro3D.jsx';
+import Redondo3D from '../../components/Redondo3D.jsx';
 import { construirPoliedro, IDS_DIBUJABLES } from '../../utils/solidos3d.js';
 
 // Cuerpos de la galería, agrupados.
@@ -38,41 +39,6 @@ const MODOS_POLIEDRO = [
   { id: 'aristas', texto: 'Aristas', color: 'rose' },
   { id: 'vertices', texto: 'Vértices', color: 'slate' },
 ];
-
-// ---------------- Cuerpos redondos (SVG) ----------------
-function Redondo({ id, resalte }) {
-  const baseC = resalte === 'bases' ? '#5eead4' : '#ccfbf1';
-  const curvaC = resalte === 'curva' ? '#fcd34d' : '#e2e8f0';
-  const trazo = '#0f766e';
-  return (
-    <svg viewBox="0 0 240 250" className="mx-auto h-64 w-full max-w-xs" role="img" aria-label={`Dibujo: ${buscar(id).nombre}`}>
-      {id === 'cilindro' && (
-        <>
-          <path d="M60 70 V180 A60 20 0 0 0 180 180 V70 Z" fill={curvaC} stroke={trazo} strokeWidth="3" />
-          <ellipse cx="120" cy="70" rx="60" ry="20" fill={baseC} stroke={trazo} strokeWidth="3" />
-          {resalte === 'bases' && <ellipse cx="120" cy="180" rx="60" ry="20" fill="none" stroke="#0d9488" strokeWidth="4" />}
-        </>
-      )}
-      {id === 'cono' && (
-        <>
-          <path d="M120 35 L60 180 A60 20 0 0 0 180 180 Z" fill={curvaC} stroke={trazo} strokeWidth="3" />
-          <path d="M60 180 A60 20 0 0 1 180 180" fill="none" stroke={trazo} strokeWidth="2" strokeDasharray="5 4" />
-          {resalte === 'bases' && <ellipse cx="120" cy="180" rx="60" ry="20" fill="none" stroke="#0d9488" strokeWidth="4" />}
-          <circle cx="120" cy="35" r={resalte === 'vertice' ? 9 : 4} fill={resalte === 'vertice' ? '#be123c' : '#0f172a'} />
-        </>
-      )}
-      {id === 'esfera' && (
-        <>
-          <circle cx="120" cy="125" r="75" fill="#ccfbf1" stroke={trazo} strokeWidth="3" />
-          <ellipse cx="120" cy="125" rx="75" ry="22" fill="none" stroke={trazo} strokeWidth="2" strokeDasharray="5 4" />
-          <circle cx="120" cy="125" r="3.5" fill="#0f172a" />
-          <line x1="120" y1="125" x2="195" y2="125" stroke="#be123c" strokeWidth="3" />
-          <text x="158" y="118" fontSize="14" fill="#be123c" fontWeight="700" textAnchor="middle">r</text>
-        </>
-      )}
-    </svg>
-  );
-}
 
 // Qué se puede resaltar en cada cuerpo redondo
 const MODOS_REDONDO = {
@@ -195,7 +161,7 @@ export default function Cuerpos({ onVolver }) {
               </>
             ) : (
               <>
-                <Redondo id={elegido} resalte={resalte} />
+                <Redondo3D id={elegido} resalte={resalte} />
                 {modosRedondo.length > 0 && (
                   <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Resaltar">
                     {modosRedondo.map((m) => (

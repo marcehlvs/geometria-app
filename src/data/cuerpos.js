@@ -81,10 +81,12 @@ export const FORMULAS_POLIEDROS = {
     volumen: 'V = \\dfrac{A_{base} \\cdot h}{3}',
   },
   cubo: {
+    areaLateral: 'A_L = 4 \\cdot a^2',
     areaTotal: 'A_T = 6 \\cdot a^2',
     volumen: 'V = a^3',
   },
   ortoedro: {
+    areaLateral: 'A_L = 2 \\cdot (a + b) \\cdot c',
     areaTotal: 'A_T = 2 \\cdot (a \\cdot b + a \\cdot c + b \\cdot c)',
     volumen: 'V = a \\cdot b \\cdot c',
   },

@@ -143,6 +143,39 @@ export function resumenAreas(desarrollo) {
 
 export const areaTotalDesarrollo = (desarrollo) => desarrollo.caras.reduce((s, c) => s + c.area, 0);
 
+// Medidas para rotular una cara: un lado por cada longitud distinta (un cuadrado
+// da una sola, un rectángulo dos). Devuelve [{ largo, medio, centro }] con el
+// punto medio del lado y el centro de la cara (para correr el texto hacia adentro).
+export function medidasDeCara(cara) {
+  const n = cara.poly.length;
+  const centro = [
+    cara.poly.reduce((s, p) => s + p[0], 0) / n,
+    cara.poly.reduce((s, p) => s + p[1], 0) / n,
+  ];
+  const vistos = [];
+  const medidas = [];
+  cara.poly.forEach((p, k) => {
+    const q = cara.poly[(k + 1) % n];
+    const largo = Math.hypot(q[0] - p[0], q[1] - p[1]);
+    if (vistos.some((v) => Math.abs(v - largo) < 1e-6)) return;
+    vistos.push(largo);
+    medidas.push({ largo, medio: [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2], centro });
+  });
+  return medidas;
+}
+
+// Una cara por cada grupo de caras iguales: alcanza con rotular esa.
+export function carasRepresentativas(desarrollo) {
+  const vistos = new Set();
+  const ids = [];
+  desarrollo.caras.forEach((c) => {
+    if (vistos.has(c.grupo)) return;
+    vistos.add(c.grupo);
+    ids.push(c.id);
+  });
+  return ids;
+}
+
 export function cuadroDelimitador(poly) {
   const xs = poly.map((p) => p[0]);
   const ys = poly.map((p) => p[1]);

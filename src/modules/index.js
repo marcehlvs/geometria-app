@@ -15,4 +15,5 @@ export const COMPONENTES = {
   desarrollo: lazy(() => import('./DesarrolloPlano/DesarrolloPlano.jsx')),
   'arma-cubo': lazy(() => import('./ArmaUnCubo/ArmaUnCubo.jsx')),
   euler: lazy(() => import('./Euler/Euler.jsx')),
+  'areas-volumenes': lazy(() => import('./AreasVolumenes/AreasVolumenes.jsx')),
 };

@@ -5,6 +5,8 @@ import {
   construirDesarrollo,
   areaTotalDesarrollo,
   plegarVertices,
+  medidasDeCara,
+  carasRepresentativas,
 } from '../data/nets.js';
 import { areaTotalCubo, areaTotalOrtoedro } from '../utils/geometry.js';
 
@@ -56,5 +58,34 @@ describe('Desarrollos planos (data/nets.js)', () => {
     // pirámide cuadrada: base a² + 4 triángulos de base a y altura √(h² + (a/2)²)
     const l = Math.sqrt(25 + 1);
     expect(areaTotalDesarrollo(construirDesarrollo('piramide-cuadrada', { a: 2, h: 5 }))).toBeCloseTo(4 + 4 * l, 9);
+  });
+});
+
+describe('Medidas para rotular el desarrollo', () => {
+  it('un cuadrado da un solo lado y un rectángulo da dos', () => {
+    const cubo = construirDesarrollo('cubo', { a: 3 });
+    expect(medidasDeCara(cubo.caras[0]).map((m) => m.largo)).toEqual([3]);
+    const caja = construirDesarrollo('ortoedro', { a: 2, b: 3, h: 5 });
+    const lateral = caja.caras.find((c) => c.id === 'lateral-0');
+    expect(medidasDeCara(lateral).map((m) => m.largo).sort()).toEqual([2, 5]);
+  });
+
+  it('el triángulo lateral de una pirámide cuadrada da base y lado oblicuo', () => {
+    const net = construirDesarrollo('piramide-cuadrada', { a: 4, h: 3 });
+    const lateral = net.caras.find((c) => c.id === 'lateral-0');
+    const largos = medidasDeCara(lateral).map((m) => m.largo);
+    expect(largos).toHaveLength(2);
+    expect(largos[0]).toBeCloseTo(4);
+    // arista lateral: √(h² + (a/√2)²) = √(9 + 8)
+    expect(largos[1]).toBeCloseTo(Math.sqrt(17));
+  });
+
+  it('hay una cara representativa por cada grupo de caras iguales', () => {
+    const cubo = construirDesarrollo('cubo', { a: 3 });
+    expect(carasRepresentativas(cubo)).toHaveLength(2); // laterales y bases
+    const caja = construirDesarrollo('ortoedro', { a: 2, b: 3, h: 5 });
+    expect(carasRepresentativas(caja)).toHaveLength(3); // 2 tipos de lateral + base
+    const piramide = construirDesarrollo('piramide-cuadrada', { a: 4, h: 3 });
+    expect(carasRepresentativas(piramide)).toHaveLength(2); // base y laterales
   });
 });

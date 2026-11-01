@@ -74,6 +74,7 @@ export default function DesarrolloPlano({ onVolver }) {
   const [t, setT] = useState(0);
   const [giroVista, setGiroVista] = useState(-20);
   const [colorear, setColorear] = useState(true);
+  const [verMedidas, setVerMedidas] = useState(false);
   const [animar, setAnimar] = useState(false);
   const [plegoTodo, setPlegoTodo] = useState(false);
 
@@ -151,7 +152,7 @@ export default function DesarrolloPlano({ onVolver }) {
 
             {!esRedondo && (
               <>
-                <Net3D desarrollo={desarrollo} t={t} giroVista={giroVista} colorear={colorear} animar={animar} etiqueta={`Desarrollo plano de ${NOMBRES[desarrollo.id]}`} />
+                <Net3D desarrollo={desarrollo} t={t} giroVista={giroVista} colorear={colorear} animar={animar} medidas={verMedidas} etiqueta={`Desarrollo plano de ${NOMBRES[desarrollo.id]}`} />
                 <div className="mt-3 space-y-2">
                   <Slider etiqueta="Plegar" valor={Math.round(t * 100)} onChange={(v) => cambiarT(v / 100)} min={0} max={100} paso={5} unidad="%" />
                   <div className="flex gap-2">
@@ -170,6 +171,14 @@ export default function DesarrolloPlano({ onVolver }) {
                     className={`min-h-11 w-full rounded-xl border-2 px-3 font-semibold transition ${colorBoton(colorear)}`}
                   >
                     Colorear caras iguales
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVerMedidas((v) => !v)}
+                    aria-pressed={verMedidas}
+                    className={`min-h-11 w-full rounded-xl border-2 px-3 font-semibold transition ${colorBoton(verMedidas)}`}
+                  >
+                    Mostrar medidas
                   </button>
                 </div>
 
@@ -241,7 +250,7 @@ export default function DesarrolloPlano({ onVolver }) {
               const cubo = construirDesarrollo('cubo', { a: 3 });
               return (
                 <>
-                  <Net3D desarrollo={cubo} t={0} giroVista={0} colorear animar={false} etiqueta="Desarrollo plano del cubo" />
+                  <Net3D desarrollo={cubo} t={0} giroVista={0} colorear animar={false} medidas etiqueta="Desarrollo plano del cubo" />
                   <p className="mt-3 text-slate-700">
                     {resumenAreas(cubo).map((g) => (
                       <span key={g.grupo}>

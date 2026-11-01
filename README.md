@@ -8,15 +8,15 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 
 ---
 
-## 📍 Estado actual (29/10/2026)
+## 📍 Estado actual (01/11/2026)
 
-**Avance: 11 de 17 pasos hechos (el Paso 9 con dos detalles menores pendientes).**
+**Avance: 12 de 17 pasos hechos (del 1 al 12).**
 
 **Verificación del estado actual del repo**
 - `npm run test:utils`: 22 pruebas OK.
-- `npm test`: 68 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 20, Paso 10: 9, Paso 11: 4).
+- `npm test`: 88 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 25, Paso 10: 9, Paso 11: 4, Paso 12: 15).
 - `npm run build`: compila sin errores.
-- El módulo del Paso 9 está registrado, se abre desde el menú y entra en el build.
+- Los módulos de los Pasos 4 a 12 están registrados en `src/modules/index.js`, se abren desde el menú y entran en el build.
 
 ### ✅ Resuelto
 
@@ -30,8 +30,16 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 | 6 | Perímetro y área | Una pantalla por figura con cálculo paso a paso |
 | 7 | Pitágoras | Demostración visual y ejercicios |
 | 8 | Cuerpos y elementos | Galería, CSS 3D (`solidos3d.js`) y tabla comparativa |
+| 9 | Desarrollo plano interactivo | Ver más abajo |
 | 10 | ¿Arma un cubo? | Ver más abajo |
 | 11 | Fórmula de Euler | Ver más abajo |
+| 12 | Áreas y volúmenes | Ver más abajo |
+
+### ✅ Paso 9 · Desarrollo plano interactivo
+- `data/nets.js`: 8 desarrollos (cubo, ortoedro, prismas triangular, pentagonal y hexagonal, pirámides triangular, cuadrada y pentagonal) modelados como árbol de caras unidas por bisagras. Nuevas funciones: `medidasDeCara` (un lado por cada longitud distinta de la cara) y `carasRepresentativas` (una cara por grupo de caras iguales).
+- `components/Net3D.jsx`: nueva propiedad `medidas` (y `unidad`, por defecto `cm`) que rotula los lados con `<text data-medida>` dentro del dibujo, así los números se pliegan junto con la cara.
+- `modules/DesarrolloPlano/DesarrolloPlano.jsx` (5 pasos): plegado con deslizador, giro de la vista, colorear caras iguales, **botón «Mostrar medidas»**, área total = suma de las caras (con las medidas ya visibles), cilindro y cono que se desenrollan y mini quiz.
+- Pruebas: `paso9.test.jsx` (21, sobre los datos y las medidas) y `paso9-modulo.test.jsx` (4: registro en el menú, botón de medidas y **recorrido completo hasta el ✓** con el progreso guardado).
 
 ### ✅ Paso 10 · ¿Arma un cubo?
 - `data/cuboNets.js`: genera los **35 hexaminós** (figuras de 6 cuadrados) y decide cuáles arman un cubo **rodando un cubo sobre la figura** (si dos cuadrados caen en la misma cara, se superponen). Da exactamente **11**, en cuatro familias: 1-4-1 (6), 2-3-1 (3), 2-2-2 (1) y 3-3 (1). No hay figuras copiadas a mano.
@@ -45,18 +53,17 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 - Todos los números salen de `data/cuerpos.js` (fuente única) y de `utils/geometry.js`.
 - Pruebas (`paso11.test.jsx`, 4): todos los poliedros y regulares cumplen Euler, el marco da 0, la tabla marca errores y bloquea el avance, y el recorrido completo guarda el progreso.
 
-### 🟡 Casi listo: Paso 9 · Desarrollo plano interactivo
-Ya está registrado en `src/modules/index.js` y se abre desde el menú.
-
-- Hecho: `data/nets.js` (8 desarrollos: cubo, ortoedro, prismas triangular, pentagonal y hexagonal, pirámides triangular, cuadrada y pentagonal), `modules/DesarrolloPlano/DesarrolloPlano.jsx` (5 pasos: plegado con deslizador, giro de la vista, colorear caras iguales, área total = suma de las caras, cilindro y cono que se desenrollan, mini quiz) y pruebas (`paso9.test.jsx`: 18 sobre los datos; `paso9-modulo.test.jsx`: 2 sobre el menú).
-- Falta: botón para mostrar/ocultar las medidas en el desarrollo.
-- Falta: una prueba que recorra el módulo completo hasta el ✓, como en los Pasos 4 a 8.
+### ✅ Paso 12 · Áreas y volúmenes
+- `data/areasVolumenes.js`: arma el desglose de cada cuerpo (fórmula → reemplazo → resultado) usando **solo** `utils/geometry.js` para los números y `data/cuerpos.js` para las fórmulas. Cubre cubo, ortoedro, prisma triangular (base 3-4-5 con Pitágoras), pirámide cuadrada (con su apotema), cilindro, cono y esfera. También tiene la tabla de equivalencias de unidades, los ejemplos de capacidad (caja, tanque, pileta) y los datos de la demostración 3 pirámides = 1 prisma.
+- `data/cuerpos.js`: se agregaron las fórmulas de área lateral del cubo y del ortoedro (`FORMULAS_POLIEDROS`).
+- `components/Redondo3D.jsx`: el dibujo de cilindro, cono y esfera se sacó de `Cuerpos` a un componente compartido (Pasos 8 y 12).
+- `modules/AreasVolumenes/AreasVolumenes.jsx` (6 pasos): 1) elegir un cuerpo, cambiar sus medidas con deslizadores y ver cada cálculo con unidad (y el volumen también en litros); con **π = 3,14** el reemplazo muestra 3,14, con **π exacto** muestra el símbolo π y el resultado se marca como aproximado (≈); 2) cambio de unidades (cm² ↔ m², cm³ ↔ dm³ ↔ L) con tabla y un ejercicio; 3) del volumen a los litros con caja, tanque y pileta, y un ejercicio; 4) **animación de llenado**: se vierten 3 pirámides en un prisma de igual base y altura (324 cm³ contra 3 · 108 cm³); 5) quiz de cono y cilindro; 6) cierre.
+- Pruebas (`paso12.test.jsx`, 15): cálculos de los 7 cuerpos con valores conocidos, π escolar y exacto, el cono como tercera parte del cilindro, que todas las fórmulas y reemplazos se rendericen en KaTeX, equivalencias y litros, y el recorrido completo del módulo.
 
 ### ☐ Pendiente
 
 | Paso | Qué falta |
 |---|---|
-| 12 | Áreas y volúmenes: valores editables, unidades y animación 3 pirámides = 1 prisma |
 | 13 | Formulario con buscador, filtro por año, mini calculadora e impresión (`data/figuras.js` y `cuerpos.js` ya tienen las fórmulas) |
 | 14 | Problemas de resolución: crear `data/problemas.js` (no existe) y el módulo |
 | 15 | Modo evaluación con puntaje, impresión y clave del docente |
@@ -64,9 +71,9 @@ Ya está registrado en `src/modules/index.js` y se abre desde el menú.
 | 16 | Revisión: borrar el módulo `Demo` (sigue en el repo), revisar fórmulas con π = 3,14 y exacto, probar en celular de 360 px y sin `localStorage` |
 | 17 | Publicación: descomentar `base: '/geometria-app/'` en `vite.config.js` si va a GitHub Pages, o conectar Vercel |
 
-Mientras no estén hechos, los módulos de los Pasos 10 a 15 aparecen en el menú como **«Próximamente»**.
+Mientras no estén hechos, los módulos de los Pasos 13 a 15 aparecen en el menú como **«Próximamente»**.
 
-**Próximo paso sugerido:** Paso 12 (Áreas y volúmenes), que usa `utils/geometry.js` (volúmenes, áreas y conversión de unidades ya implementados y probados).
+**Próximo paso sugerido:** Paso 13 (Formulario). Las fórmulas ya están en `data/figuras.js` y `data/cuerpos.js` (incluidas `FORMULAS_POLIEDROS` y las de los cuerpos redondos), y el Paso 12 ya muestra cómo reemplazar números en cada una.
 
 ---
 
@@ -144,7 +151,8 @@ geometria-app/
    │  ├─ NumInput.jsx        # respuesta numérica (coma o punto, tolerancia)
    │  ├─ ProgressBar.jsx
    │  ├─ Poliedro3D.jsx      # poliedro en SVG con caras, aristas y vértices resaltables (Pasos 8 y 11)
-   │  ├─ Net3D.jsx           # desarrollo plano que se pliega (CSS 3D), compartido por los Pasos 9 y 10
+   │  ├─ Redondo3D.jsx       # cilindro, cono y esfera en SVG (Pasos 8 y 12)
+   │  ├─ Net3D.jsx           # desarrollo plano que se pliega (CSS 3D) y puede rotular medidas, compartido por los Pasos 9 y 10
    │  ├─ ModuloLayout.jsx    # marco común de cada módulo
    │  └─ BarraAjustes.jsx    # selector de año y de π
    ├─ modules/
@@ -160,7 +168,7 @@ geometria-app/
    │  ├─ DesarrolloPlano/    # (Paso 9)
    │  ├─ ArmaUnCubo/         # (Paso 10)
    │  ├─ Euler/              # (Paso 11)
-   │  ├─ AreasVolumenes/
+   │  ├─ AreasVolumenes/     # (Paso 12)
    │  ├─ Formulario/
    │  ├─ Problemas/
    │  └─ Evaluacion/
@@ -168,8 +176,9 @@ geometria-app/
    │  ├─ modulos.js          # catálogo del menú (título, año, grupo)
    │  ├─ figuras.js          # fórmulas y propiedades de figuras planas
    │  ├─ cuerpos.js          # C, V, A, fórmulas de cada cuerpo
-   │  ├─ nets.js             # desarrollos planos (Paso 9)
+   │  ├─ nets.js             # desarrollos planos y medidas de cada cara (Paso 9)
    │  ├─ cuboNets.js         # los 35 hexaminós y cuáles arman un cubo (Paso 10)
+   │  ├─ areasVolumenes.js   # desglose de áreas y volúmenes, unidades y capacidad (Paso 12)
    │  └─ problemas.js        # plantillas de problemas (Paso 14)
    └─ utils/
       ├─ geometry.js         # áreas, perímetros, volúmenes, Pitágoras, unidades
@@ -287,8 +296,8 @@ triangulos: lazy(() => import('./Triangulos/Triangulos.jsx')),
 
 **Por qué:** una sola fuente de datos alimenta galería, tabla, Euler y problemas.
 
-#### 🟡 Paso 9 · Desarrollo plano interactivo ⭐
-> **Estado:** funcionando y registrado en el menú; falta el botón de mostrar/ocultar medidas y una prueba del recorrido completo (ver «Estado actual»).
+#### ✅ Paso 9 · Desarrollo plano interactivo ⭐
+> **Estado:** hecho, con el botón de mostrar/ocultar medidas y la prueba del recorrido completo (ver «Estado actual»).
 
 **Qué hacer**
 - Modelar cada desarrollo en `data/nets.js` como un árbol de caras unidas por charnelas:
@@ -331,7 +340,9 @@ export const cubo = {
 
 **Por qué:** pasa de «contar» a «predecir», que es lo que hace valiosa a la fórmula.
 
-#### ☐ Paso 12 · Áreas y volúmenes
+#### ✅ Paso 12 · Áreas y volúmenes
+> **Estado:** hecho (ver «Estado actual»).
+
 **Qué hacer**
 - Por cuerpo: valores editables, fórmula en KaTeX, reemplazo y resultado con unidad.
 - Pantalla de **unidades**: cm² ↔ m², cm³ ↔ dm³ ↔ litros (1 dm³ = 1 L) con ejemplos (pileta, tanque, caja).
@@ -405,6 +416,7 @@ Ordenados por valor / esfuerzo:
 #### ☐ Paso 16 · Revisión
 **Qué hacer**
 - Quitar el módulo de prueba: borrar `src/modules/Demo/`, su línea en `modules/index.js` y su entrada `demo` en `data/modulos.js`.
+- Borrar `paso-11-euler.patch` de la raíz (ya está aplicado y no se usa).
 - Revisar **todas** las fórmulas contra tu planificación (usar π = 3,14 y π exacto).
 - Probar en celular real (ancho 360 px): sliders con zona táctil grande, SVG con `viewBox`, textos legibles.
 - Revisar accesibilidad básica: contraste, tamaño de fuente mínimo 16 px, botones de al menos 44 px.
@@ -430,10 +442,10 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 6 · Perímetro y área
 - [x] Paso 7 · Pitágoras
 - [x] Paso 8 · Cuerpos y elementos
-- [~] Paso 9 · Desarrollo plano interactivo (funciona; faltan mostrar/ocultar medidas y prueba del recorrido)
+- [x] Paso 9 · Desarrollo plano interactivo
 - [x] Paso 10 · ¿Arma un cubo?
 - [x] Paso 11 · Fórmula de Euler
-- [ ] Paso 12 · Áreas y volúmenes
+- [x] Paso 12 · Áreas y volúmenes
 - [ ] Paso 13 · Formulario
 - [ ] Paso 14 · Problemas
 - [ ] Paso 15 · Modo evaluación

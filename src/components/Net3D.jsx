@@ -1,4 +1,5 @@
-import { cuadroDelimitador, ejeBisagra } from '../data/nets.js';
+import { cuadroDelimitador, ejeBisagra, medidasDeCara, carasRepresentativas } from '../data/nets.js';
+import { fmt } from '../utils/format.js';
 
 // Dibuja un desarrollo plano (árbol de caras unidas por bisagras) con CSS 3D.
 // Lo usan «Desarrollo plano interactivo» (Paso 9) y «¿Arma un cubo?» (Paso 10).
@@ -8,13 +9,15 @@ import { cuadroDelimitador, ejeBisagra } from '../data/nets.js';
 //
 //   t         plegado de 0 (plano) a 1 (cuerpo armado)
 //   colorear  true: cada `grupo` de caras con su color; false: todas grises
+//   medidas   true: rotula los lados (una cara por cada grupo de caras iguales)
+//   unidad    unidad de las medidas del desarrollo (por defecto 'cm')
 
 export const PALETA = ['#5eead4', '#fcd34d', '#fda4af', '#a5b4fc', '#bef264', '#fdba74'];
 
 // Una cara: <div> 3D anidado dentro de su padre. Se coloca donde le toca en el
 // plano y gira alrededor de su bisagra (transform-origin). Como está DENTRO de
 // su padre, hereda el giro del padre.
-function CaraNet({ cara, porPadre, origen, k, t, colores, animar }) {
+function CaraNet({ cara, porPadre, origen, k, t, colores, animar, rotular, unidad }) {
   const bb = cuadroDelimitador(cara.poly);
   const ancho = Math.max((bb.maxX - bb.minX) * k, 1);
   const alto = Math.max((bb.maxY - bb.minY) * k, 1);
@@ -37,15 +40,42 @@ function CaraNet({ cara, porPadre, origen, k, t, colores, animar }) {
     <div style={estilo} data-cara={cara.id}>
       <svg width={ancho} height={alto} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible' }} aria-hidden="true">
         <polygon points={puntos} fill={colores[cara.grupo]} fillOpacity="0.92" stroke="#0f766e" strokeWidth="2" strokeLinejoin="round" />
+        {rotular.has(cara.id) &&
+          medidasDeCara(cara).map((m, i) => {
+            // el texto se corre un poco hacia el interior de la cara
+            const dx = (m.centro[0] - m.medio[0]) * k;
+            const dy = (m.centro[1] - m.medio[1]) * k;
+            const d = Math.hypot(dx, dy) || 1;
+            const x = (m.medio[0] - bb.minX) * k + (dx / d) * 11;
+            const y = (m.medio[1] - bb.minY) * k + (dy / d) * 11;
+            return (
+              <text
+                key={i}
+                x={x}
+                y={y}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize="12"
+                fontWeight="700"
+                fill="#0f172a"
+                stroke="#ffffff"
+                strokeWidth="3"
+                paintOrder="stroke"
+                data-medida
+              >
+                {fmt(m.largo)} {unidad}
+              </text>
+            );
+          })}
       </svg>
       {(porPadre[cara.id] || []).map((hija) => (
-        <CaraNet key={hija.id} cara={hija} porPadre={porPadre} origen={[bb.minX, bb.minY]} k={k} t={t} colores={colores} animar={animar} />
+        <CaraNet key={hija.id} cara={hija} porPadre={porPadre} origen={[bb.minX, bb.minY]} k={k} t={t} colores={colores} animar={animar} rotular={rotular} unidad={unidad} />
       ))}
     </div>
   );
 }
 
-export default function Net3D({ desarrollo, t, giroVista, colorear, animar, etiqueta = 'Desarrollo plano' }) {
+export default function Net3D({ desarrollo, t, giroVista, colorear, animar, medidas = false, unidad = 'cm', etiqueta = 'Desarrollo plano' }) {
   const todos = desarrollo.caras.flatMap((c) => c.poly);
   const bb = cuadroDelimitador(todos);
   const w = bb.maxX - bb.minX;
@@ -61,6 +91,7 @@ export default function Net3D({ desarrollo, t, giroVista, colorear, animar, etiq
     if (c.padre) (porPadre[c.padre] ||= []).push(c);
   });
   const raiz = desarrollo.caras.find((c) => !c.padre);
+  const rotular = new Set(medidas ? carasRepresentativas(desarrollo) : []);
 
   return (
     <div
@@ -80,7 +111,7 @@ export default function Net3D({ desarrollo, t, giroVista, colorear, animar, etiq
           transform: `rotateX(55deg) rotateZ(${giroVista}deg)`,
         }}
       >
-        <CaraNet cara={raiz} porPadre={porPadre} origen={centro} k={k} t={t} colores={colores} animar={animar} />
+        <CaraNet cara={raiz} porPadre={porPadre} origen={centro} k={k} t={t} colores={colores} animar={animar} rotular={rotular} unidad={unidad} />
       </div>
     </div>
   );
