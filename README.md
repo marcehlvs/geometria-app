@@ -10,13 +10,13 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 
 ## 📍 Estado actual (01/11/2026)
 
-**Avance: 13 de 17 pasos hechos (del 1 al 13).**
+**Avance: 14 de 17 pasos hechos (del 1 al 14).**
 
 **Verificación del estado actual del repo**
 - `npm run test:utils`: 22 pruebas OK.
-- `npm test`: 109 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 25, Paso 10: 9, Paso 11: 4, Paso 12: 15, Paso 13: 21).
+- `npm test`: 153 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 25, Paso 10: 9, Paso 11: 4, Paso 12: 15, Paso 13: 21, Paso 14: 44).
 - `npm run build`: compila sin errores.
-- Los módulos de los Pasos 4 a 13 están registrados en `src/modules/index.js`, se abren desde el menú y entran en el build.
+- Los módulos de los Pasos 4 a 14 están registrados en `src/modules/index.js`, se abren desde el menú y entran en el build.
 
 ### ✅ Resuelto
 
@@ -35,6 +35,7 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 | 11 | Fórmula de Euler | Ver más abajo |
 | 12 | Áreas y volúmenes | Ver más abajo |
 | 13 | Formulario | Ver más abajo |
+| 14 | Problemas | Ver más abajo |
 
 ### ✅ Paso 9 · Desarrollo plano interactivo
 - `data/nets.js`: 8 desarrollos (cubo, ortoedro, prismas triangular, pentagonal y hexagonal, pirámides triangular, cuadrada y pentagonal) modelados como árbol de caras unidas por bisagras. Nuevas funciones: `medidasDeCara` (un lado por cada longitud distinta de la cara) y `carasRepresentativas` (una cara por grupo de caras iguales).
@@ -70,19 +71,25 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 - Es un módulo de consulta (no tiene pasos): queda marcado con ✓ al abrirlo.
 - Pruebas (`paso13.test.jsx`, 21): una tarjeta por figura, fórmulas y variables en KaTeX, buscador, filtro por año, resultados de cada calculadora con valores conocidos, casos inválidos, cambio de unidad, que lo escrito en una calculadora se conserve al buscar y volver, y la impresión.
 
+### ✅ Paso 14 · Problemas de resolución
+- `data/problemas.js`: **23 plantillas** parametrizadas con semilla (`utils/rand.js`), repartidas en 5 temas: figuras planas (6), Pitágoras (3), cuerpos (6), Euler (4) y unidades (4). Los contextos son de la vida real: patio con baldosas, cancha de fútbol, pileta, tanque de agua, cartel, caja de zapatillas, carpa, cucurucho, escalera y rampa. Cada plantilla define `generar`, `enunciado`, `resolver` (pasos con fórmula con los números ya puestos, valor y unidad) y dos `pistas`. Pitágoras usa las ternas de `data/figuras.js` y Euler los poliedros de `data/cuerpos.js`, así que todos los resultados son enteros y consistentes.
+- **Misma semilla, mismo problema** («Problema #5500»); otra semilla, otros números. `crearProblema(plantilla, semilla, { pi, piEscolar })` arma enunciado, pasos, respuesta y opciones de unidad. En los problemas con π el enunciado avisa qué valor usar (3,14 o la tecla π).
+- **Corrección con tolerancia y unidad** (`corregir`): el estudiante escribe el número (acepta coma) y **elige la unidad** entre 4 opciones (la correcta y otras de distinta dimensión o escala; nunca una equivalente, como dm³ para litros). Distingue «número bien, unidad mal», «unidad bien, número mal» y todo mal. Un resultado entero tiene que ser exacto; con decimales o con π se acepta un 1 % de margen, así vale tanto 3,14 como la tecla π.
+- `modules/Problemas/Problemas.jsx`: filtro por año y por tema, enunciado, respuesta + unidad, **pistas progresivas** (de a una), **«Ver la resolución paso a paso»**, **«Otro parecido»** (misma plantilla, otra semilla) y **«Otro distinto»** (otra plantilla del tema). Con 3 problemas bien resueltos queda marcado con ✓ en el menú.
+- Pruebas (`paso14.test.jsx`, 44): cada plantilla con 40 semillas y los dos valores de π (números positivos, unidades, KaTeX, 4 opciones sin repetir), reproducibilidad por semilla, resultados conocidos (por ejemplo `C + V = A + 2` en Euler), tolerancia, y el módulo completo (corrección, pistas, resolución, otros problemas, filtros y progreso).
+
 ### ☐ Pendiente
 
 | Paso | Qué falta |
 |---|---|
-| 14 | Problemas de resolución: crear `data/problemas.js` (no existe) y el módulo |
 | 15 | Modo evaluación con puntaje, impresión y clave del docente |
 | Extras | Ninguno empezado (vistas de un cuerpo, simetrías, regla y compás, memotest, etc.) |
 | 16 | Revisión: borrar el módulo `Demo` (sigue en el repo), revisar fórmulas con π = 3,14 y exacto, probar en celular de 360 px y sin `localStorage` |
 | 17 | Publicación: descomentar `base: '/geometria-app/'` en `vite.config.js` si va a GitHub Pages, o conectar Vercel |
 
-Mientras no estén hechos, los módulos de los Pasos 14 y 15 aparecen en el menú como **«Próximamente»**.
+Mientras no esté hecho, el módulo del Paso 15 aparece en el menú como **«Próximamente»**.
 
-**Próximo paso sugerido:** Paso 14 (Problemas de resolución). Conviene usar `utils/rand.js` (aleatorios con semilla), el desglose de `data/areasVolumenes.js` como modelo de «resolución paso a paso» y las funciones de `utils/geometry.js` para corregir con tolerancia.
+**Próximo paso sugerido:** Paso 15 (Modo evaluación). Se puede reutilizar `data/problemas.js` (`elegirPlantilla`, `crearProblema` y `corregir`): con una semilla distinta por alumno cada uno recibe números distintos y la clave del docente se calcula con la misma semilla.
 
 ---
 
@@ -179,7 +186,7 @@ geometria-app/
    │  ├─ Euler/              # (Paso 11)
    │  ├─ AreasVolumenes/     # (Paso 12)
    │  ├─ Formulario/         # (Paso 13)
-   │  ├─ Problemas/
+   │  ├─ Problemas/          # (Paso 14)
    │  └─ Evaluacion/
    ├─ data/
    │  ├─ modulos.js          # catálogo del menú (título, año, grupo)
@@ -373,7 +380,9 @@ export const cubo = {
 
 **Por qué:** es la referencia rápida que los chicos usan durante los problemas.
 
-#### ☐ Paso 14 · Problemas de resolución
+#### ✅ Paso 14 · Problemas de resolución
+> **Estado:** hecho (ver «Estado actual»). Las plantillas quedaron en `data/problemas.js` con `generar`, `enunciado`, `resolver` y `pistas`; la unidad de la respuesta se elige entre 4 opciones.
+
 **Qué hacer**
 - `data/problemas.js` con plantillas parametrizadas:
 ```js
@@ -459,7 +468,7 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 11 · Fórmula de Euler
 - [x] Paso 12 · Áreas y volúmenes
 - [x] Paso 13 · Formulario
-- [ ] Paso 14 · Problemas
+- [x] Paso 14 · Problemas
 - [ ] Paso 15 · Modo evaluación
 - [ ] Extras
 - [ ] Paso 16 · Revisión

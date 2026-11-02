@@ -158,10 +158,11 @@ describe('App (menú y navegación)', () => {
     expect(triangulos).toBeEnabled();
     expect(screen.getByRole('button', { name: /Áreas y volúmenes/ })).toBeEnabled();
     expect(screen.getByRole('button', { name: /Formulario/ })).toBeEnabled();
-    // «Problemas» (Paso 14) todavía no existe: aparece como próximo
-    const problemas = screen.getByRole('button', { name: /Problemas/ });
-    expect(problemas).toBeDisabled();
-    expect(within(problemas).getByText('Próximamente')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Problemas/ })).toBeEnabled();
+    // «Modo evaluación» (Paso 15) todavía no existe: aparece como próximo
+    const evaluacion = screen.getByRole('button', { name: /Modo evaluación/ });
+    expect(evaluacion).toBeDisabled();
+    expect(within(evaluacion).getByText('Próximamente')).toBeInTheDocument();
   });
 
   it('el filtro por año oculta lo que no corresponde', async () => {

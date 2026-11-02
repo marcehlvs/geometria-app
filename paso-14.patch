@@ -1,0 +1,1250 @@
+diff --git a/README.md b/README.md
+index 6fe797f..6a7bf9e 100644
+--- a/README.md
++++ b/README.md
+@@ -10,13 +10,13 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
+ 
+ ## 📍 Estado actual (01/11/2026)
+ 
+-**Avance: 13 de 17 pasos hechos (del 1 al 13).**
++**Avance: 14 de 17 pasos hechos (del 1 al 14).**
+ 
+ **Verificación del estado actual del repo**
+ - `npm run test:utils`: 22 pruebas OK.
+-- `npm test`: 109 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 25, Paso 10: 9, Paso 11: 4, Paso 12: 15, Paso 13: 21).
++- `npm test`: 153 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 25, Paso 10: 9, Paso 11: 4, Paso 12: 15, Paso 13: 21, Paso 14: 44).
+ - `npm run build`: compila sin errores.
+-- Los módulos de los Pasos 4 a 13 están registrados en `src/modules/index.js`, se abren desde el menú y entran en el build.
++- Los módulos de los Pasos 4 a 14 están registrados en `src/modules/index.js`, se abren desde el menú y entran en el build.
+ 
+ ### ✅ Resuelto
+ 
+@@ -35,6 +35,7 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
+ | 11 | Fórmula de Euler | Ver más abajo |
+ | 12 | Áreas y volúmenes | Ver más abajo |
+ | 13 | Formulario | Ver más abajo |
++| 14 | Problemas | Ver más abajo |
+ 
+ ### ✅ Paso 9 · Desarrollo plano interactivo
+ - `data/nets.js`: 8 desarrollos (cubo, ortoedro, prismas triangular, pentagonal y hexagonal, pirámides triangular, cuadrada y pentagonal) modelados como árbol de caras unidas por bisagras. Nuevas funciones: `medidasDeCara` (un lado por cada longitud distinta de la cara) y `carasRepresentativas` (una cara por grupo de caras iguales).
+@@ -70,19 +71,25 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
+ - Es un módulo de consulta (no tiene pasos): queda marcado con ✓ al abrirlo.
+ - Pruebas (`paso13.test.jsx`, 21): una tarjeta por figura, fórmulas y variables en KaTeX, buscador, filtro por año, resultados de cada calculadora con valores conocidos, casos inválidos, cambio de unidad, que lo escrito en una calculadora se conserve al buscar y volver, y la impresión.
+ 
++### ✅ Paso 14 · Problemas de resolución
++- `data/problemas.js`: **23 plantillas** parametrizadas con semilla (`utils/rand.js`), repartidas en 5 temas: figuras planas (6), Pitágoras (3), cuerpos (6), Euler (4) y unidades (4). Los contextos son de la vida real: patio con baldosas, cancha de fútbol, pileta, tanque de agua, cartel, caja de zapatillas, carpa, cucurucho, escalera y rampa. Cada plantilla define `generar`, `enunciado`, `resolver` (pasos con fórmula con los números ya puestos, valor y unidad) y dos `pistas`. Pitágoras usa las ternas de `data/figuras.js` y Euler los poliedros de `data/cuerpos.js`, así que todos los resultados son enteros y consistentes.
++- **Misma semilla, mismo problema** («Problema #5500»); otra semilla, otros números. `crearProblema(plantilla, semilla, { pi, piEscolar })` arma enunciado, pasos, respuesta y opciones de unidad. En los problemas con π el enunciado avisa qué valor usar (3,14 o la tecla π).
++- **Corrección con tolerancia y unidad** (`corregir`): el estudiante escribe el número (acepta coma) y **elige la unidad** entre 4 opciones (la correcta y otras de distinta dimensión o escala; nunca una equivalente, como dm³ para litros). Distingue «número bien, unidad mal», «unidad bien, número mal» y todo mal. Un resultado entero tiene que ser exacto; con decimales o con π se acepta un 1 % de margen, así vale tanto 3,14 como la tecla π.
++- `modules/Problemas/Problemas.jsx`: filtro por año y por tema, enunciado, respuesta + unidad, **pistas progresivas** (de a una), **«Ver la resolución paso a paso»**, **«Otro parecido»** (misma plantilla, otra semilla) y **«Otro distinto»** (otra plantilla del tema). Con 3 problemas bien resueltos queda marcado con ✓ en el menú.
++- Pruebas (`paso14.test.jsx`, 44): cada plantilla con 40 semillas y los dos valores de π (números positivos, unidades, KaTeX, 4 opciones sin repetir), reproducibilidad por semilla, resultados conocidos (por ejemplo `C + V = A + 2` en Euler), tolerancia, y el módulo completo (corrección, pistas, resolución, otros problemas, filtros y progreso).
++
+ ### ☐ Pendiente
+ 
+ | Paso | Qué falta |
+ |---|---|
+-| 14 | Problemas de resolución: crear `data/problemas.js` (no existe) y el módulo |
+ | 15 | Modo evaluación con puntaje, impresión y clave del docente |
+ | Extras | Ninguno empezado (vistas de un cuerpo, simetrías, regla y compás, memotest, etc.) |
+ | 16 | Revisión: borrar el módulo `Demo` (sigue en el repo), revisar fórmulas con π = 3,14 y exacto, probar en celular de 360 px y sin `localStorage` |
+ | 17 | Publicación: descomentar `base: '/geometria-app/'` en `vite.config.js` si va a GitHub Pages, o conectar Vercel |
+ 
+-Mientras no estén hechos, los módulos de los Pasos 14 y 15 aparecen en el menú como **«Próximamente»**.
++Mientras no esté hecho, el módulo del Paso 15 aparece en el menú como **«Próximamente»**.
+ 
+-**Próximo paso sugerido:** Paso 14 (Problemas de resolución). Conviene usar `utils/rand.js` (aleatorios con semilla), el desglose de `data/areasVolumenes.js` como modelo de «resolución paso a paso» y las funciones de `utils/geometry.js` para corregir con tolerancia.
++**Próximo paso sugerido:** Paso 15 (Modo evaluación). Se puede reutilizar `data/problemas.js` (`elegirPlantilla`, `crearProblema` y `corregir`): con una semilla distinta por alumno cada uno recibe números distintos y la clave del docente se calcula con la misma semilla.
+ 
+ ---
+ 
+@@ -179,7 +186,7 @@ geometria-app/
+    │  ├─ Euler/              # (Paso 11)
+    │  ├─ AreasVolumenes/     # (Paso 12)
+    │  ├─ Formulario/         # (Paso 13)
+-   │  ├─ Problemas/
++   │  ├─ Problemas/          # (Paso 14)
+    │  └─ Evaluacion/
+    ├─ data/
+    │  ├─ modulos.js          # catálogo del menú (título, año, grupo)
+@@ -373,7 +380,9 @@ export const cubo = {
+ 
+ **Por qué:** es la referencia rápida que los chicos usan durante los problemas.
+ 
+-#### ☐ Paso 14 · Problemas de resolución
++#### ✅ Paso 14 · Problemas de resolución
++> **Estado:** hecho (ver «Estado actual»). Las plantillas quedaron en `data/problemas.js` con `generar`, `enunciado`, `resolver` y `pistas`; la unidad de la respuesta se elige entre 4 opciones.
++
+ **Qué hacer**
+ - `data/problemas.js` con plantillas parametrizadas:
+ ```js
+@@ -459,7 +468,7 @@ Ordenados por valor / esfuerzo:
+ - [x] Paso 11 · Fórmula de Euler
+ - [x] Paso 12 · Áreas y volúmenes
+ - [x] Paso 13 · Formulario
+-- [ ] Paso 14 · Problemas
++- [x] Paso 14 · Problemas
+ - [ ] Paso 15 · Modo evaluación
+ - [ ] Extras
+ - [ ] Paso 16 · Revisión
+diff --git a/src/__tests__/componentes.test.jsx b/src/__tests__/componentes.test.jsx
+index 4140827..b3c823b 100644
+--- a/src/__tests__/componentes.test.jsx
++++ b/src/__tests__/componentes.test.jsx
+@@ -158,10 +158,11 @@ describe('App (menú y navegación)', () => {
+     expect(triangulos).toBeEnabled();
+     expect(screen.getByRole('button', { name: /Áreas y volúmenes/ })).toBeEnabled();
+     expect(screen.getByRole('button', { name: /Formulario/ })).toBeEnabled();
+-    // «Problemas» (Paso 14) todavía no existe: aparece como próximo
+-    const problemas = screen.getByRole('button', { name: /Problemas/ });
+-    expect(problemas).toBeDisabled();
+-    expect(within(problemas).getByText('Próximamente')).toBeInTheDocument();
++    expect(screen.getByRole('button', { name: /Problemas/ })).toBeEnabled();
++    // «Modo evaluación» (Paso 15) todavía no existe: aparece como próximo
++    const evaluacion = screen.getByRole('button', { name: /Modo evaluación/ });
++    expect(evaluacion).toBeDisabled();
++    expect(within(evaluacion).getByText('Próximamente')).toBeInTheDocument();
+   });
+ 
+   it('el filtro por año oculta lo que no corresponde', async () => {
+diff --git a/src/__tests__/paso14.test.jsx b/src/__tests__/paso14.test.jsx
+new file mode 100644
+index 0000000..aa87a60
+--- /dev/null
++++ b/src/__tests__/paso14.test.jsx
+@@ -0,0 +1,350 @@
++import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
++import { render, screen, cleanup, within, waitFor } from '@testing-library/react';
++import userEvent from '@testing-library/user-event';
++import '@testing-library/jest-dom/vitest';
++import katex from 'katex';
++
++import { AppProvider } from '../context/AppContext.jsx';
++import App from '../App.jsx';
++import Problemas from '../modules/Problemas/Problemas.jsx';
++import { COMPONENTES } from '../modules/index.js';
++import {
++  TEMAS_PROBLEMAS,
++  PROBLEMAS,
++  plantillasDe,
++  temasDisponibles,
++  elegirPlantilla,
++  crearProblema,
++  corregir,
++  opcionesDeUnidad,
++} from '../data/problemas.js';
++import { crearAleatorio } from '../utils/rand.js';
++
++beforeEach(() => {
++  window.scrollTo = vi.fn();
++  window.localStorage.clear();
++  window.location.hash = '';
++});
++afterEach(() => {
++  cleanup();
++  vi.restoreAllMocks();
++});
++
++const ESCOLAR = { pi: 3.14, piEscolar: true };
++const EXACTO = { pi: Math.PI, piEscolar: false };
++const plantilla = (id) => PROBLEMAS.find((p) => p.id === id);
++const semillas = Array.from({ length: 40 }, (_, i) => 1000 + i * 223);
++
++describe('Plantillas de problemas (data/problemas.js)', () => {
++  it('hay al menos 3 plantillas por tema, con ids únicos', () => {
++    TEMAS_PROBLEMAS.forEach((t) => expect(plantillasDe(t.id).length).toBeGreaterThanOrEqual(3));
++    expect(new Set(PROBLEMAS.map((p) => p.id)).size).toBe(PROBLEMAS.length);
++    PROBLEMAS.forEach((p) => {
++      expect(TEMAS_PROBLEMAS.map((t) => t.id)).toContain(p.tema);
++      expect(p.pistas.length).toBeGreaterThanOrEqual(2);
++    });
++  });
++
++  it('con año filtrado: en 1.º no hay Pitágoras ni Euler; en 2.º están todos los temas', () => {
++    expect(temasDisponibles(1).map((t) => t.id)).toEqual(['figuras-planas', 'cuerpos', 'unidades']);
++    expect(temasDisponibles(2)).toHaveLength(TEMAS_PROBLEMAS.length);
++    expect(temasDisponibles(0)).toHaveLength(TEMAS_PROBLEMAS.length);
++    expect(plantillasDe('pitagoras', 1)).toEqual([]);
++  });
++
++  it.each(PROBLEMAS.map((p) => [p.id, p]))('%s: da problemas válidos con 40 semillas, con π escolar y exacto', (_id, pl) => {
++    [ESCOLAR, EXACTO].forEach((ctx) => {
++      semillas.forEach((semilla) => {
++        const p = crearProblema(pl, semilla, ctx);
++        // enunciado completo, sin restos de plantilla
++        expect(p.enunciado.length).toBeGreaterThan(30);
++        expect(p.enunciado).not.toMatch(/undefined|NaN|\[object/);
++        // todos los pasos tienen número positivo y unidad, y su fórmula se renderiza
++        expect(p.pasos.length).toBeGreaterThan(0);
++        p.pasos.forEach((paso) => {
++          expect(Number.isFinite(paso.valor)).toBe(true);
++          expect(paso.valor).toBeGreaterThan(0);
++          expect(paso.unidad).toBeTruthy();
++          expect(() => katex.renderToString(paso.tex, { throwOnError: true })).not.toThrow();
++        });
++        // la respuesta es el último paso y su unidad está entre las 4 opciones, sin repetidas
++        expect(p.respuesta).toEqual({ valor: p.pasos.at(-1).valor, unidad: p.pasos.at(-1).unidad });
++        expect(p.opciones).toContain(p.respuesta.unidad);
++        expect(p.opciones.length).toBe(4);
++        expect(new Set(p.opciones).size).toBe(4);
++      });
++    });
++  });
++
++  it('la misma semilla da el mismo problema y otra semilla da otros números', () => {
++    const pl = plantilla('patio-baldosas');
++    expect(crearProblema(pl, 4821)).toEqual(crearProblema(pl, 4821));
++    const enunciados = new Set(semillas.map((s) => crearProblema(pl, s).enunciado));
++    expect(enunciados.size).toBeGreaterThan(10);
++  });
++
++  it('los problemas sin π tienen respuestas exactas y los de π aceptan 3,14 y la tecla π', () => {
++    PROBLEMAS.forEach((pl) => {
++      semillas.slice(0, 10).forEach((semilla) => {
++        const a = crearProblema(pl, semilla, ESCOLAR);
++        const b = crearProblema(pl, semilla, EXACTO);
++        if (pl.usaPi) {
++          expect(Math.abs(a.respuesta.valor - b.respuesta.valor) / b.respuesta.valor).toBeLessThan(0.01);
++          expect(a.tolerancia).toBeGreaterThan(0);
++        } else {
++          expect(a.respuesta.valor).toBe(b.respuesta.valor);
++        }
++        // lo que da el problema con cada valor de π se corrige como bien
++        expect(corregir(a, String(b.respuesta.valor), a.respuesta.unidad).estado).toBe('ok');
++      });
++    });
++  });
++
++  it('los problemas con π avisan qué valor usar', () => {
++    expect(crearProblema(plantilla('pileta-lona'), 1234, ESCOLAR).enunciado).toContain('π = 3,14');
++    expect(crearProblema(plantilla('pileta-lona'), 1234, EXACTO).enunciado).toContain('tecla π');
++    expect(crearProblema(plantilla('caja-zapatillas'), 1234, ESCOLAR).enunciado).not.toContain('π');
++  });
++
++  it('resultados conocidos de varias plantillas', () => {
++    const val = (id, semilla = 777, ctx = ESCOLAR) => {
++      const p = crearProblema(plantilla(id), semilla, ctx);
++      return { p, d: p.datos, v: p.respuesta.valor };
++    };
++    let x = val('patio-baldosas');
++    expect(x.v).toBe((x.d.largo * x.d.ancho * 10000) / (x.d.ladoCm * x.d.ladoCm));
++    x = val('cancha-vueltas');
++    expect(x.v).toBe(2 * (x.d.largo + x.d.ancho) * x.d.vueltas);
++    x = val('escalera-pared');
++    expect(x.v ** 2 + x.d.distancia ** 2).toBe(x.d.largo ** 2);
++    x = val('galpon-diagonal');
++    expect(x.v ** 2).toBe(x.d.ancho ** 2 + x.d.alto ** 2);
++    x = val('caja-forrar');
++    expect(x.v).toBe(2 * (x.d.largo * x.d.ancho + x.d.largo * x.d.alto + x.d.ancho * x.d.alto));
++    x = val('pileta-litros');
++    expect(x.v).toBeCloseTo(x.d.largo * x.d.ancho * x.d.prof * 1000, 6);
++    x = val('tanque-cilindrico');
++    expect(x.v).toBeCloseTo(3.14 * x.d.radio ** 2 * x.d.altura, 6);
++    x = val('carpa-piramide');
++    expect(x.v).toBe((x.d.lado ** 2 * x.d.altura) / 3);
++    x = val('euler-prisma');
++    expect(x.v).toBe(3 * x.d.lados);
++    x = val('cartel-cm2-m2');
++    expect(x.v).toBe((x.d.base * x.d.altura) / 10000);
++    // Euler: C + V = A + 2 se cumple en los tres problemas de despeje
++    ['euler-aristas', 'euler-caras', 'euler-vertices'].forEach((id) => {
++      const { d } = val(id);
++      expect(d.C + d.V).toBe(d.A + 2);
++    });
++  });
++
++  it('elegirPlantilla es repetible, respeta tema y año y evita la anterior', () => {
++    expect(elegirPlantilla('cuerpos', 0, 5500).id).toBe(elegirPlantilla('cuerpos', 0, 5500).id);
++    semillas.forEach((s) => {
++      const pl = elegirPlantilla('pitagoras', 2, s, 'escalera-pared');
++      expect(pl.tema).toBe('pitagoras');
++      expect(pl.id).not.toBe('escalera-pared');
++      expect(elegirPlantilla('unidades', 1, s).anios).toContain(1);
++    });
++  });
++
++  it('opciones de unidad: la correcta con otras de distinta dimensión o escala', () => {
++    const r = () => crearAleatorio(1);
++    expect([...opcionesDeUnidad('m²', undefined, r())].sort()).toEqual(['cm²', 'm', 'm²', 'm³']);
++    expect([...opcionesDeUnidad('cm', undefined, r())].sort()).toEqual(['cm', 'cm²', 'cm³', 'm']);
++    expect(opcionesDeUnidad('L', ['m³', 'm²', 'cm²'], r())).toContain('L');
++    expect(opcionesDeUnidad('L', ['m³', 'm²', 'cm²'], r())).not.toContain('dm³'); // equivale a L: confundiría
++  });
++});
++
++describe('Corrección', () => {
++  const p = crearProblema(plantilla('cancha-vueltas'), 100); // respuesta entera, en m
++  const { valor } = p.respuesta;
++
++  it('número y unidad bien', () => {
++    expect(corregir(p, String(valor), 'm').estado).toBe('ok');
++  });
++
++  it('número bien con unidad equivocada', () => {
++    const c = corregir(p, String(valor), 'm²');
++    expect(c.estado).toBe('unidad');
++    expect(c.mensaje).toMatch(/unidad/);
++  });
++
++  it('unidad bien con número equivocado, y todo mal', () => {
++    expect(corregir(p, String(valor + 10), 'm').estado).toBe('numero');
++    expect(corregir(p, String(valor + 10), 'm²').estado).toBe('mal');
++  });
++
++  it('pide número válido y unidad antes de corregir; acepta coma decimal', () => {
++    expect(corregir(p, '', 'm').estado).toBe('invalido');
++    expect(corregir(p, 'abc', 'm').estado).toBe('invalido');
++    expect(corregir(p, String(valor), null).estado).toBe('sin-unidad');
++    const lona = crearProblema(plantilla('pileta-lona'), 100, ESCOLAR);
++    const conComa = String(lona.respuesta.valor).replace('.', ',');
++    expect(corregir(lona, conComa, 'm²').estado).toBe('ok');
++  });
++
++  it('un entero tiene que ser exacto y un decimal admite 1 %', () => {
++    expect(p.tolerancia).toBe(0);
++    expect(corregir(p, String(valor + 1), 'm').estado).toBe('numero');
++    const lona = crearProblema(plantilla('pileta-lona'), 100, ESCOLAR);
++    expect(corregir(lona, String(lona.respuesta.valor * 1.005), 'm²').estado).toBe('ok');
++    expect(corregir(lona, String(lona.respuesta.valor * 1.05), 'm²').estado).toBe('numero');
++  });
++});
++
++describe('Problemas (módulo)', () => {
++  const abrir = () =>
++    render(
++      <AppProvider>
++        <Problemas onVolver={() => {}} />
++      </AppProvider>
++    );
++
++  // Lee de la pantalla qué problema es (plantilla + semilla) y lo recalcula con las funciones de datos
++  const problemaActual = () => {
++    const articulo = screen.getByRole('article');
++    const semilla = Number(/Problema #(\d+)/.exec(articulo.textContent)[1]);
++    return crearProblema(plantilla(articulo.dataset.plantilla), semilla, ESCOLAR);
++  };
++  const responder = async (user, texto, unidad) => {
++    const campo = screen.getByLabelText('Tu respuesta');
++    await user.clear(campo);
++    await user.type(campo, texto);
++    const grupo = within(screen.getByRole('group', { name: 'Unidad de tu respuesta' }));
++    await user.click(grupo.getByRole('button', { name: unidad }));
++    await user.click(screen.getByRole('button', { name: 'Comprobar' }));
++  };
++  const fijarSemillas = (...valores) => {
++    const spy = vi.spyOn(Math, 'random');
++    valores.forEach((v) => spy.mockReturnValueOnce(v));
++    spy.mockReturnValue(0.5);
++  };
++
++  it('está registrado y se abre desde el menú', async () => {
++    expect(COMPONENTES.problemas).toBeDefined();
++    const user = userEvent.setup();
++    render(
++      <AppProvider>
++        <App />
++      </AppProvider>
++    );
++    await user.click(await screen.findByRole('button', { name: /Problemas/ }));
++    expect(await screen.findByRole('article')).toBeInTheDocument();
++  });
++
++  it('muestra el enunciado del problema y su número', () => {
++    fijarSemillas(0.5); // semilla 5500
++    abrir();
++    const p = problemaActual();
++    expect(p.semilla).toBe(5500);
++    expect(screen.getByText(p.enunciado)).toBeInTheDocument();
++    expect(screen.getByText(/Problema #5500/)).toBeInTheDocument();
++  });
++
++  it('corrige número y unidad por separado', async () => {
++    const user = userEvent.setup();
++    abrir();
++    const { respuesta } = problemaActual();
++    const otraUnidad = problemaActual().opciones.find((u) => u !== respuesta.unidad);
++
++    await user.click(screen.getByRole('button', { name: 'Comprobar' }));
++    expect(screen.getByText(/Escribí un número/)).toBeInTheDocument();
++
++    await user.type(screen.getByLabelText('Tu respuesta'), String(respuesta.valor));
++    await user.click(screen.getByRole('button', { name: 'Comprobar' }));
++    expect(screen.getByText(/Elegí la unidad/)).toBeInTheDocument();
++
++    await responder(user, String(respuesta.valor), otraUnidad);
++    expect(screen.getByText(/número está bien, pero revisá la unidad/)).toBeInTheDocument();
++
++    await responder(user, String(respuesta.valor * 3), respuesta.unidad);
++    expect(screen.getByText(/unidad está bien, pero el número no coincide/)).toBeInTheDocument();
++
++    await responder(user, String(respuesta.valor), respuesta.unidad);
++    expect(screen.getByText(/¡Correcto!/)).toBeInTheDocument();
++    expect(screen.getByText(/Resueltos:/)).toHaveTextContent('Resueltos: 1');
++    expect(screen.getByRole('button', { name: 'Comprobar' })).toBeDisabled();
++  });
++
++  it('las pistas aparecen de a una y la resolución se puede mostrar y ocultar', async () => {
++    const user = userEvent.setup();
++    abrir();
++    const p = problemaActual();
++    expect(screen.queryByText(p.pistas[0], { exact: false })).not.toBeInTheDocument();
++
++    await user.click(screen.getByRole('button', { name: /Ver una pista \(0\/2\)/ }));
++    expect(screen.getByText(p.pistas[0], { exact: false })).toBeInTheDocument();
++    expect(screen.queryByText(p.pistas[1], { exact: false })).not.toBeInTheDocument();
++    await user.click(screen.getByRole('button', { name: /Ver una pista \(1\/2\)/ }));
++    expect(screen.getByText(p.pistas[1], { exact: false })).toBeInTheDocument();
++    expect(screen.getByRole('button', { name: /Ver una pista \(2\/2\)/ })).toBeDisabled();
++
++    await user.click(screen.getByRole('button', { name: /Ver la resolución paso a paso/ }));
++    const lista = within(screen.getByRole('list', { name: 'Resolución paso a paso' }));
++    expect(lista.getAllByRole('listitem')).toHaveLength(p.pasos.length);
++    p.pasos.forEach((paso) => expect(lista.getByText(paso.texto, { exact: false })).toBeInTheDocument());
++    await user.click(screen.getByRole('button', { name: /Ocultar la resolución/ }));
++    expect(screen.queryByRole('list', { name: 'Resolución paso a paso' })).not.toBeInTheDocument();
++  });
++
++  it('«Otro parecido» mantiene la plantilla con otros números y «Otro distinto» cambia de plantilla', async () => {
++    fijarSemillas(0.5, 0.9, 0.2);
++    const user = userEvent.setup();
++    abrir();
++    const antes = problemaActual();
++    expect(antes.semilla).toBe(5500);
++
++    await user.click(screen.getByRole('button', { name: /Otro parecido/ }));
++    const parecido = problemaActual();
++    expect(parecido.plantilla).toBe(antes.plantilla);
++    expect(parecido.semilla).toBe(9100);
++    expect(screen.getByLabelText('Tu respuesta')).toHaveValue('');
++
++    await user.click(screen.getByRole('button', { name: /Otro distinto/ }));
++    expect(problemaActual().plantilla).not.toBe(antes.plantilla);
++  });
++
++  it('el filtro por año y el tema cambian los problemas', async () => {
++    const user = userEvent.setup();
++    abrir();
++    await user.click(screen.getByRole('button', { name: '1.º año' }));
++    const temas = within(screen.getByRole('group', { name: 'Tema' }));
++    expect(temas.queryByRole('button', { name: /Pitágoras/ })).not.toBeInTheDocument();
++    expect(temas.getByRole('button', { name: /Unidades/ })).toBeInTheDocument();
++
++    await user.click(screen.getByRole('button', { name: '2.º año' }));
++    await user.click(within(screen.getByRole('group', { name: 'Tema' })).getByRole('button', { name: /Pitágoras/ }));
++    expect(plantillasDe('pitagoras').map((p) => p.id)).toContain(screen.getByRole('article').dataset.plantilla);
++  });
++
++  it('con 3 problemas bien resueltos queda completado el módulo', async () => {
++    fijarSemillas(0.1, 0.3, 0.7);
++    const user = userEvent.setup();
++    abrir();
++    for (let i = 0; i < 3; i++) {
++      const { respuesta } = problemaActual();
++      await responder(user, String(respuesta.valor), respuesta.unidad);
++      expect(screen.getByText(/¡Correcto!/)).toBeInTheDocument();
++      if (i < 2) await user.click(screen.getByRole('button', { name: /Otro parecido/ }));
++    }
++    await waitFor(() => expect(JSON.parse(window.localStorage.getItem('geo:completados'))).toContain('problemas'));
++  });
++
++  it('con π exacto el enunciado indica usar la tecla π y se acepta ese resultado', async () => {
++    window.localStorage.setItem('geo:piEscolar', 'false');
++    const user = userEvent.setup();
++    abrir();
++    await user.click(screen.getByRole('button', { name: /Figuras planas/ }));
++    // hasta encontrar un problema con π (hay 2 de 6 plantillas): se pide otro parecido a uno que lo use
++    for (let i = 0; i < 40 && !/tecla π/.test(screen.getByRole('article').textContent); i++) {
++      await user.click(screen.getByRole('button', { name: /Otro distinto/ }));
++    }
++    const articulo = screen.getByRole('article');
++    expect(articulo.textContent).toMatch(/tecla π/);
++    const p = crearProblema(plantilla(articulo.dataset.plantilla), Number(/Problema #(\d+)/.exec(articulo.textContent)[1]), EXACTO);
++    await responder(user, String(p.respuesta.valor).replace('.', ','), p.respuesta.unidad);
++    expect(screen.getByText(/¡Correcto!/)).toBeInTheDocument();
++  });
++});
+diff --git a/src/data/problemas.js b/src/data/problemas.js
+new file mode 100644
+index 0000000..3d0f18f
+--- /dev/null
++++ b/src/data/problemas.js
+@@ -0,0 +1,495 @@
++// Problemas de resolución (Paso 14).
++//
++// Cada plantilla se parametriza con un generador de números aleatorios con
++// semilla (utils/rand.js): la misma semilla da siempre el mismo problema
++// («Problema #4821»), y otra semilla da números distintos.
++//
++//   { id, tema, anios, titulo,
++//     generar(r)            -> datos del problema
++//     enunciado(datos)      -> texto
++//     resolver(datos, ctx)  -> pasos [{ texto, tex, valor, unidad }]; el último es la respuesta
++//     pistas                -> [string, string]
++//     usaPi?                -> true si el resultado depende de π
++//     distractores?         -> unidades equivocadas para las opciones (si la unidad no es de longitud) }
++//
++//   const problema = crearProblema(plantilla, 4821, { pi: 3.14, piEscolar: true });
++//   corregir(problema, '12,5', 'm²') -> { estado, mensaje }
++
++import { crearAleatorio } from '../utils/rand.js';
++import { fmt, texNum, parseNum, casiIgual } from '../utils/format.js';
++import { PITAGORAS } from './figuras.js';
++import { POLIEDROS } from './cuerpos.js';
++
++export const TEMAS_PROBLEMAS = [
++  { id: 'figuras-planas', titulo: 'Figuras planas', icono: '🔷' },
++  { id: 'pitagoras', titulo: 'Pitágoras', icono: '📐' },
++  { id: 'cuerpos', titulo: 'Cuerpos', icono: '🧊' },
++  { id: 'euler', titulo: 'Euler', icono: '✨' },
++  { id: 'unidades', titulo: 'Unidades', icono: '📏' },
++];
++
++const n = (x) => texNum(x, 2);
++const r6 = (x) => Math.round(x * 1e6) / 1e6; // saca los restos de la coma flotante (0,1 + 0,2)
++const paso = (texto, tex, valor, unidad) => ({ texto, tex, valor: r6(valor), unidad });
++const piTex = (ctx) => (ctx.piEscolar ? n(ctx.pi) : '\\pi');
++
++// Una terna pitagórica, a veces ampliada al doble: [cateto, cateto, hipotenusa]
++const ternaAleatoria = (r) => {
++  const k = r.pick([1, 2]);
++  return r.pick(PITAGORAS.ternas).map((x) => x * k);
++};
++
++const ANIOS_TODOS = [1, 2];
++
++export const PROBLEMAS = [
++  // ====================== FIGURAS PLANAS ======================
++  {
++    id: 'patio-baldosas',
++    tema: 'figuras-planas',
++    anios: ANIOS_TODOS,
++    titulo: 'Patio con baldosas',
++    generar: (r) => ({ largo: r.int(6, 12), ancho: r.int(3, 8), ladoCm: r.pick([20, 25, 50]) }),
++    enunciado: ({ largo, ancho, ladoCm }) =>
++      `Un patio rectangular mide ${largo} m por ${ancho} m. Se lo quiere cubrir con baldosas cuadradas de ${ladoCm} cm de lado. ¿Cuántas baldosas hacen falta?`,
++    resolver: ({ largo, ancho, ladoCm }) => {
++      const areaPatio = largo * ancho;
++      const lado = ladoCm / 100;
++      const areaBaldosa = r6(lado * lado);
++      return [
++        paso('Área del patio', `A = ${n(largo)} \\cdot ${n(ancho)}`, areaPatio, 'm²'),
++        paso('Área de una baldosa (pasamos el lado a metros)', `A = ${texNum(lado, 4)}^2`, areaBaldosa, 'm²'),
++        paso('Cantidad de baldosas', `n = ${n(areaPatio)} : ${texNum(areaBaldosa, 4)}`, areaPatio / areaBaldosa, 'baldosas'),
++      ];
++    },
++    pistas: ['Pasá los cm a m antes de calcular.', 'Dividí el área del patio por el área de una baldosa.'],
++    distractores: ['m²', 'cm²', 'm'],
++  },
++  {
++    id: 'cancha-vueltas',
++    tema: 'figuras-planas',
++    anios: ANIOS_TODOS,
++    titulo: 'Vueltas a la cancha',
++    generar: (r) => ({ largo: r.pick([90, 100, 105, 110]), ancho: r.pick([60, 65, 70, 75]), vueltas: r.int(2, 5) }),
++    enunciado: ({ largo, ancho, vueltas }) =>
++      `Una cancha de fútbol mide ${largo} m de largo y ${ancho} m de ancho. En el entrenamiento, un jugador da ${vueltas} vueltas completas corriendo por el borde de la cancha. ¿Cuántos metros corre en total?`,
++    resolver: ({ largo, ancho, vueltas }) => {
++      const perimetro = 2 * (largo + ancho);
++      return [
++        paso('Perímetro de la cancha (una vuelta)', `P = 2 \\cdot (${n(largo)} + ${n(ancho)})`, perimetro, 'm'),
++        paso('Total de metros', `${n(perimetro)} \\cdot ${n(vueltas)}`, perimetro * vueltas, 'm'),
++      ];
++    },
++    pistas: ['El borde de la cancha es su perímetro.', 'Calculá una vuelta y después multiplicá por la cantidad de vueltas.'],
++  },
++  {
++    id: 'cartel-triangular',
++    tema: 'figuras-planas',
++    anios: ANIOS_TODOS,
++    titulo: 'Cartel triangular',
++    generar: (r) => ({ base: r.pick([40, 60, 80, 100, 120]), altura: r.int(30, 70) }),
++    enunciado: ({ base, altura }) =>
++      `Un cartel con forma de triángulo mide ${base} cm de base y ${altura} cm de altura. ¿Cuál es el área de su superficie?`,
++    resolver: ({ base, altura }) => [
++      paso('Área del triángulo', `A = \\dfrac{${n(base)} \\cdot ${n(altura)}}{2}`, (base * altura) / 2, 'cm²'),
++    ],
++    pistas: ['El área de un triángulo es la mitad de base por altura.', 'Multiplicá base por altura y después dividí por 2.'],
++  },
++  {
++    id: 'carpa-trapecio',
++    tema: 'figuras-planas',
++    anios: ANIOS_TODOS,
++    titulo: 'Entrada de la carpa',
++    generar: (r) => ({ mayor: r.pick([6, 8, 10]), menor: r.pick([2, 4]), altura: r.int(2, 4) }),
++    enunciado: ({ mayor, menor, altura }) =>
++      `La entrada de una carpa tiene forma de trapecio: la base mayor mide ${mayor} m, la base menor ${menor} m y la altura ${altura} m. ¿Cuántos m² de tela se necesitan para cubrirla?`,
++    resolver: ({ mayor, menor, altura }) => [
++      paso('Suma de las bases', `B + b = ${n(mayor)} + ${n(menor)}`, mayor + menor, 'm'),
++      paso('Área del trapecio', `A = \\dfrac{${n(mayor + menor)} \\cdot ${n(altura)}}{2}`, ((mayor + menor) * altura) / 2, 'm²'),
++    ],
++    pistas: ['Área del trapecio = (base mayor + base menor) · altura : 2.', 'Primero sumá las dos bases.'],
++  },
++  {
++    id: 'pileta-cinta',
++    tema: 'figuras-planas',
++    anios: ANIOS_TODOS,
++    titulo: 'Borde de la pileta circular',
++    usaPi: true,
++    generar: (r) => ({ radio: r.int(2, 6) }),
++    enunciado: ({ radio }) =>
++      `Una pileta circular tiene ${radio} m de radio. ¿Cuántos metros de cinta de seguridad hacen falta para rodear todo su borde?`,
++    resolver: ({ radio }, ctx) => [
++      paso('Longitud de la circunferencia', `L = 2 \\cdot ${piTex(ctx)} \\cdot ${n(radio)}`, 2 * ctx.pi * radio, 'm'),
++    ],
++    pistas: ['El borde de un círculo es su circunferencia.', 'Longitud = 2 · π · radio.'],
++  },
++  {
++    id: 'pileta-lona',
++    tema: 'figuras-planas',
++    anios: ANIOS_TODOS,
++    titulo: 'Lona para la pileta',
++    usaPi: true,
++    generar: (r) => ({ radio: r.int(2, 6) }),
++    enunciado: ({ radio }) => `¿Cuántos m² de lona hacen falta para cubrir una pileta circular de ${radio} m de radio?`,
++    resolver: ({ radio }, ctx) => [
++      paso('Área del círculo', `A = ${piTex(ctx)} \\cdot ${n(radio)}^2`, ctx.pi * radio * radio, 'm²'),
++    ],
++    pistas: ['Tenés que calcular la superficie del círculo.', 'Área = π · radio², y el radio va al cuadrado.'],
++  },
++
++  // ====================== PITÁGORAS ======================
++  {
++    id: 'escalera-pared',
++    tema: 'pitagoras',
++    anios: [2],
++    titulo: 'Escalera y pared',
++    generar: (r) => {
++      const [a, b, c] = ternaAleatoria(r);
++      const conocidoPrimero = r.pick([true, false]);
++      return { largo: c, distancia: conocidoPrimero ? a : b, altura: conocidoPrimero ? b : a };
++    },
++    enunciado: ({ largo, distancia }) =>
++      `Una escalera de ${largo} m de largo está apoyada en una pared. El pie de la escalera está a ${distancia} m de la pared. ¿A qué altura de la pared llega la escalera?`,
++    resolver: ({ largo, distancia, altura }) => [
++      paso('Cuadrado de la hipotenusa (la escalera)', `${n(largo)}^2`, largo * largo, 'm²'),
++      paso('Cuadrado del cateto conocido', `${n(distancia)}^2`, distancia * distancia, 'm²'),
++      paso('Cuadrado del cateto buscado', `h^2 = ${n(largo * largo)} - ${n(distancia * distancia)}`, largo * largo - distancia * distancia, 'm²'),
++      paso('Altura (raíz cuadrada)', `h = \\sqrt{${n(largo * largo - distancia * distancia)}}`, altura, 'm'),
++    ],
++    pistas: [
++      'La escalera, la pared y el piso forman un triángulo rectángulo: la escalera es la hipotenusa.',
++      'Un cateto al cuadrado es la hipotenusa al cuadrado menos el otro cateto al cuadrado.',
++    ],
++  },
++  {
++    id: 'galpon-diagonal',
++    tema: 'pitagoras',
++    anios: [2],
++    titulo: 'Diagonal de la puerta',
++    generar: (r) => {
++      const [a, b, c] = ternaAleatoria(r);
++      return { ancho: a, alto: b, diagonal: c };
++    },
++    enunciado: ({ ancho, alto }) => `La puerta de un galpón mide ${ancho} m de ancho y ${alto} m de alto. ¿Cuánto mide su diagonal?`,
++    resolver: ({ ancho, alto, diagonal }) => [
++      paso('Cuadrado del ancho', `${n(ancho)}^2`, ancho * ancho, 'm²'),
++      paso('Cuadrado del alto', `${n(alto)}^2`, alto * alto, 'm²'),
++      paso('Suma de los cuadrados', `${n(ancho * ancho)} + ${n(alto * alto)}`, ancho * ancho + alto * alto, 'm²'),
++      paso('Diagonal (raíz cuadrada)', `d = \\sqrt{${n(ancho * ancho + alto * alto)}}`, diagonal, 'm'),
++    ],
++    pistas: ['La diagonal de un rectángulo es la hipotenusa del triángulo que forma con dos lados.', 'Hipotenusa = raíz de (cateto² + cateto²).'],
++  },
++  {
++    id: 'rampa-inclinada',
++    tema: 'pitagoras',
++    anios: [2],
++    titulo: 'Rampa',
++    generar: (r) => {
++      const [a, b, c] = ternaAleatoria(r);
++      return { desnivel: a, piso: b, rampa: c };
++    },
++    enunciado: ({ desnivel, piso }) =>
++      `Una rampa salva un desnivel de ${desnivel} m y se apoya sobre ${piso} m de piso horizontal. ¿Cuántos metros mide el tramo inclinado de la rampa?`,
++    resolver: ({ desnivel, piso, rampa }) => [
++      paso('Cuadrado del desnivel', `${n(desnivel)}^2`, desnivel * desnivel, 'm²'),
++      paso('Cuadrado del piso', `${n(piso)}^2`, piso * piso, 'm²'),
++      paso('Suma de los cuadrados', `${n(desnivel * desnivel)} + ${n(piso * piso)}`, desnivel * desnivel + piso * piso, 'm²'),
++      paso('Largo de la rampa (raíz cuadrada)', `c = \\sqrt{${n(desnivel * desnivel + piso * piso)}}`, rampa, 'm'),
++    ],
++    pistas: ['El desnivel y el piso forman un ángulo recto: la rampa es la hipotenusa.', 'Sumá los cuadrados de los dos catetos y calculá la raíz.'],
++  },
++
++  // ====================== CUERPOS ======================
++  {
++    id: 'caja-zapatillas',
++    tema: 'cuerpos',
++    anios: ANIOS_TODOS,
++    titulo: 'Caja de zapatillas',
++    generar: (r) => ({ largo: r.int(28, 34), ancho: r.int(18, 22), alto: r.int(10, 14) }),
++    enunciado: ({ largo, ancho, alto }) =>
++      `Una caja de zapatillas mide ${largo} cm de largo, ${ancho} cm de ancho y ${alto} cm de alto. ¿Cuál es su volumen?`,
++    resolver: ({ largo, ancho, alto }) => [
++      paso('Volumen del ortoedro', `V = ${n(largo)} \\cdot ${n(ancho)} \\cdot ${n(alto)}`, largo * ancho * alto, 'cm³'),
++    ],
++    pistas: ['La caja es un ortoedro.', 'Volumen = largo · ancho · alto.'],
++  },
++  {
++    id: 'caja-forrar',
++    tema: 'cuerpos',
++    anios: ANIOS_TODOS,
++    titulo: 'Forrar una caja',
++    generar: (r) => ({ largo: r.int(20, 30), ancho: r.int(10, 20), alto: r.int(8, 15) }),
++    enunciado: ({ largo, ancho, alto }) =>
++      `Se quiere forrar con papel de regalo toda la superficie exterior de una caja de ${largo} cm × ${ancho} cm × ${alto} cm, sin superponer papel. ¿Cuántos cm² de papel se necesitan?`,
++    resolver: ({ largo, ancho, alto }) => {
++      const a = largo * ancho;
++      const b = largo * alto;
++      const c = ancho * alto;
++      return [
++        paso(`Cara de ${n(largo)} × ${n(ancho)}`, `${n(largo)} \\cdot ${n(ancho)}`, a, 'cm²'),
++        paso(`Cara de ${n(largo)} × ${n(alto)}`, `${n(largo)} \\cdot ${n(alto)}`, b, 'cm²'),
++        paso(`Cara de ${n(ancho)} × ${n(alto)}`, `${n(ancho)} \\cdot ${n(alto)}`, c, 'cm²'),
++        paso('Área total (hay dos caras de cada tipo)', `A_T = 2 \\cdot (${n(a)} + ${n(b)} + ${n(c)})`, 2 * (a + b + c), 'cm²'),
++      ];
++    },
++    pistas: ['Una caja tiene 6 caras, iguales de a pares.', 'Calculá el área de las tres caras distintas, sumalas y multiplicá por 2.'],
++  },
++  {
++    id: 'pileta-litros',
++    tema: 'cuerpos',
++    anios: ANIOS_TODOS,
++    titulo: 'Litros de la pileta',
++    generar: (r) => ({ largo: r.int(4, 8), ancho: r.int(2, 4), prof: r.pick([1, 1.2, 1.5]) }),
++    enunciado: ({ largo, ancho, prof }) =>
++      `Una pileta rectangular mide ${largo} m de largo, ${ancho} m de ancho y ${fmt(prof)} m de profundidad. Si se llena hasta el borde, ¿cuántos litros de agua entran?`,
++    resolver: ({ largo, ancho, prof }) => {
++      const v = largo * ancho * prof;
++      return [
++        paso('Volumen de la pileta', `V = ${n(largo)} \\cdot ${n(ancho)} \\cdot ${n(prof)}`, v, 'm³'),
++        paso('Pasamos a litros (1 m³ = 1000 litros)', `${n(r6(v))} \\cdot 1000`, v * 1000, 'L'),
++      ];
++    },
++    pistas: ['Primero calculá el volumen en m³.', '1 m³ = 1000 dm³ = 1000 litros.'],
++    distractores: ['m³', 'm²', 'cm²'],
++  },
++  {
++    id: 'tanque-cilindrico',
++    tema: 'cuerpos',
++    anios: ANIOS_TODOS,
++    titulo: 'Tanque cilíndrico',
++    usaPi: true,
++    generar: (r) => ({ radio: r.int(4, 8), altura: r.int(8, 15) }),
++    enunciado: ({ radio, altura }) =>
++      `Un tanque de agua con forma de cilindro tiene ${radio} dm de radio y ${altura} dm de altura. ¿Cuántos litros de agua entran si está lleno?`,
++    resolver: ({ radio, altura }, ctx) => {
++      const base = ctx.pi * radio * radio;
++      return [
++        paso('Área de la base', `A_{base} = ${piTex(ctx)} \\cdot ${n(radio)}^2`, base, 'dm²'),
++        paso('Volumen del cilindro', `V = ${n(r6(base))} \\cdot ${n(altura)}`, base * altura, 'dm³'),
++        paso('Pasamos a litros (1 dm³ = 1 litro)', `${n(r6(base * altura))}\\ \\text{dm}^3 = ${n(r6(base * altura))}\\ \\text{L}`, base * altura, 'L'),
++      ];
++    },
++    pistas: ['Volumen del cilindro = área de la base · altura.', 'Con las medidas en dm, el volumen sale en dm³, y 1 dm³ es 1 litro.'],
++    distractores: ['dm²', 'm³', 'cm'],
++  },
++  {
++    id: 'carpa-piramide',
++    tema: 'cuerpos',
++    anios: ANIOS_TODOS,
++    titulo: 'Carpa en pirámide',
++    generar: (r) => ({ lado: r.int(3, 6), altura: r.pick([3, 6, 9]) }),
++    enunciado: ({ lado, altura }) =>
++      `Una carpa tiene forma de pirámide de base cuadrada de ${lado} m de lado y ${altura} m de altura. ¿Cuántos m³ de aire contiene?`,
++    resolver: ({ lado, altura }) => [
++      paso('Área de la base', `A_{base} = ${n(lado)}^2`, lado * lado, 'm²'),
++      paso('Volumen de la pirámide', `V = \\dfrac{${n(lado * lado)} \\cdot ${n(altura)}}{3}`, (lado * lado * altura) / 3, 'm³'),
++    ],
++    pistas: ['El volumen de una pirámide es la tercera parte del de un prisma con la misma base y altura.', 'V = área de la base · altura : 3.'],
++  },
++  {
++    id: 'cucurucho-cono',
++    tema: 'cuerpos',
++    anios: ANIOS_TODOS,
++    titulo: 'Cucurucho de helado',
++    usaPi: true,
++    generar: (r) => ({ radio: r.int(2, 5), altura: r.int(6, 12) }),
++    enunciado: ({ radio, altura }) =>
++      `Un cucurucho tiene forma de cono: ${radio} cm de radio en la boca y ${altura} cm de altura. ¿Cuántos cm³ de helado entran si se lo llena hasta el borde?`,
++    resolver: ({ radio, altura }, ctx) => [
++      paso('Volumen del cono', `V = \\dfrac{${piTex(ctx)} \\cdot ${n(radio)}^2 \\cdot ${n(altura)}}{3}`, (ctx.pi * radio * radio * altura) / 3, 'cm³'),
++    ],
++    pistas: ['El cono ocupa la tercera parte del cilindro de igual base y altura.', 'V = π · radio² · altura : 3.'],
++  },
++
++  // ====================== EULER ======================
++  {
++    id: 'euler-aristas',
++    tema: 'euler',
++    anios: [2],
++    titulo: 'Aristas con Euler',
++    generar: (r) => {
++      const p = r.pick(POLIEDROS);
++      return { C: p.C, V: p.V, A: p.A };
++    },
++    enunciado: ({ C, V }) => `Un poliedro tiene ${C} caras y ${V} vértices. Usando la fórmula de Euler, ¿cuántas aristas tiene?`,
++    resolver: ({ C, V, A }) => [
++      paso('Despejamos las aristas de C + V = A + 2', `A = ${n(C)} + ${n(V)} - 2`, A, 'aristas'),
++    ],
++    pistas: ['La fórmula de Euler es C + V = A + 2.', 'Despejá A: A = C + V − 2.'],
++    distractores: ['caras', 'vértices', 'm²'],
++  },
++  {
++    id: 'euler-caras',
++    tema: 'euler',
++    anios: [2],
++    titulo: 'Caras con Euler',
++    generar: (r) => {
++      const p = r.pick(POLIEDROS);
++      return { C: p.C, V: p.V, A: p.A };
++    },
++    enunciado: ({ V, A }) => `Un poliedro tiene ${A} aristas y ${V} vértices. ¿Cuántas caras tiene?`,
++    resolver: ({ C, V, A }) => [paso('Despejamos las caras de C + V = A + 2', `C = ${n(A)} + 2 - ${n(V)}`, C, 'caras')],
++    pistas: ['La fórmula de Euler es C + V = A + 2.', 'Despejá C: C = A + 2 − V.'],
++    distractores: ['aristas', 'vértices', 'm²'],
++  },
++  {
++    id: 'euler-vertices',
++    tema: 'euler',
++    anios: [2],
++    titulo: 'Vértices con Euler',
++    generar: (r) => {
++      const p = r.pick(POLIEDROS);
++      return { C: p.C, V: p.V, A: p.A };
++    },
++    enunciado: ({ C, A }) => `Un poliedro tiene ${C} caras y ${A} aristas. ¿Cuántos vértices tiene?`,
++    resolver: ({ C, V, A }) => [paso('Despejamos los vértices de C + V = A + 2', `V = ${n(A)} + 2 - ${n(C)}`, V, 'vértices')],
++    pistas: ['La fórmula de Euler es C + V = A + 2.', 'Despejá V: V = A + 2 − C.'],
++    distractores: ['aristas', 'caras', 'm²'],
++  },
++  {
++    id: 'euler-prisma',
++    tema: 'euler',
++    anios: [2],
++    titulo: 'Prisma de n lados',
++    generar: (r) => ({ lados: r.int(3, 9) }),
++    enunciado: ({ lados }) =>
++      `Un prisma tiene por base un polígono de ${lados} lados. Tiene ${lados + 2} caras y ${2 * lados} vértices. ¿Cuántas aristas tiene?`,
++    resolver: ({ lados }) => [
++      paso('Aristas con la fórmula de Euler', `A = C + V - 2 = ${n(lados + 2)} + ${n(2 * lados)} - 2`, 3 * lados, 'aristas'),
++    ],
++    pistas: ['Usá C + V = A + 2 con los datos del enunciado.', 'A = C + V − 2.'],
++    distractores: ['caras', 'vértices', 'm²'],
++  },
++
++  // ====================== UNIDADES ======================
++  {
++    id: 'tanque-m3-litros',
++    tema: 'unidades',
++    anios: ANIOS_TODOS,
++    titulo: 'Del m³ a los litros',
++    generar: (r) => ({ m3: r.pick([1.2, 1.5, 2, 2.5, 3]) }),
++    enunciado: ({ m3 }) => `Un tanque de agua tiene una capacidad de ${fmt(m3)} m³. ¿Cuántos litros son?`,
++    resolver: ({ m3 }) => [paso('1 m³ = 1000 litros', `${n(m3)} \\cdot 1000`, m3 * 1000, 'L')],
++    pistas: ['1 m³ = 1000 dm³ y 1 dm³ = 1 litro.', 'Multiplicá por 1000.'],
++    distractores: ['m³', 'm²', 'cm²'],
++  },
++  {
++    id: 'piso-m2-cm2',
++    tema: 'unidades',
++    anios: ANIOS_TODOS,
++    titulo: 'Del m² al cm²',
++    generar: (r) => ({ m2: r.pick([0.5, 1.5, 2, 2.5, 3.5]) }),
++    enunciado: ({ m2 }) => `Un piso de cerámica cubre ${fmt(m2)} m². ¿Cuántos cm² son?`,
++    resolver: ({ m2 }) => [paso('1 m² = 10 000 cm²', `${n(m2)} \\cdot 10000`, m2 * 10000, 'cm²')],
++    pistas: ['1 m = 100 cm, entonces 1 m² = 100 · 100 cm².', 'Multiplicá por 10 000.'],
++  },
++  {
++    id: 'botella-cm3-litros',
++    tema: 'unidades',
++    anios: ANIOS_TODOS,
++    titulo: 'De cm³ a litros',
++    generar: (r) => ({ cm3: r.pick([500, 750, 1500, 2500, 3000]) }),
++    enunciado: ({ cm3 }) => `Una botella tiene un volumen de ${fmt(cm3)} cm³. ¿Cuántos litros de líquido contiene?`,
++    resolver: ({ cm3 }) => [paso('1000 cm³ = 1 litro', `${n(cm3)} : 1000`, cm3 / 1000, 'L')],
++    pistas: ['1 litro es lo mismo que 1000 cm³.', 'Dividí por 1000.'],
++    distractores: ['cm³', 'm³', 'dm²'],
++  },
++  {
++    id: 'cartel-cm2-m2',
++    tema: 'unidades',
++    anios: ANIOS_TODOS,
++    titulo: 'Superficie del cartel',
++    generar: (r) => {
++      const [base, altura] = r.pick([
++        [150, 80],
++        [200, 50],
++        [120, 50],
++        [250, 80],
++      ]);
++      return { base, altura };
++    },
++    enunciado: ({ base, altura }) => `Un cartel rectangular mide ${base} cm por ${altura} cm. ¿Cuántos m² de superficie tiene?`,
++    resolver: ({ base, altura }) => {
++      const cm2 = base * altura;
++      return [
++        paso('Área en cm²', `A = ${n(base)} \\cdot ${n(altura)}`, cm2, 'cm²'),
++        paso('Pasamos a m² (1 m² = 10 000 cm²)', `${n(cm2)} : 10000`, cm2 / 10000, 'm²'),
++      ];
++    },
++    pistas: ['Calculá el área en cm² y después cambiá de unidad.', 'Para pasar de cm² a m² se divide por 10 000.'],
++  },
++];
++
++// ---------- Consulta ----------
++export const plantillasDe = (tema, anio = 0) => PROBLEMAS.filter((p) => p.tema === tema && (!anio || p.anios.includes(anio)));
++
++export const temasDisponibles = (anio = 0) => TEMAS_PROBLEMAS.filter((t) => plantillasDe(t.id, anio).length > 0);
++
++// Elige una plantilla del tema según la semilla (sin repetir la anterior si hay otra)
++export function elegirPlantilla(tema, anio, semilla, excluirId = null) {
++  const todas = plantillasDe(tema, anio);
++  const candidatas = todas.length > 1 ? todas.filter((p) => p.id !== excluirId) : todas;
++  return crearAleatorio((semilla + 7919) >>> 0).pick(candidatas);
++}
++
++// ---------- Armado ----------
++const ESCALAS = /^(mm|cm|dm|m)(²|³)?$/;
++
++// Cuatro unidades para elegir: la correcta y tres equivocadas (de otra dimensión o de otra escala)
++export function opcionesDeUnidad(unidad, distractores, r) {
++  let opciones;
++  const m = ESCALAS.exec(unidad);
++  if (m && !distractores) {
++    const [, base, exp] = m;
++    const otra = base === 'm' ? 'cm' : 'm';
++    opciones = [base, `${base}²`, `${base}³`, `${otra}${exp || ''}`];
++    if (!opciones.includes(unidad)) opciones[0] = unidad;
++  } else {
++    opciones = [unidad, ...(distractores || [])];
++  }
++  return r.shuffle([...new Set(opciones)].slice(0, 4));
++}
++
++export function crearProblema(plantilla, semilla, ctx = { pi: 3.14, piEscolar: true }) {
++  const r = crearAleatorio(semilla);
++  const datos = plantilla.generar(r);
++  const pasos = plantilla.resolver(datos, ctx);
++  const ultimo = pasos[pasos.length - 1];
++  const notaPi = plantilla.usaPi
++    ? ctx.piEscolar
++      ? ' Usá π = 3,14.'
++      : ' Usá la tecla π de la calculadora.'
++    : '';
++  return {
++    plantilla: plantilla.id,
++    tema: plantilla.tema,
++    titulo: plantilla.titulo,
++    semilla,
++    datos,
++    enunciado: plantilla.enunciado(datos) + notaPi,
++    pasos,
++    respuesta: { valor: ultimo.valor, unidad: ultimo.unidad },
++    opciones: opcionesDeUnidad(ultimo.unidad, plantilla.distractores, r),
++    pistas: plantilla.pistas,
++    // Con π o con decimales se acepta un 1 % de margen (3,14 contra la tecla π); un entero tiene que ser exacto
++    tolerancia: plantilla.usaPi || !Number.isInteger(ultimo.valor) ? 0.01 : 0,
++  };
++}
++
++// ---------- Corrección ----------
++// estado: 'ok' | 'unidad' (número bien, unidad mal) | 'numero' (unidad bien, número mal)
++//         | 'mal' | 'sin-unidad' | 'invalido'
++export function corregir(problema, texto, unidad) {
++  const valor = parseNum(texto);
++  if (Number.isNaN(valor)) {
++    return { estado: 'invalido', mensaje: 'Escribí un número (podés usar coma para los decimales).' };
++  }
++  if (!unidad) {
++    return { estado: 'sin-unidad', mensaje: 'Elegí la unidad de tu respuesta.' };
++  }
++  const numeroOk = casiIgual(valor, problema.respuesta.valor, problema.tolerancia);
++  const unidadOk = unidad === problema.respuesta.unidad;
++  if (numeroOk && unidadOk) return { estado: 'ok', mensaje: '¡Correcto! ✅' };
++  if (numeroOk) return { estado: 'unidad', mensaje: 'El número está bien, pero revisá la unidad.' };
++  if (unidadOk) return { estado: 'numero', mensaje: 'La unidad está bien, pero el número no coincide. Revisá el cálculo.' };
++  return { estado: 'mal', mensaje: 'Todavía no. Probá con una pista.' };
++}
+diff --git a/src/modules/Problemas/Problemas.jsx b/src/modules/Problemas/Problemas.jsx
+new file mode 100644
+index 0000000..2acbfad
+--- /dev/null
++++ b/src/modules/Problemas/Problemas.jsx
+@@ -0,0 +1,270 @@
++import { useState } from 'react';
++import ModuloLayout from '../../components/ModuloLayout.jsx';
++import Formula from '../../components/Formula.jsx';
++import { useApp } from '../../context/AppContext.jsx';
++import { fmt } from '../../utils/format.js';
++import { nuevaSemilla } from '../../utils/rand.js';
++import {
++  TEMAS_PROBLEMAS,
++  PROBLEMAS,
++  temasDisponibles,
++  elegirPlantilla,
++  crearProblema,
++  corregir,
++} from '../../data/problemas.js';
++
++const META = 3; // problemas bien resueltos para marcar el módulo como completado
++
++const colorBoton = (activo) =>
++  activo ? 'border-teal-600 bg-teal-600 text-white' : 'border-slate-200 bg-white text-slate-700 active:bg-slate-100';
++
++const estiloMensaje = {
++  ok: 'border-green-500 bg-green-50 text-green-800',
++  unidad: 'border-amber-400 bg-amber-50 text-amber-900',
++  numero: 'border-amber-400 bg-amber-50 text-amber-900',
++  mal: 'border-red-400 bg-red-50 text-red-800',
++  invalido: 'border-red-400 bg-red-50 text-red-800',
++  'sin-unidad': 'border-amber-400 bg-amber-50 text-amber-900',
++};
++
++export default function Problemas({ onVolver }) {
++  const { marcarCompletado, anio, pi, piEscolar } = useApp();
++  const ctx = { pi, piEscolar };
++
++  const [filtroAnio, setFiltroAnio] = useState(anio || 0);
++  const [tema, setTema] = useState(() => (temasDisponibles(anio || 0)[0] || TEMAS_PROBLEMAS[0]).id);
++  const [problema, setProblema] = useState(() => {
++    const t = (temasDisponibles(anio || 0)[0] || TEMAS_PROBLEMAS[0]).id;
++    const semilla = nuevaSemilla();
++    return crearProblema(elegirPlantilla(t, anio || 0, semilla), semilla, ctx);
++  });
++
++  const [texto, setTexto] = useState('');
++  const [unidad, setUnidad] = useState(null);
++  const [mensaje, setMensaje] = useState(null);
++  const [resuelto, setResuelto] = useState(false);
++  const [pistasVistas, setPistasVistas] = useState(0);
++  const [verPasos, setVerPasos] = useState(false);
++  const [correctos, setCorrectos] = useState(0);
++
++  const cargar = (nuevo) => {
++    setProblema(nuevo);
++    setTexto('');
++    setUnidad(null);
++    setMensaje(null);
++    setResuelto(false);
++    setPistasVistas(0);
++    setVerPasos(false);
++  };
++
++  // Problema de otra plantilla del tema (o del tema que se acaba de elegir)
++  const otroDistinto = (temaId = tema, anioId = filtroAnio) => {
++    const semilla = nuevaSemilla();
++    const plantilla = elegirPlantilla(temaId, anioId, semilla, temaId === tema ? problema.plantilla : null);
++    cargar(crearProblema(plantilla, semilla, ctx));
++  };
++
++  // Misma plantilla con otros números
++  const otroParecido = () => {
++    const plantilla = PROBLEMAS.find((p) => p.id === problema.plantilla);
++    cargar(crearProblema(plantilla, nuevaSemilla(), ctx));
++  };
++
++  const elegirTema = (id) => {
++    setTema(id);
++    otroDistinto(id, filtroAnio);
++  };
++
++  const elegirAnio = (valor) => {
++    setFiltroAnio(valor);
++    const disponibles = temasDisponibles(valor);
++    const nuevoTema = disponibles.some((t) => t.id === tema) ? tema : disponibles[0].id;
++    setTema(nuevoTema);
++    otroDistinto(nuevoTema, valor);
++  };
++
++  const comprobar = () => {
++    if (resuelto) return;
++    const res = corregir(problema, texto, unidad);
++    setMensaje(res);
++    if (res.estado === 'ok') {
++      setResuelto(true);
++      const total = correctos + 1;
++      setCorrectos(total);
++      if (total >= META) marcarCompletado('problemas');
++    }
++  };
++
++  const pistas = problema.pistas;
++
++  return (
++    <ModuloLayout titulo="Problemas" icono="🧩" onVolver={onVolver}>
++      <div className="space-y-3">
++        <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Año">
++          {[
++            [0, 'Todos'],
++            [1, '1.º año'],
++            [2, '2.º año'],
++          ].map(([valor, t]) => (
++            <button
++              key={valor}
++              type="button"
++              onClick={() => elegirAnio(valor)}
++              aria-pressed={filtroAnio === valor}
++              className={`min-h-11 rounded-xl border-2 px-3 text-sm font-semibold transition ${colorBoton(filtroAnio === valor)}`}
++            >
++              {t}
++            </button>
++          ))}
++        </div>
++
++        <div className="flex flex-wrap gap-2" role="group" aria-label="Tema">
++          {temasDisponibles(filtroAnio).map((t) => (
++            <button
++              key={t.id}
++              type="button"
++              onClick={() => elegirTema(t.id)}
++              aria-pressed={tema === t.id}
++              className={`min-h-11 rounded-xl border-2 px-3 text-sm font-semibold transition ${colorBoton(tema === t.id)}`}
++            >
++              <span aria-hidden="true">{t.icono} </span>
++              {t.titulo}
++            </button>
++          ))}
++        </div>
++
++        <p className="text-sm text-slate-600" aria-live="polite">
++          Resueltos: <strong>{correctos}</strong> (con {META} se completa el módulo)
++        </p>
++      </div>
++
++      <article
++        className="mt-4 space-y-4 rounded-2xl border border-slate-200 bg-white p-4"
++        aria-labelledby="enunciado-problema"
++        data-plantilla={problema.plantilla}
++      >
++        <p className="text-sm font-semibold text-slate-500">
++          {problema.titulo} · <span>Problema #{problema.semilla}</span>
++        </p>
++        <p id="enunciado-problema" className="text-lg leading-relaxed">
++          {problema.enunciado}
++        </p>
++
++        <div>
++          <label htmlFor="respuesta-problema" className="mb-1 block font-semibold">
++            Tu respuesta
++          </label>
++          <input
++            id="respuesta-problema"
++            type="text"
++            inputMode="decimal"
++            autoComplete="off"
++            value={texto}
++            disabled={resuelto}
++            onChange={(e) => setTexto(e.target.value)}
++            onKeyDown={(e) => e.key === 'Enter' && comprobar()}
++            className="h-12 w-full rounded-xl border-2 border-slate-300 bg-white px-3 text-lg outline-none focus:border-teal-500 disabled:bg-slate-100"
++          />
++        </div>
++
++        <div>
++          <p className="mb-1 font-semibold">Unidad de tu respuesta</p>
++          <div className="flex flex-wrap gap-2" role="group" aria-label="Unidad de tu respuesta">
++            {problema.opciones.map((u) => (
++              <button
++                key={u}
++                type="button"
++                disabled={resuelto}
++                onClick={() => setUnidad(u)}
++                aria-pressed={unidad === u}
++                className={`min-h-11 min-w-11 rounded-xl border-2 px-3 font-semibold transition disabled:opacity-60 ${colorBoton(unidad === u)}`}
++              >
++                {u}
++              </button>
++            ))}
++          </div>
++        </div>
++
++        <button
++          type="button"
++          onClick={comprobar}
++          disabled={resuelto}
++          className="h-12 w-full rounded-xl bg-teal-600 text-lg font-semibold text-white active:bg-teal-700 disabled:opacity-40"
++        >
++          Comprobar
++        </button>
++
++        <div role="status" aria-live="polite">
++          {mensaje && (
++            <p className={`rounded-xl border-2 p-3 font-semibold ${estiloMensaje[mensaje.estado]}`} data-estado={mensaje.estado}>
++              {mensaje.mensaje}
++            </p>
++          )}
++        </div>
++
++        {pistasVistas > 0 && (
++          <ol className="list-decimal space-y-1 pl-6 text-slate-700">
++            {pistas.slice(0, pistasVistas).map((p) => (
++              <li key={p}>💡 {p}</li>
++            ))}
++          </ol>
++        )}
++
++        <div className="flex flex-wrap gap-2">
++          <button
++            type="button"
++            onClick={() => setPistasVistas((v) => Math.min(v + 1, pistas.length))}
++            disabled={pistasVistas >= pistas.length}
++            className="min-h-11 rounded-xl border-2 border-teal-600 px-3 font-semibold text-teal-700 active:bg-teal-50 disabled:opacity-40"
++          >
++            💡 Ver una pista ({pistasVistas}/{pistas.length})
++          </button>
++          <button
++            type="button"
++            onClick={() => setVerPasos((v) => !v)}
++            aria-expanded={verPasos}
++            className="min-h-11 rounded-xl border-2 border-teal-600 px-3 font-semibold text-teal-700 active:bg-teal-50"
++          >
++            📋 {verPasos ? 'Ocultar la resolución' : 'Ver la resolución paso a paso'}
++          </button>
++        </div>
++
++        {verPasos && (
++          <ol className="space-y-3" aria-label="Resolución paso a paso">
++            {problema.pasos.map((p, i) => (
++              <li key={i} className="rounded-xl bg-slate-50 p-3">
++                <div className="font-semibold text-slate-700">
++                  {i + 1}. {p.texto}
++                </div>
++                <Formula block tex={p.tex} />
++                <div>
++                  Resultado:{' '}
++                  <strong className="text-teal-700">
++                    {fmt(p.valor, 4)} {p.unidad}
++                  </strong>
++                </div>
++              </li>
++            ))}
++          </ol>
++        )}
++      </article>
++
++      <div className="mt-4 grid grid-cols-2 gap-2">
++        <button
++          type="button"
++          onClick={otroParecido}
++          className="h-12 rounded-xl border-2 border-teal-600 font-semibold text-teal-700 active:bg-teal-50"
++        >
++          🔁 Otro parecido
++        </button>
++        <button
++          type="button"
++          onClick={() => otroDistinto()}
++          className="h-12 rounded-xl bg-teal-600 font-semibold text-white active:bg-teal-700"
++        >
++          ➡️ Otro distinto
++        </button>
++      </div>
++    </ModuloLayout>
++  );
++}
+diff --git a/src/modules/index.js b/src/modules/index.js
+index 5378bd6..d2fa702 100644
+--- a/src/modules/index.js
++++ b/src/modules/index.js
+@@ -17,4 +17,5 @@ export const COMPONENTES = {
+   euler: lazy(() => import('./Euler/Euler.jsx')),
+   'areas-volumenes': lazy(() => import('./AreasVolumenes/AreasVolumenes.jsx')),
+   formulario: lazy(() => import('./Formulario/Formulario.jsx')),
++  problemas: lazy(() => import('./Problemas/Problemas.jsx')),
+ };
