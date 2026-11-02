@@ -18,4 +18,5 @@ export const COMPONENTES = {
   'areas-volumenes': lazy(() => import('./AreasVolumenes/AreasVolumenes.jsx')),
   formulario: lazy(() => import('./Formulario/Formulario.jsx')),
   problemas: lazy(() => import('./Problemas/Problemas.jsx')),
+  evaluacion: lazy(() => import('./Evaluacion/Evaluacion.jsx')),
 };

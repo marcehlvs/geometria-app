@@ -48,7 +48,8 @@ button:disabled { cursor: not-allowed; }
   .no-imprimir {
     display: none !important;
   }
-  .tarjeta {
+  .tarjeta,
+  .ejercicio {
     break-inside: avoid;
   }
   body,

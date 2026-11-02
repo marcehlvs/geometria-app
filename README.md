@@ -10,13 +10,13 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 
 ## 📍 Estado actual (01/11/2026)
 
-**Avance: 14 de 17 pasos hechos (del 1 al 14).**
+**Avance: 15 de 17 pasos hechos (del 1 al 15). Faltan solo la revisión y la publicación.**
 
 **Verificación del estado actual del repo**
 - `npm run test:utils`: 22 pruebas OK.
-- `npm test`: 153 pruebas OK (componentes 16, Pasos 4 a 8: 19, Paso 9: 25, Paso 10: 9, Paso 11: 4, Paso 12: 15, Paso 13: 21, Paso 14: 44).
+- `npm test`: 176 pruebas OK (componentes y menú 17, Pasos 4 a 8: 19, Paso 9: 25, Paso 10: 9, Paso 11: 4, Paso 12: 15, Paso 13: 21, Paso 14: 44, Paso 15: 22).
 - `npm run build`: compila sin errores.
-- Los módulos de los Pasos 4 a 14 están registrados en `src/modules/index.js`, se abren desde el menú y entran en el build.
+- Los módulos de los Pasos 4 a 15 están registrados en `src/modules/index.js`, se abren desde el menú y entran en el build.
 
 ### ✅ Resuelto
 
@@ -36,6 +36,7 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 | 12 | Áreas y volúmenes | Ver más abajo |
 | 13 | Formulario | Ver más abajo |
 | 14 | Problemas | Ver más abajo |
+| 15 | Modo evaluación | Ver más abajo |
 
 ### ✅ Paso 9 · Desarrollo plano interactivo
 - `data/nets.js`: 8 desarrollos (cubo, ortoedro, prismas triangular, pentagonal y hexagonal, pirámides triangular, cuadrada y pentagonal) modelados como árbol de caras unidas por bisagras. Nuevas funciones: `medidasDeCara` (un lado por cada longitud distinta de la cara) y `carasRepresentativas` (una cara por grupo de caras iguales).
@@ -78,18 +79,27 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 - `modules/Problemas/Problemas.jsx`: filtro por año y por tema, enunciado, respuesta + unidad, **pistas progresivas** (de a una), **«Ver la resolución paso a paso»**, **«Otro parecido»** (misma plantilla, otra semilla) y **«Otro distinto»** (otra plantilla del tema). Con 3 problemas bien resueltos queda marcado con ✓ en el menú.
 - Pruebas (`paso14.test.jsx`, 44): cada plantilla con 40 semillas y los dos valores de π (números positivos, unidades, KaTeX, 4 opciones sin repetir), reproducibilidad por semilla, resultados conocidos (por ejemplo `C + V = A + 2` en Euler), tolerancia, y el módulo completo (corrección, pistas, resolución, otros problemas, filtros y progreso).
 
+### ✅ Paso 15 · Modo evaluación
+- `data/evaluacion.js`: arma una **evaluación de 12 puntos con dos ejercicios completos**, uno de figuras planas y uno de cuerpos, **sin pistas y con puntaje por paso** (cada ejercicio vale 6 puntos repartidos en 3 o 4 pasos). Hay 7 ejercicios: figuras planas (terreno con pileta, cartel en forma de casita con Pitágoras y patio con rincón) y cuerpos (caja, cubo, pirámide y cilindro, cada uno **con su desarrollo plano**). Los de 1.º año no usan Pitágoras, así que en ese año salen solo 5 de los 7.
+- Todo sale de un **número de evaluación** («Evaluación N.º 4821»): el mismo número da siempre la misma evaluación, con la misma hoja del alumno, la misma corrección y la misma clave. Con otro número cambian los ejercicios y los datos.
+- **Corrección por paso:** número y unidad bien = puntaje completo; número bien con la unidad faltante o equivocada = se descuentan **0,5 puntos** en ese paso; número mal o vacío = 0. Los enteros tienen que ser exactos; con decimales o con π se acepta un 1 % de margen, así que vale tanto 3,14 como la tecla π. Cada paso se corrige con los datos del enunciado (no arrastra el error de un paso anterior).
+- `modules/Evaluacion/Evaluacion.jsx` con **tres solapas**: «Resolver en pantalla» (campo de respuesta y unidad por paso, «Corregir evaluación», puntaje total, respuestas correctas de lo que falló y «Volver a intentarlo»), «Versión para imprimir» (encabezado con nombre, curso, fecha y el número de evaluación, espacio para cálculos y para la respuesta) y «Clave del docente» (respuesta con unidad, cálculo y nota de cada paso). Las dos últimas tienen su botón **Imprimir** (`window.print()` con los estilos de impresión del Formulario; el desarrollo plano se imprime plano y con medidas).
+- Se completa (✓ en el menú) al corregir una evaluación con el 60 % del puntaje o más.
+- `index.css`: la clase `ejercicio` evita que un ejercicio se corte entre dos hojas al imprimir.
+- Pruebas (`paso15.test.jsx`, 22): estructura de la evaluación para cada año y 60 números distintos, que todos los pasos sean válidos con los dos valores de π, que el área total coincida con la calculada **con las caras del desarrollo plano**, el puntaje (todo bien, sin unidades, en blanco), y el módulo completo (pantalla, impresión, clave, número de evaluación y medidas en el dibujo).
+- El menú ya no tiene módulos «Próximamente»; la prueba de ese comportamiento se hace quitando un componente a propósito.
+
 ### ☐ Pendiente
 
 | Paso | Qué falta |
 |---|---|
-| 15 | Modo evaluación con puntaje, impresión y clave del docente |
 | Extras | Ninguno empezado (vistas de un cuerpo, simetrías, regla y compás, memotest, etc.) |
 | 16 | Revisión: borrar el módulo `Demo` (sigue en el repo), revisar fórmulas con π = 3,14 y exacto, probar en celular de 360 px y sin `localStorage` |
 | 17 | Publicación: descomentar `base: '/geometria-app/'` en `vite.config.js` si va a GitHub Pages, o conectar Vercel |
 
-Mientras no esté hecho, el módulo del Paso 15 aparece en el menú como **«Próximamente»**.
+Todos los módulos del menú están hechos.
 
-**Próximo paso sugerido:** Paso 15 (Modo evaluación). Se puede reutilizar `data/problemas.js` (`elegirPlantilla`, `crearProblema` y `corregir`): con una semilla distinta por alumno cada uno recibe números distintos y la clave del docente se calcula con la misma semilla.
+**Próximo paso sugerido:** Paso 16 (Revisión). Antes de publicar conviene mirar con el celular, en particular **la impresión del Modo evaluación y del Formulario** (la vista previa de impresión del navegador), porque esas pantallas se probaron con pruebas automáticas pero no en papel.
 
 ---
 
@@ -187,7 +197,7 @@ geometria-app/
    │  ├─ AreasVolumenes/     # (Paso 12)
    │  ├─ Formulario/         # (Paso 13)
    │  ├─ Problemas/          # (Paso 14)
-   │  └─ Evaluacion/
+   │  └─ Evaluacion/         # (Paso 15)
    ├─ data/
    │  ├─ modulos.js          # catálogo del menú (título, año, grupo)
    │  ├─ figuras.js          # fórmulas y propiedades de figuras planas
@@ -196,7 +206,8 @@ geometria-app/
    │  ├─ cuboNets.js         # los 35 hexaminós y cuáles arman un cubo (Paso 10)
    │  ├─ areasVolumenes.js   # desglose de áreas y volúmenes, unidades y capacidad (Paso 12)
    │  ├─ formulario.js       # tarjetas, buscador y mini calculadoras (Paso 13)
-   │  └─ problemas.js        # plantillas de problemas (Paso 14)
+   │  ├─ problemas.js        # plantillas de problemas (Paso 14)
+   │  └─ evaluacion.js       # evaluación de dos ejercicios, puntaje y clave (Paso 15)
    └─ utils/
       ├─ geometry.js         # áreas, perímetros, volúmenes, Pitágoras, unidades
       ├─ solidos3d.js        # geometría de los cuerpos para CSS 3D (Paso 8)
@@ -408,7 +419,9 @@ export const cubo = {
 
 **Por qué:** con valores aleatorios cada chico tiene números distintos (menos copia), y la resolución paso a paso enseña el método, no solo el resultado.
 
-#### ☐ Paso 15 · Modo evaluación
+#### ✅ Paso 15 · Modo evaluación
+> **Estado:** hecho (ver «Estado actual»).
+
 **Qué hacer**
 - Solapa que arma **dos ejercicios completos**: uno de figuras planas y uno de cuerpos (con desarrollo plano y volumen), sin pistas, con puntaje por paso.
 - Botón de imprimir para la versión en papel (`window.print()` con estilos de impresión) y una versión con clave de respuestas para el docente.
@@ -469,7 +482,7 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 12 · Áreas y volúmenes
 - [x] Paso 13 · Formulario
 - [x] Paso 14 · Problemas
-- [ ] Paso 15 · Modo evaluación
+- [x] Paso 15 · Modo evaluación
 - [ ] Extras
 - [ ] Paso 16 · Revisión
 - [ ] Paso 17 · Publicación

@@ -10,6 +10,7 @@ import Slider from '../components/Slider.jsx';
 import StepNav from '../components/StepNav.jsx';
 import ProgressBar from '../components/ProgressBar.jsx';
 import App from '../App.jsx';
+import { COMPONENTES } from '../modules/index.js';
 
 beforeEach(() => {
   window.scrollTo = vi.fn(); // jsdom no implementa scrollTo
@@ -159,10 +160,22 @@ describe('App (menú y navegación)', () => {
     expect(screen.getByRole('button', { name: /Áreas y volúmenes/ })).toBeEnabled();
     expect(screen.getByRole('button', { name: /Formulario/ })).toBeEnabled();
     expect(screen.getByRole('button', { name: /Problemas/ })).toBeEnabled();
-    // «Modo evaluación» (Paso 15) todavía no existe: aparece como próximo
-    const evaluacion = screen.getByRole('button', { name: /Modo evaluación/ });
-    expect(evaluacion).toBeDisabled();
-    expect(within(evaluacion).getByText('Próximamente')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Modo evaluación/ })).toBeEnabled();
+    // con los 15 pasos hechos ya no queda ningún módulo «Próximamente»
+    expect(screen.queryByText('Próximamente')).not.toBeInTheDocument();
+  });
+
+  it('un módulo sin componente aparece deshabilitado como «Próximamente»', () => {
+    const guardado = COMPONENTES.evaluacion;
+    delete COMPONENTES.evaluacion;
+    try {
+      render(<App />);
+      const evaluacion = screen.getByRole('button', { name: /Modo evaluación/ });
+      expect(evaluacion).toBeDisabled();
+      expect(within(evaluacion).getByText('Próximamente')).toBeInTheDocument();
+    } finally {
+      COMPONENTES.evaluacion = guardado;
+    }
   });
 
   it('el filtro por año oculta lo que no corresponde', async () => {

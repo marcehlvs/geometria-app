@@ -39,6 +39,9 @@ const ternaAleatoria = (r) => {
   return r.pick(PITAGORAS.ternas).map((x) => x * k);
 };
 
+// Helpers que también usa el modo evaluación (data/evaluacion.js)
+export { n as texNumero, r6, piTex };
+
 const ANIOS_TODOS = [1, 2];
 
 export const PROBLEMAS = [
