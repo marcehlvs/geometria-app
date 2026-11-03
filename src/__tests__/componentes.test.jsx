@@ -154,7 +154,7 @@ describe('App (menú y navegación)', () => {
   it('muestra el menú con módulos disponibles y próximos', () => {
     render(<App />);
     expect(screen.getByText(/Geometría en acción/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Prueba de componentes/ })).toBeEnabled();
+    expect(screen.getByRole('button', { name: /Teorema de Pitágoras/ })).toBeEnabled();
     const triangulos = screen.getByText('Triángulos', { selector: 'span' }).closest('button');
     expect(triangulos).toBeEnabled();
     expect(screen.getByRole('button', { name: /Áreas y volúmenes/ })).toBeEnabled();
@@ -190,35 +190,42 @@ describe('App (menú y navegación)', () => {
     expect(screen.getByText('Teorema de Pitágoras')).toBeInTheDocument();
   });
 
-  it('recorre el módulo de prueba completo y vuelve al menú con ✓', async () => {
+  it('el módulo de prueba ya no está en el menú', () => {
+    render(<App />);
+    expect(screen.queryByText(/Prueba de componentes/)).not.toBeInTheDocument();
+    expect(COMPONENTES.demo).toBeUndefined();
+  });
+
+  it('abre un módulo, vuelve al menú y muestra el ✓ de los completados', async () => {
+    window.localStorage.setItem('geo:completados', JSON.stringify(['pitagoras']));
     const user = userEvent.setup();
     render(<App />);
-    await user.click(screen.getByRole('button', { name: /Prueba de componentes/ }));
-    expect(await screen.findByText('Paso 1 de 4')).toBeInTheDocument();
-
-    // Paso 1: la fórmula usa π = 3,14 por defecto
-    expect(screen.getByLabelText('Aumentar Radio')).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /Siguiente/ }));
-
-    // Paso 2: quiz
-    expect(screen.getByRole('button', { name: /Siguiente/ })).toBeDisabled();
-    await user.click(screen.getByRole('button', { name: '2' }));
-    await user.click(screen.getByRole('button', { name: '4' }));
-    await user.click(screen.getByRole('button', { name: /Siguiente/ }));
-
-    // Paso 3: número
-    expect(screen.getByRole('button', { name: /Siguiente/ })).toBeDisabled();
-    await user.type(screen.getByRole('textbox'), '24');
-    await user.click(screen.getByRole('button', { name: 'Comprobar' }));
-    await user.click(screen.getByRole('button', { name: /Siguiente/ }));
-
-    // Paso 4: terminar
-    expect(screen.getByText('¡Todo funciona!', { selector: 'h2' })).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /Terminar/ }));
-
-    expect(await screen.findByRole('heading', { name: /Figuras planas/ })).toBeInTheDocument();
     expect(screen.getByLabelText('completado')).toBeInTheDocument();
-    expect(JSON.parse(window.localStorage.getItem('geo:completados'))).toEqual(['demo']);
+    await user.click(screen.getByRole('button', { name: /Teorema de Pitágoras/ }));
+    expect(await screen.findByText(/Paso 1 de/)).toBeInTheDocument();
+    window.history.back();
+    expect(await screen.findByRole('heading', { name: /Figuras planas/ })).toBeInTheDocument();
+  });
+
+  it('sin localStorage (modo privado o sandbox) la app sigue funcionando', async () => {
+    const getItem = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('bloqueado');
+    });
+    const setItem = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('bloqueado');
+    });
+    try {
+      const user = userEvent.setup();
+      render(<App />);
+      expect(screen.getByText(/Geometría en acción/)).toBeInTheDocument();
+      await user.click(screen.getByRole('button', { name: '2.º año' }));
+      expect(screen.getByRole('button', { name: '2.º año' })).toHaveAttribute('aria-pressed', 'true');
+      await user.click(screen.getByRole('button', { name: /Teorema de Pitágoras/ }));
+      expect(await screen.findByText(/Paso 1 de/)).toBeInTheDocument();
+    } finally {
+      getItem.mockRestore();
+      setItem.mockRestore();
+    }
   });
 
   it('recuerda el año elegido', async () => {

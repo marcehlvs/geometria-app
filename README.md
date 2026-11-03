@@ -94,7 +94,7 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 | Paso | Qué falta |
 |---|---|
 | Extras | Ninguno empezado (vistas de un cuerpo, simetrías, regla y compás, memotest, etc.) |
-| 16 | Revisión: borrar el módulo `Demo` (sigue en el repo), revisar fórmulas con π = 3,14 y exacto, probar en celular de 360 px y sin `localStorage` |
+| 16 | Revisión: **hecho** el módulo `Demo` borrado, zonas táctiles de 44 px, fuente mínima de 14 px y prueba sin `localStorage`. **Falta lo que solo se hace a mano:** revisar fórmulas contra tu planificación, probar en un celular de 360 px y mirar la vista previa de impresión |
 | 17 | Publicación: descomentar `base: '/geometria-app/'` en `vite.config.js` si va a GitHub Pages, o conectar Vercel |
 
 Todos los módulos del menú están hechos.
@@ -447,14 +447,17 @@ Ordenados por valor / esfuerzo:
 
 ### FASE 6 — Pruebas y publicación
 
-#### ☐ Paso 16 · Revisión
-**Qué hacer**
-- Quitar el módulo de prueba: borrar `src/modules/Demo/`, su línea en `modules/index.js` y su entrada `demo` en `data/modulos.js`.
-- Borrar `paso-11-euler.patch` de la raíz (ya está aplicado y no se usa).
-- Revisar **todas** las fórmulas contra tu planificación (usar π = 3,14 y π exacto).
-- Probar en celular real (ancho 360 px): sliders con zona táctil grande, SVG con `viewBox`, textos legibles.
-- Revisar accesibilidad básica: contraste, tamaño de fuente mínimo 16 px, botones de al menos 44 px.
-- Verificar que sin `localStorage` la app sigue funcionando.
+#### 🟡 Paso 16 · Revisión (parte automática hecha)
+**Qué se hizo**
+- Se borró `src/modules/Demo/`, su línea en `modules/index.js`, su entrada en `data/modulos.js` y el filtro `m.id !== 'demo'` de `App.jsx`. La prueba que recorría el módulo de prueba se reemplazó por una que abre un módulo real y chequea el ✓ del menú.
+- **Zonas táctiles de 44 px:** botones de relaciones en `Angulos` (eran de ~28 px), selector de año y de π en `BarraAjustes` (40 → 44 px) y puntitos de `StepNav` (la barrita sigue midiendo 10 px, pero el área que se toca ahora es de 44 px de alto).
+- **Texto:** se eliminó `text-xs` (12 px) en toda la app; el mínimo ahora es `text-sm` (14 px). Los campos de entrada siguen en 16 px para que iOS no haga zoom.
+- **Sin `localStorage`:** nueva prueba que hace fallar `getItem` y `setItem` y verifica que el menú, el filtro por año y la apertura de un módulo funcionan igual.
+
+**Falta (solo se puede hacer a mano)**
+- Revisar **todas** las fórmulas contra tu planificación, con π = 3,14 y π exacto. Las pruebas ya comprueban que los cálculos son coherentes entre sí, pero no pueden saber si coinciden con lo que das en clase.
+- Probar en celular real (ancho 360 px): sliders, dibujos SVG y legibilidad.
+- Mirar la vista previa de impresión del Modo evaluación y del Formulario.
 
 #### ☐ Paso 17 · Publicar
 **Qué hacer**
@@ -484,7 +487,7 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 14 · Problemas
 - [x] Paso 15 · Modo evaluación
 - [ ] Extras
-- [ ] Paso 16 · Revisión
+- [~] Paso 16 · Revisión (falta la revisión manual)
 - [ ] Paso 17 · Publicación
 
 ---

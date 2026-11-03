@@ -87,7 +87,7 @@ function Tarjeta({ tarjeta, textos, onCambio, pi, unidad }) {
       <h3 id={idTitulo} className="text-lg font-bold text-slate-800">
         {tarjeta.nombre}
       </h3>
-      <p className="text-xs text-slate-500">{tarjeta.anios.map((a) => `${a}.º`).join(' y ')} año</p>
+      <p className="text-sm text-slate-500">{tarjeta.anios.map((a) => `${a}.º`).join(' y ')} año</p>
 
       <div className="mt-2 space-y-1">
         {tarjeta.formulas.map((f) => (

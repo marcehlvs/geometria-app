@@ -43,9 +43,6 @@ export const MODULOS = [
   { id: 'evaluacion', grupo: 'practica', icono: '📝', titulo: 'Modo evaluación', anios: [1, 2],
     descripcion: 'Dos ejercicios completos, sin pistas, con puntaje.' },
 
-  // ----- Prueba de componentes (se quita en el Paso 16) -----
-  { id: 'demo', grupo: 'practica', icono: '🧪', titulo: 'Prueba de componentes', anios: [1, 2],
-    descripcion: 'Paso 3: Slider, Quiz, NumInput, StepNav y fórmulas en acción.' },
 ];
 
 export const modulosPorAnio = (anio) =>

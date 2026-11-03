@@ -4,7 +4,6 @@ import { lazy } from 'react';
 // `lazy` hace que cada módulo se descargue solo cuando se abre (la app carga más
 // rápido en el celular). Cada paso nuevo agrega una línea acá.
 export const COMPONENTES = {
-  demo: lazy(() => import('./Demo/Demo.jsx')),
   angulos: lazy(() => import('./Angulos/Angulos.jsx')),
   triangulos: lazy(() => import('./Triangulos/Triangulos.jsx')),
   cuadrilateros: lazy(() => import('./Cuadrilateros/Cuadrilateros.jsx')),

@@ -382,7 +382,7 @@ export default function Angulos({ onVolver }) {
 
             {/* Clasificación de relaciones */}
             <div className="mt-3 space-y-2">
-              <span className="text-xs font-semibold uppercase text-slate-500">Tocá una relación para explorar:</span>
+              <span className="text-sm font-semibold uppercase text-slate-500">Tocá una relación para explorar:</span>
               <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
                 {[
                   ['alternos-internos', 'Alternos internos'],
@@ -395,7 +395,7 @@ export default function Angulos({ onVolver }) {
                     key={id}
                     type="button"
                     onClick={() => setRelacionSeleccionada(id)}
-                    className={`rounded-lg px-2 py-1.5 text-xs font-semibold transition ${
+                    className={`min-h-11 rounded-lg px-2 text-sm font-semibold transition ${
                       relacionSeleccionada === id
                         ? 'bg-blue-600 text-white'
                         : 'border border-slate-200 bg-slate-50 text-slate-700 active:bg-slate-100'

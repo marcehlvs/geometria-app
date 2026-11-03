@@ -42,10 +42,14 @@ export default function StepNav({ pasos, onFinish, textoFinal = 'Terminar ✓' }
             onClick={() => setI(k)}
             aria-label={`Ir al paso ${k + 1}: ${p.titulo}`}
             aria-current={k === indice ? 'step' : undefined}
-            className={`h-2.5 flex-1 rounded-full transition ${
-              k === indice ? 'bg-teal-600' : k <= maxVisto ? 'bg-teal-300' : 'bg-slate-200'
-            }`}
-          />
+            className="flex h-11 flex-1 items-center"
+          >
+            <span
+              className={`block h-2.5 w-full rounded-full transition ${
+                k === indice ? 'bg-teal-600' : k <= maxVisto ? 'bg-teal-300' : 'bg-slate-200'
+              }`}
+            />
+          </button>
         ))}
       </div>
 

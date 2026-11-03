@@ -13,7 +13,7 @@ function Menu({ abrir }) {
   const { anio, completados, reiniciarProgreso } = useApp();
 
   const visibles = modulosPorAnio(anio);
-  const disponibles = visibles.filter((m) => COMPONENTES[m.id] && m.id !== 'demo');
+  const disponibles = visibles.filter((m) => COMPONENTES[m.id]);
   const hechos = disponibles.filter((m) => completados.includes(m.id)).length;
 
   const reiniciar = () => {
@@ -66,7 +66,7 @@ function Menu({ abrir }) {
                           {m.titulo}
                           {hecho && <span className="text-green-600" aria-label="completado">✓</span>}
                           {!listo && (
-                            <span className="rounded-full bg-slate-200 px-2 py-0.5 text-xs font-medium text-slate-500">
+                            <span className="rounded-full bg-slate-200 px-2 py-0.5 text-sm font-medium text-slate-500">
                               Próximamente
                             </span>
                           )}

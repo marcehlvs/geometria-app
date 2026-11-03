@@ -268,17 +268,17 @@ export default function Triangulos({ onVolver }) {
 
             <div className="mt-2 grid grid-cols-2 gap-2 text-center">
               <div className="rounded-xl border border-teal-200 bg-teal-50 p-2">
-                <span className="text-xs font-bold uppercase tracking-wide text-teal-700">Por sus lados</span>
+                <span className="text-sm font-bold uppercase tracking-wide text-teal-700">Por sus lados</span>
                 <p className="text-base font-extrabold capitalize text-teal-900">{clasifLados}</p>
-                <p className="text-xs text-teal-700">
+                <p className="text-sm text-teal-700">
                   {clasifLados === 'equilátero' ? '3 lados iguales' : clasifLados === 'isósceles' ? '2 lados iguales' : '3 lados distintos'}
                 </p>
               </div>
 
               <div className="rounded-xl border border-sky-200 bg-sky-50 p-2">
-                <span className="text-xs font-bold uppercase tracking-wide text-sky-700">Por sus ángulos</span>
+                <span className="text-sm font-bold uppercase tracking-wide text-sky-700">Por sus ángulos</span>
                 <p className="text-base font-extrabold capitalize text-sky-900">{clasifAng}</p>
-                <p className="text-xs text-sky-700">
+                <p className="text-sm text-sky-700">
                   {clasifAng === 'rectángulo' ? '1 ángulo recto (90°)' : clasifAng === 'obtusángulo' ? '1 ángulo obtuso (> 90°)' : '3 ángulos agudos (< 90°)'}
                 </p>
               </div>

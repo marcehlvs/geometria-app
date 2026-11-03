@@ -4,7 +4,7 @@ import { useApp } from '../context/AppContext.jsx';
 function Segmentado({ etiqueta, opciones, valor, onChange }) {
   return (
     <div role="group" aria-label={etiqueta}>
-      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{etiqueta}</p>
+      <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-slate-500">{etiqueta}</p>
       <div className="flex rounded-xl bg-slate-200 p-1">
         {opciones.map((o) => (
           <button
@@ -12,7 +12,7 @@ function Segmentado({ etiqueta, opciones, valor, onChange }) {
             type="button"
             onClick={() => onChange(o.v)}
             aria-pressed={valor === o.v}
-            className={`h-10 flex-1 rounded-lg px-2 text-sm font-semibold transition ${
+            className={`h-11 flex-1 rounded-lg px-2 text-sm font-semibold transition ${
               valor === o.v ? 'bg-white text-teal-700 shadow' : 'text-slate-600'
             }`}
           >
