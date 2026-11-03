@@ -95,7 +95,7 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 |---|---|
 | Extras | Ninguno empezado (vistas de un cuerpo, simetrías, regla y compás, memotest, etc.) |
 | 16 | Revisión: **hecho** el módulo `Demo` borrado, zonas táctiles de 44 px, fuente mínima de 14 px y prueba sin `localStorage`. **Falta lo que solo se hace a mano:** revisar fórmulas contra tu planificación, probar en un celular de 360 px y mirar la vista previa de impresión |
-| 17 | Publicación: descomentar `base: '/geometria-app/'` en `vite.config.js` si va a GitHub Pages, o conectar Vercel |
+| 17 | Publicación: **configurado** (base + workflow). Falta activar Pages en Settings → Pages → Source: GitHub Actions |
 
 Todos los módulos del menú están hechos.
 
@@ -459,13 +459,18 @@ Ordenados por valor / esfuerzo:
 - Probar en celular real (ancho 360 px): sliders, dibujos SVG y legibilidad.
 - Mirar la vista previa de impresión del Modo evaluación y del Formulario.
 
-#### ☐ Paso 17 · Publicar
-**Qué hacer**
-1. Crear el repo `geometria-app` en GitHub y subir el proyecto.
-2. Publicar con **Vercel** (más simple, conecta con el repo y despliega solo) o **GitHub Pages** (poner `base: '/geometria-app/'` en `vite.config.js`).
-3. Compartir el link por el grupo de la escuela; abre directo en el celular.
+#### 🟡 Paso 17 · Publicar en GitHub Pages (listo para activar)
+**Qué se hizo**
+- `vite.config.js` con `base: '/geometria-app/'`.
+- `.github/workflows/deploy.yml`: en cada `push` a `main` corre `test:utils`, `test` y `build`, y **solo si todo pasa** publica la carpeta `dist`. Si una prueba falla, la versión publicada queda como estaba.
 
-**Por qué:** un link evita que los chicos instalen nada.
+**Qué tenés que hacer vos (una sola vez)**
+1. Subir los cambios a `main`.
+2. En GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+3. Pestaña **Actions**: esperar el tilde verde (tarda 1 a 2 minutos). La app queda en `https://marcehlvs.github.io/geometria-app/`.
+4. Abrir ese link en el celular y compartirlo por el grupo de la escuela.
+
+**Por qué:** la navegación usa `#hash`, así que no hace falta ninguna regla especial para que funcionen los links ni el botón «atrás» en Pages. Si pasás la app a Vercel o a un dominio propio, cambiá `base` a `'/'`.
 
 ---
 
@@ -488,7 +493,7 @@ Ordenados por valor / esfuerzo:
 - [x] Paso 15 · Modo evaluación
 - [ ] Extras
 - [~] Paso 16 · Revisión (falta la revisión manual)
-- [ ] Paso 17 · Publicación
+- [~] Paso 17 · Publicación (falta activar Pages)
 
 ---
 
