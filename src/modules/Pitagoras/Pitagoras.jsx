@@ -37,7 +37,7 @@ function Cuadrados({ a, b }) {
   const fs = Math.max(ancho, alto) / 16;
 
   const etiqueta = (x, y, texto) => (
-    <text x={x} y={y} fontSize={fs} textAnchor="middle" dominantBaseline="middle" fill="#0f172a" fontWeight="700">
+    <text x={x} y={y} fontSize={fs} textAnchor="middle" dominantBaseline="middle" fill="var(--c-slate-900)" fontWeight="700">
       {texto}
     </text>
   );
@@ -49,10 +49,10 @@ function Cuadrados({ a, b }) {
       role="img"
       aria-label={`Triángulo rectángulo de catetos ${a} y ${b} con un cuadrado sobre cada lado`}
     >
-      <polygon points={pts(cuadA)} fill="#99f6e4" fillOpacity="0.7" stroke="#0f766e" strokeWidth="2" vectorEffect="non-scaling-stroke" />
-      <polygon points={pts(cuadB)} fill="#fde68a" fillOpacity="0.7" stroke="#b45309" strokeWidth="2" vectorEffect="non-scaling-stroke" />
-      <polygon points={pts(cuadC)} fill="#fecdd3" fillOpacity="0.7" stroke="#be123c" strokeWidth="2" vectorEffect="non-scaling-stroke" />
-      <polygon points={pts(tri)} fill="#e2e8f0" stroke="#0f172a" strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      <polygon points={pts(cuadA)} fill="var(--c-teal-200)" fillOpacity="0.7" stroke="var(--c-teal-700)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+      <polygon points={pts(cuadB)} fill="var(--c-amber-200)" fillOpacity="0.7" stroke="var(--c-amber-700)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+      <polygon points={pts(cuadC)} fill="var(--c-rose-200)" fillOpacity="0.7" stroke="var(--c-rose-700)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+      <polygon points={pts(tri)} fill="var(--c-slate-200)" stroke="var(--c-slate-900)" strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
       {etiqueta(a / 2, a / 2, `a² = ${fmt(a * a)}`)}
       {etiqueta(-b / 2, -b / 2, `b² = ${fmt(b * b)}`)}
       {etiqueta((a + b) / 2, -(a + b) / 2, `c² = ${fmt(c * c)}`)}
@@ -94,24 +94,24 @@ export default function Pitagoras({ onVolver }) {
       bloqueado: !movido,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Movés los catetos y mirás las áreas de los tres cuadrados. ¿Qué pasa con la suma de los dos chicos?
           </p>
           <Cuadrados a={a} b={b} />
           <Slider etiqueta="Cateto a" valor={a} onChange={mover(setA)} min={1} max={12} paso={1} unidad="cm" />
           <Slider etiqueta="Cateto b" valor={b} onChange={mover(setB)} min={1} max={12} paso={1} unidad="cm" />
-          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="card p-4">
             <Formula block tex={`${texNum(a * a)} + ${texNum(b * b)} = ${texNum(a * a + b * b)} = c^2`} />
-            <p className="mt-2 text-slate-700">
+            <p className="mt-2 text-ink">
               Hipotenusa: <strong>c = {fmt(c)} cm</strong>
             </p>
             {esTerna && (
-              <p className="mt-2 rounded-lg bg-teal-50 p-2 text-sm text-teal-900">
+              <p className="mt-2 rounded-lg bg-brand-soft p-2 text-sm text-teal-900">
                 ¡Los tres lados son enteros ({a}, {b} y {fmt(c)})! Es una <strong>terna pitagórica</strong>.
               </p>
             )}
           </div>
-          <p className="rounded-lg bg-amber-50 p-2 text-sm text-amber-900">
+          <p className="rounded-lg bg-amber-50 p-2 text-sm text-warn-ink">
             El área del cuadrado de la hipotenusa es siempre la suma de las áreas de los otros dos:{' '}
             <Formula tex="a^2 + b^2 = c^2" />.
           </p>
@@ -123,10 +123,10 @@ export default function Pitagoras({ onVolver }) {
       bloqueado: !hipoOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Un triángulo rectángulo tiene catetos de 6 cm y 8 cm. Calculá la hipotenusa.
           </p>
-          <div className="rounded-2xl border border-slate-200 bg-white p-3">
+          <div className="card p-3">
             <Formula block tex="c = \sqrt{a^2 + b^2}" />
           </div>
           <NumInput
@@ -144,10 +144,10 @@ export default function Pitagoras({ onVolver }) {
       bloqueado: !catetoOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             La hipotenusa mide 13 cm y un cateto mide 5 cm. Ahora hay que <strong>restar</strong>: la hipotenusa siempre es el lado más largo.
           </p>
-          <div className="rounded-2xl border border-slate-200 bg-white p-3">
+          <div className="card p-3">
             <Formula block tex="b = \sqrt{c^2 - a^2}" />
           </div>
           <NumInput
@@ -165,7 +165,7 @@ export default function Pitagoras({ onVolver }) {
       bloqueado: !quizOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Si <Formula tex="a^2 + b^2 = c^2" /> con c el lado mayor, el triángulo es rectángulo. Probá con estas ternas:
           </p>
           <div className="flex flex-wrap gap-2" role="group" aria-label="Ternas para probar">
@@ -177,17 +177,17 @@ export default function Pitagoras({ onVolver }) {
                 aria-pressed={ternaElegida === k}
                 className={`min-h-11 rounded-xl border-2 px-3 font-semibold transition ${
                   ternaElegida === k
-                    ? 'border-teal-600 bg-teal-600 text-white'
-                    : 'border-slate-200 bg-white text-slate-700 active:bg-slate-100'
+                    ? 'border-brand bg-brand text-on-brand'
+                    : 'border-line bg-surface text-ink active:bg-surface-2'
                 }`}
               >
                 {t.join(' · ')}
               </button>
             ))}
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="card p-4">
             <Formula block tex={`${ta}^2 + ${tb}^2 = ${texNum(ta * ta + tb * tb)} \\qquad ${tc}^2 = ${texNum(tc * tc)}`} />
-            <p className={`mt-2 font-semibold ${ternaCumple ? 'text-green-700' : 'text-red-600'}`}>
+            <p className={`mt-2 font-semibold ${ternaCumple ? 'text-ok-ink' : 'text-bad-ink'}`}>
               {ternaCumple ? '✅ Coinciden: es un triángulo rectángulo.' : '❌ No coinciden: no es rectángulo.'}
             </p>
           </div>
@@ -208,9 +208,9 @@ export default function Pitagoras({ onVolver }) {
     {
       titulo: '¡Listo!',
       contenido: (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="card p-4">
           <p className="font-semibold">Para recordar:</p>
-          <ul className="mt-2 list-disc space-y-1 pl-6 text-slate-700">
+          <ul className="mt-2 list-disc space-y-1 pl-6 text-ink">
             <li>
               En un triángulo rectángulo: <Formula tex="a^2 + b^2 = c^2" /> (c es la hipotenusa, el lado opuesto al ángulo recto).
             </li>

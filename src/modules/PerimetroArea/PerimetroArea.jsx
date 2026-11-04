@@ -195,10 +195,10 @@ function Dibujo({ id, v }) {
   if (id === 'circulo') {
     return (
       <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto h-52 w-full max-w-xs" role="img" aria-label={`Círculo de radio ${v.r} cm`}>
-        <circle cx={W / 2} cy={H / 2} r={v.r * S} fill="#99f6e4" fillOpacity="0.6" stroke="#0f766e" strokeWidth="3" />
-        <line x1={W / 2} y1={H / 2} x2={W / 2 + v.r * S} y2={H / 2} stroke="#be123c" strokeWidth="3" />
-        <circle cx={W / 2} cy={H / 2} r="3.5" fill="#0f172a" />
-        <text x={W / 2 + (v.r * S) / 2} y={H / 2 - 7} textAnchor="middle" fontSize="14" fill="#be123c">r</text>
+        <circle cx={W / 2} cy={H / 2} r={v.r * S} fill="var(--c-teal-200)" fillOpacity="0.6" stroke="var(--c-teal-700)" strokeWidth="3" />
+        <line x1={W / 2} y1={H / 2} x2={W / 2 + v.r * S} y2={H / 2} stroke="var(--c-rose-700)" strokeWidth="3" />
+        <circle cx={W / 2} cy={H / 2} r="3.5" fill="var(--c-slate-900)" />
+        <text x={W / 2 + (v.r * S) / 2} y={H / 2 - 7} textAnchor="middle" fontSize="14" fill="var(--c-rose-700)">r</text>
       </svg>
     );
   }
@@ -211,12 +211,12 @@ function Dibujo({ id, v }) {
   const Y = (y) => oy - y * S;
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto h-52 w-full max-w-xs" role="img" aria-label={`${FIGURAS_UI[id].nombre} dibujado a escala`}>
-      <polygon points={g.pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' ')} fill="#99f6e4" fillOpacity="0.6" stroke="#0f766e" strokeWidth="3" strokeLinejoin="round" />
+      <polygon points={g.pts.map(([x, y]) => `${X(x)},${Y(y)}`).join(' ')} fill="var(--c-teal-200)" fillOpacity="0.6" stroke="var(--c-teal-700)" strokeWidth="3" strokeLinejoin="round" />
       {g.aux.map(([a, b], k) => (
-        <line key={k} x1={X(a[0])} y1={Y(a[1])} x2={X(b[0])} y2={Y(b[1])} stroke="#be123c" strokeWidth="2" strokeDasharray="5 4" />
+        <line key={k} x1={X(a[0])} y1={Y(a[1])} x2={X(b[0])} y2={Y(b[1])} stroke="var(--c-rose-700)" strokeWidth="2" strokeDasharray="5 4" />
       ))}
       {g.rot.map((r, k) => (
-        <text key={k} x={X(r.x) + (r.dx || 0)} y={Y(r.y) + (r.dy || 0)} textAnchor={r.dx ? 'start' : 'middle'} fontSize="13" fill="#0f172a">
+        <text key={k} x={X(r.x) + (r.dx || 0)} y={Y(r.y) + (r.dy || 0)} textAnchor={r.dx ? 'start' : 'middle'} fontSize="13" fill="var(--c-slate-900)">
           {r.t}
         </text>
       ))}
@@ -236,11 +236,11 @@ function CortarYMover({ cual, t }) {
     const dx = b * t;
     return (
       <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto w-full max-w-sm" role="img" aria-label="Paralelogramo que se transforma en rectángulo">
-        {poly([[x, 0], [b, 0], [b + x, h], [x, h]], { fill: '#99f6e4', stroke: '#0f766e', strokeWidth: 2.5, strokeLinejoin: 'round' })}
-        {poly([[0 + dx, 0], [x + dx, 0], [x + dx, h]], { fill: '#fbbf24', fillOpacity: 0.85, stroke: '#b45309', strokeWidth: 2.5, strokeLinejoin: 'round' })}
-        <line x1={X(x)} y1={Y(0)} x2={X(x)} y2={Y(h)} stroke="#be123c" strokeWidth="1.5" strokeDasharray="4 3" />
-        <text x={X(b / 2 + x / 2)} y={Y(0) + 16} textAnchor="middle" fontSize="12" fill="#334155">base</text>
-        <text x={X(b + x) + 6} y={Y(h / 2)} fontSize="12" fill="#334155">altura</text>
+        {poly([[x, 0], [b, 0], [b + x, h], [x, h]], { fill: 'var(--c-teal-200)', stroke: 'var(--c-teal-700)', strokeWidth: 2.5, strokeLinejoin: 'round' })}
+        {poly([[0 + dx, 0], [x + dx, 0], [x + dx, h]], { fill: 'var(--c-amber-300)', fillOpacity: 0.85, stroke: 'var(--c-amber-700)', strokeWidth: 2.5, strokeLinejoin: 'round' })}
+        <line x1={X(x)} y1={Y(0)} x2={X(x)} y2={Y(h)} stroke="var(--c-rose-700)" strokeWidth="1.5" strokeDasharray="4 3" />
+        <text x={X(b / 2 + x / 2)} y={Y(0) + 16} textAnchor="middle" fontSize="12" fill="var(--c-slate-700)">base</text>
+        <text x={X(b + x) + 6} y={Y(h / 2)} fontSize="12" fill="var(--c-slate-700)">altura</text>
       </svg>
     );
   }
@@ -249,11 +249,11 @@ function CortarYMover({ cual, t }) {
   const mx = (b + p) / 2, my = h / 2;
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto w-full max-w-sm" role="img" aria-label="Dos triángulos iguales forman un paralelogramo">
-      {poly([[0, 0], [b, 0], [p, h]], { fill: '#99f6e4', stroke: '#0f766e', strokeWidth: 2.5, strokeLinejoin: 'round' })}
+      {poly([[0, 0], [b, 0], [p, h]], { fill: 'var(--c-teal-200)', stroke: 'var(--c-teal-700)', strokeWidth: 2.5, strokeLinejoin: 'round' })}
       <g transform={`rotate(${-180 * t} ${X(mx)} ${Y(my)})`}>
-        {poly([[0, 0], [b, 0], [p, h]], { fill: '#fbbf24', fillOpacity: 0.8, stroke: '#b45309', strokeWidth: 2.5, strokeLinejoin: 'round' })}
+        {poly([[0, 0], [b, 0], [p, h]], { fill: 'var(--c-amber-300)', fillOpacity: 0.8, stroke: 'var(--c-amber-700)', strokeWidth: 2.5, strokeLinejoin: 'round' })}
       </g>
-      <circle cx={X(mx)} cy={Y(my)} r="3.5" fill="#0f172a" />
+      <circle cx={X(mx)} cy={Y(my)} r="3.5" fill="var(--c-slate-900)" />
     </svg>
   );
 }
@@ -305,7 +305,7 @@ export default function PerimetroArea({ onVolver }) {
                 aria-pressed={fig === id}
                 onClick={() => setFig(id)}
                 className={`min-h-11 rounded-xl border-2 px-2 text-sm font-semibold transition ${
-                  fig === id ? 'border-teal-600 bg-teal-600 text-white' : 'border-slate-200 bg-white text-slate-700 active:bg-slate-100'
+                  fig === id ? 'border-brand bg-brand text-on-brand' : 'border-line bg-surface text-ink active:bg-surface-2'
                 }`}
               >
                 {FIGURAS_UI[id].nombre}
@@ -331,10 +331,10 @@ export default function PerimetroArea({ onVolver }) {
             ))}
           </div>
 
-          <div className="rounded-xl bg-white p-3">
-            <p className="text-sm font-semibold text-slate-500">{fig === 'circulo' ? 'Longitud (perímetro)' : 'Perímetro'}</p>
+          <div className="rounded-xl bg-surface p-3">
+            <p className="text-sm font-semibold text-muted">{fig === 'circulo' ? 'Longitud (perímetro)' : 'Perímetro'}</p>
             {lineasP.map((l, k) => <Formula key={k} block tex={l} />)}
-            <p className="mt-2 text-sm font-semibold text-slate-500">Área</p>
+            <p className="mt-2 text-sm font-semibold text-muted">Área</p>
             {lineasA.map((l, k) => <Formula key={k} block tex={l} />)}
           </div>
 
@@ -361,7 +361,7 @@ export default function PerimetroArea({ onVolver }) {
                 aria-pressed={cual === id}
                 onClick={() => { setCual(id); setT(0); }}
                 className={`min-h-11 rounded-xl border-2 px-2 font-semibold ${
-                  cual === id ? 'border-teal-600 bg-teal-600 text-white' : 'border-slate-200 bg-white text-slate-700'
+                  cual === id ? 'border-brand bg-brand text-on-brand' : 'border-line bg-surface text-ink'
                 }`}
               >
                 {nombre}
@@ -369,7 +369,7 @@ export default function PerimetroArea({ onVolver }) {
             ))}
           </div>
 
-          <p className="text-slate-600">
+          <p className="text-muted">
             {cual === 'paralelogramo'
               ? 'Cortá el trozo triangular y movelo hacia la derecha con el deslizador.'
               : 'Girá una copia del triángulo con el deslizador: juntos forman un paralelogramo.'}
@@ -387,7 +387,7 @@ export default function PerimetroArea({ onVolver }) {
           />
 
           {t === 1 && (
-            <div className="rounded-xl border border-teal-200 bg-teal-50 p-3 text-teal-900">
+            <div className="rounded-xl border border-teal-200 bg-brand-soft p-3 text-teal-900">
               {cual === 'paralelogramo' ? (
                 <>
                   <p>¡Se formó un <strong>rectángulo</strong> con la misma base y la misma altura!</p>
@@ -417,7 +417,7 @@ export default function PerimetroArea({ onVolver }) {
       bloqueado: !quizPerimetroOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Todos estos rectángulos tienen <strong>24 cuadraditos</strong> de área. Elegí uno y mirá su perímetro.
           </p>
           <div className="grid grid-cols-4 gap-2" role="group" aria-label="Elegí un rectángulo">
@@ -428,7 +428,7 @@ export default function PerimetroArea({ onVolver }) {
                 aria-pressed={par === k}
                 onClick={() => setPar(k)}
                 className={`min-h-11 rounded-xl border-2 text-sm font-semibold ${
-                  par === k ? 'border-teal-600 bg-teal-600 text-white' : 'border-slate-200 bg-white text-slate-700'
+                  par === k ? 'border-brand bg-brand text-on-brand' : 'border-line bg-surface text-ink'
                 }`}
               >
                 {b} × {h}
@@ -445,26 +445,26 @@ export default function PerimetroArea({ onVolver }) {
                   y={8 + fila * CELDA}
                   width={CELDA}
                   height={CELDA}
-                  fill="#99f6e4"
-                  stroke="#0f766e"
+                  fill="var(--c-teal-200)"
+                  stroke="var(--c-teal-700)"
                   strokeWidth="0.8"
                 />
               ))
             )}
           </svg>
 
-          <div className="rounded-xl bg-white p-3">
+          <div className="rounded-xl bg-surface p-3">
             <Formula block tex={`A = ${pb} \\cdot ${ph} = ${pb * ph}\\ \\text{cm}^2`} />
             <Formula block tex={`P = 2 \\cdot (${pb} + ${ph}) = ${perimetroRectangulo(pb, ph)}\\ \\text{cm}`} />
           </div>
 
           <table className="w-full text-center text-sm">
             <thead>
-              <tr className="text-slate-500"><th>Rectángulo</th><th>Área</th><th>Perímetro</th></tr>
+              <tr className="text-muted"><th>Rectángulo</th><th>Área</th><th>Perímetro</th></tr>
             </thead>
             <tbody>
               {PARES_24.map(([b, h], k) => (
-                <tr key={k} className={k === par ? 'bg-teal-50 font-bold' : ''}>
+                <tr key={k} className={k === par ? 'bg-brand-soft font-bold' : ''}>
                   <td>{b} × {h}</td>
                   <td>{b * h} cm²</td>
                   <td>{perimetroRectangulo(b, h)} cm</td>
@@ -486,9 +486,9 @@ export default function PerimetroArea({ onVolver }) {
     {
       titulo: '¡Listo!',
       contenido: (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="card p-4">
           <p className="font-semibold">Para recordar:</p>
-          <ul className="mt-2 list-disc space-y-1 pl-6 text-slate-700">
+          <ul className="mt-2 list-disc space-y-1 pl-6 text-ink">
             <li>El perímetro se mide en cm; el área, en cm².</li>
             <li>La altura es perpendicular a la base: no es el lado inclinado.</li>
             <li>Triángulo = la mitad de un paralelogramo.</li>

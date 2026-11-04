@@ -8,6 +8,33 @@ Mismo esquema que `estadistica-app`, `app-derivadas` e `integrales-app`: **React
 
 ---
 
+## 🎨 Sistema de diseño
+
+Todo el aspecto sale de **tokens** (variables CSS) y de un puñado de clases comunes. Para cambiar cómo se ve la app **no hay que tocar los módulos**.
+
+| Qué | Dónde |
+|---|---|
+| Colores, radios, sombras, tipografía, espaciado (con la tabla de uso) | `src/styles/tokens.css` |
+| Paleta clara + oscura (**generada**, no se edita) | `src/styles/palette.css` ← `npm run gen:paleta` |
+| Botones `.btn`, filtros `.chip`, tarjetas `.card`, campos `.field` / `.input`, avisos `.alert`, `.badge`, esqueleto de carga | `src/styles/components.css` |
+| Aviso, estado vacío, carga, ventana modal, error de carga | `src/components/ui.jsx` |
+| Botón de tema (automático / claro / oscuro) | `src/components/ThemeToggle.jsx` |
+
+**Modo oscuro.** `index.html` pone `data-theme` en `<html>` antes de pintar (usa el tema guardado o el del sistema). La paleta se «da vuelta» en oscuro, así que las clases como `bg-slate-50` o `text-teal-700` y los colores de los dibujos SVG (`var(--c-teal-700)`) cambian solos. Al imprimir siempre sale en claro.
+
+**Reglas para código nuevo**
+- Botón: `btn btn-primary` (acción principal, una por pantalla), `btn btn-secondary`, `btn btn-ghost`, `btn btn-danger`. Tamaño grande: `btn-lg`.
+- Filtro o elección: `chip` (se marca con `aria-pressed`).
+- Tarjeta: `card`. Campo: `input` o `field`. Avisos: `<Alert tono="ok|bad|warn|info">`.
+- Colores: preferir los semánticos (`text-ink`, `text-muted`, `bg-surface`, `bg-brand`, `border-line`, `text-ok-ink`…). En dibujos SVG usar `var(--c-teal-700)`, **nunca** un hex.
+- Mínimos: zonas táctiles de 44 px, texto de 14 px (campos de 16 px), contraste 4,5:1.
+
+**Verificaciones automáticas.** `npm run check:contraste` calcula el contraste de los tokens y de los pares `text-*` / `bg-*` del código en claro y en oscuro; también corre antes de publicar.
+
+**Tamaños de pantalla.** Pensado para 375 px (celular), 768 px (tablet) y 1280 px o más (escritorio): menú de 1, 2 y 3 columnas, y módulos centrados en 672 px y 896 px de ancho.
+
+---
+
 ## 📍 Estado actual (01/11/2026)
 
 **Avance: 15 de 17 pasos hechos (del 1 al 15). Faltan solo la revisión y la publicación.**

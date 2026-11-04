@@ -96,26 +96,26 @@ export default function CirculoPoligonos({ onVolver }) {
         <>
           <Slider etiqueta="Radio" valor={r} onChange={setR} min={1} max={10} paso={0.5} unidad="cm" decimales={1} />
           <svg viewBox="0 0 200 200" className="mx-auto h-48 w-48" role="img" aria-label={`Círculo de radio ${r} cm`}>
-            <circle cx="100" cy="100" r={rPx} fill="#99f6e4" fillOpacity="0.6" stroke="#0f766e" strokeWidth="3" />
-            <line x1={100 - rPx} y1="100" x2={100 + rPx} y2="100" stroke="#be123c" strokeWidth="2" />
-            <line x1="100" y1="100" x2={100 + rPx} y2="100" stroke="#0f766e" strokeWidth="4" />
-            <circle cx="100" cy="100" r="3.5" fill="#0f172a" />
-            <text x={100 + rPx / 2} y="92" textAnchor="middle" fontSize="14" fill="#0f172a">r</text>
-            <text x={100 - rPx / 2} y="118" textAnchor="middle" fontSize="14" fill="#be123c">d</text>
+            <circle cx="100" cy="100" r={rPx} fill="var(--c-teal-200)" fillOpacity="0.6" stroke="var(--c-teal-700)" strokeWidth="3" />
+            <line x1={100 - rPx} y1="100" x2={100 + rPx} y2="100" stroke="var(--c-rose-700)" strokeWidth="2" />
+            <line x1="100" y1="100" x2={100 + rPx} y2="100" stroke="var(--c-teal-700)" strokeWidth="4" />
+            <circle cx="100" cy="100" r="3.5" fill="var(--c-slate-900)" />
+            <text x={100 + rPx / 2} y="92" textAnchor="middle" fontSize="14" fill="var(--c-slate-900)">r</text>
+            <text x={100 - rPx / 2} y="118" textAnchor="middle" fontSize="14" fill="var(--c-rose-700)">d</text>
           </svg>
 
-          <div className="rounded-xl bg-white p-3">
-            <p className="text-sm font-semibold text-slate-500">Longitud de la circunferencia</p>
+          <div className="rounded-xl bg-surface p-3">
+            <p className="text-sm font-semibold text-muted">Longitud de la circunferencia</p>
             <Formula block tex={'L = 2 \\cdot \\pi \\cdot r'} />
             <Formula block tex={`L = 2 \\cdot ${piTex} \\cdot ${texNum(r)}`} />
             <Formula block tex={`L ${igual} ${texNum(L)}\\ \\text{cm}`} />
-            <p className="mt-2 text-sm font-semibold text-slate-500">Área del círculo</p>
+            <p className="mt-2 text-sm font-semibold text-muted">Área del círculo</p>
             <Formula block tex={'A = \\pi \\cdot r^2'} />
             <Formula block tex={`A = ${piTex} \\cdot ${texNum(r)}^2`} />
             <Formula block tex={`A ${igual} ${texNum(A)}\\ \\text{cm}^2`} />
           </div>
 
-          <div className="rounded-xl border border-teal-200 bg-teal-50 p-3 text-teal-900">
+          <div className="rounded-xl border border-teal-200 bg-brand-soft p-3 text-teal-900">
             <p className="font-semibold">¿Qué pasa si dividimos L entre d?</p>
             <p className="mt-1">
               {fmt(L, 2)} cm ÷ {fmt(d, 1)} cm = <strong>{fmt(L / d, 2)}</strong>
@@ -139,33 +139,33 @@ export default function CirculoPoligonos({ onVolver }) {
       contenido: (
         <>
           <Slider etiqueta="Cantidad de lados (n)" valor={n} onChange={setN} min={3} max={12} paso={1} />
-          <p className="text-center font-semibold capitalize text-teal-800">
+          <p className="text-center font-semibold capitalize text-brand-ink">
             {NOMBRES[n]} regular
           </p>
           <svg viewBox="0 0 200 200" className="mx-auto h-56 w-56" role="img" aria-label={`Polígono regular de ${n} lados`}>
             <polygon
               points={pts.map((p) => p.join(',')).join(' ')}
-              fill="#99f6e4"
+              fill="var(--c-teal-200)"
               fillOpacity="0.5"
-              stroke="#0f766e"
+              stroke="var(--c-teal-700)"
               strokeWidth="3"
               strokeLinejoin="round"
             />
             {verDiagonales &&
               lineasDiag.map(([a, b], k) => (
-                <line key={k} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke="#be123c" strokeWidth="1.2" />
+                <line key={k} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke="var(--c-rose-700)" strokeWidth="1.2" />
               ))}
             {/* ángulo central */}
-            <path d={`M 100 100 L ${pts[0][0]} ${pts[0][1]} L ${pts[1][0]} ${pts[1][1]} Z`} fill="#fbbf24" fillOpacity="0.6" stroke="#b45309" strokeWidth="1.5" />
+            <path d={`M 100 100 L ${pts[0][0]} ${pts[0][1]} L ${pts[1][0]} ${pts[1][1]} Z`} fill="var(--c-amber-300)" fillOpacity="0.6" stroke="var(--c-amber-700)" strokeWidth="1.5" />
             {/* ángulo interior */}
             <path
               d={`M ${v0[0]} ${v0[1]} L ${p1[0]} ${p1[1]} A ${rArco} ${rArco} 0 0 ${barrido} ${p2[0]} ${p2[1]} Z`}
-              fill="#6366f1"
+              fill="var(--c-indigo-500)"
               fillOpacity="0.55"
             />
-            <circle cx="100" cy="100" r="3" fill="#0f172a" />
+            <circle cx="100" cy="100" r="3" fill="var(--c-slate-900)" />
           </svg>
-          <p className="text-center text-sm text-slate-500">
+          <p className="text-center text-sm text-muted">
             <span className="font-semibold text-amber-700">Naranja:</span> ángulo central ·{' '}
             <span className="font-semibold text-indigo-700">Violeta:</span> ángulo interior
           </p>
@@ -173,12 +173,12 @@ export default function CirculoPoligonos({ onVolver }) {
           <button
             type="button"
             onClick={() => setVerDiagonales((v) => !v)}
-            className="mx-auto block h-11 rounded-lg px-3 font-medium text-teal-700 underline"
+            className="mx-auto block h-11 rounded-lg px-3 font-medium text-brand-ink underline"
           >
             {verDiagonales ? 'Ocultar diagonales' : 'Mostrar diagonales'}
           </button>
 
-          <div className="rounded-xl bg-white p-3">
+          <div className="rounded-xl bg-surface p-3">
             <Formula block tex={`\\text{Ángulo central} = \\dfrac{360^\\circ}{${n}} = ${texNum(central)}^\\circ`} />
             <Formula block tex={`\\text{Ángulo interior} = \\dfrac{(${n} - 2) \\cdot 180^\\circ}{${n}} = ${texNum(interior)}^\\circ`} />
             <Formula block tex={`\\text{Diagonales} = \\dfrac{${n} \\cdot (${n} - 3)}{2} = ${diagonales}`} />
@@ -198,7 +198,7 @@ export default function CirculoPoligonos({ onVolver }) {
       bloqueado: !quizAreaOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Un polígono regular de {n} lados se parte en <strong>{n} triángulos iguales</strong>. Cada uno tiene
             base = lado y altura = apotema.
           </p>
@@ -206,13 +206,13 @@ export default function CirculoPoligonos({ onVolver }) {
           <Slider etiqueta="Cantidad de lados (n)" valor={n} onChange={setN} min={3} max={12} paso={1} />
 
           <svg viewBox="0 0 200 200" className="mx-auto h-48 w-48" role="img" aria-label="Polígono dividido en triángulos">
-            <polygon points={pts.map((p) => p.join(',')).join(' ')} fill="#e0f2fe" stroke="#0f766e" strokeWidth="2.5" strokeLinejoin="round" />
+            <polygon points={pts.map((p) => p.join(',')).join(' ')} fill="var(--c-sky-100)" stroke="var(--c-teal-700)" strokeWidth="2.5" strokeLinejoin="round" />
             {pts.map((p, k) => (
-              <line key={k} x1="100" y1="100" x2={p[0]} y2={p[1]} stroke="#0f766e" strokeWidth="1.2" />
+              <line key={k} x1="100" y1="100" x2={p[0]} y2={p[1]} stroke="var(--c-teal-700)" strokeWidth="1.2" />
             ))}
           </svg>
 
-          <div className="rounded-xl bg-white p-3">
+          <div className="rounded-xl bg-surface p-3">
             <Formula block tex={`a_p = \\dfrac{l}{2 \\cdot \\tan(180^\\circ / n)} \\approx ${texNum(apotema)}\\ \\text{cm}`} />
             <Formula block tex={'A = \\dfrac{P \\cdot a_p}{2}'} />
             <Formula block tex={`A = \\dfrac{${texNum(perimetro)} \\cdot ${texNum(apotema)}}{2} \\approx ${texNum(areaPol)}\\ \\text{cm}^2`} />
@@ -231,9 +231,9 @@ export default function CirculoPoligonos({ onVolver }) {
     {
       titulo: '¡Listo!',
       contenido: (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="card p-4">
           <p className="font-semibold">Para recordar:</p>
-          <ul className="mt-2 list-disc space-y-1 pl-6 text-slate-700">
+          <ul className="mt-2 list-disc space-y-1 pl-6 text-ink">
             <li>L ÷ d = π en cualquier círculo.</li>
             <li>Ángulo central = 360° ÷ n. Ángulo interior = (n − 2) · 180° ÷ n.</li>
             <li>Diagonales = n · (n − 3) ÷ 2.</li>

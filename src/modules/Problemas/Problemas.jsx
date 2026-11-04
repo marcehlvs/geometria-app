@@ -15,16 +15,15 @@ import {
 
 const META = 3; // problemas bien resueltos para marcar el módulo como completado
 
-const colorBoton = (activo) =>
-  activo ? 'border-teal-600 bg-teal-600 text-white' : 'border-slate-200 bg-white text-slate-700 active:bg-slate-100';
+const colorBoton = (activo) => (activo ? 'chip chip-on' : 'chip');
 
 const estiloMensaje = {
-  ok: 'border-green-500 bg-green-50 text-green-800',
-  unidad: 'border-amber-400 bg-amber-50 text-amber-900',
-  numero: 'border-amber-400 bg-amber-50 text-amber-900',
-  mal: 'border-red-400 bg-red-50 text-red-800',
-  invalido: 'border-red-400 bg-red-50 text-red-800',
-  'sin-unidad': 'border-amber-400 bg-amber-50 text-amber-900',
+  ok: 'border-green-500 bg-green-50 text-ok-ink',
+  unidad: 'border-amber-400 bg-amber-50 text-warn-ink',
+  numero: 'border-amber-400 bg-amber-50 text-warn-ink',
+  mal: 'border-red-400 bg-red-50 text-bad-ink',
+  invalido: 'border-red-400 bg-red-50 text-bad-ink',
+  'sin-unidad': 'border-amber-400 bg-amber-50 text-warn-ink',
 };
 
 export default function Problemas({ onVolver }) {
@@ -111,7 +110,7 @@ export default function Problemas({ onVolver }) {
               type="button"
               onClick={() => elegirAnio(valor)}
               aria-pressed={filtroAnio === valor}
-              className={`min-h-11 rounded-xl border-2 px-3 text-sm font-semibold transition ${colorBoton(filtroAnio === valor)}`}
+              className={`${colorBoton(filtroAnio === valor)}`}
             >
               {t}
             </button>
@@ -125,7 +124,7 @@ export default function Problemas({ onVolver }) {
               type="button"
               onClick={() => elegirTema(t.id)}
               aria-pressed={tema === t.id}
-              className={`min-h-11 rounded-xl border-2 px-3 text-sm font-semibold transition ${colorBoton(tema === t.id)}`}
+              className={`${colorBoton(tema === t.id)}`}
             >
               <span aria-hidden="true">{t.icono} </span>
               {t.titulo}
@@ -133,17 +132,17 @@ export default function Problemas({ onVolver }) {
           ))}
         </div>
 
-        <p className="text-sm text-slate-600" aria-live="polite">
+        <p className="text-sm text-muted" aria-live="polite">
           Resueltos: <strong>{correctos}</strong> (con {META} se completa el módulo)
         </p>
       </div>
 
       <article
-        className="mt-4 space-y-4 rounded-2xl border border-slate-200 bg-white p-4"
+        className="card mt-4 space-y-4 p-4"
         aria-labelledby="enunciado-problema"
         data-plantilla={problema.plantilla}
       >
-        <p className="text-sm font-semibold text-slate-500">
+        <p className="text-sm font-semibold text-muted">
           {problema.titulo} · <span>Problema #{problema.semilla}</span>
         </p>
         <p id="enunciado-problema" className="text-lg leading-relaxed">
@@ -163,7 +162,7 @@ export default function Problemas({ onVolver }) {
             disabled={resuelto}
             onChange={(e) => setTexto(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && comprobar()}
-            className="h-12 w-full rounded-xl border-2 border-slate-300 bg-white px-3 text-lg outline-none focus:border-teal-500 disabled:bg-slate-100"
+            className="input w-full"
           />
         </div>
 
@@ -177,7 +176,7 @@ export default function Problemas({ onVolver }) {
                 disabled={resuelto}
                 onClick={() => setUnidad(u)}
                 aria-pressed={unidad === u}
-                className={`min-h-11 min-w-11 rounded-xl border-2 px-3 font-semibold transition disabled:opacity-60 ${colorBoton(unidad === u)}`}
+                className={`disabled:opacity-60 ${colorBoton(unidad === u)}`}
               >
                 {u}
               </button>
@@ -189,7 +188,7 @@ export default function Problemas({ onVolver }) {
           type="button"
           onClick={comprobar}
           disabled={resuelto}
-          className="h-12 w-full rounded-xl bg-teal-600 text-lg font-semibold text-white active:bg-teal-700 disabled:opacity-40"
+          className="btn btn-primary btn-lg w-full"
         >
           Comprobar
         </button>
@@ -203,7 +202,7 @@ export default function Problemas({ onVolver }) {
         </div>
 
         {pistasVistas > 0 && (
-          <ol className="list-decimal space-y-1 pl-6 text-slate-700">
+          <ol className="list-decimal space-y-1 pl-6 text-ink">
             {pistas.slice(0, pistasVistas).map((p) => (
               <li key={p}>💡 {p}</li>
             ))}
@@ -215,7 +214,7 @@ export default function Problemas({ onVolver }) {
             type="button"
             onClick={() => setPistasVistas((v) => Math.min(v + 1, pistas.length))}
             disabled={pistasVistas >= pistas.length}
-            className="min-h-11 rounded-xl border-2 border-teal-600 px-3 font-semibold text-teal-700 active:bg-teal-50 disabled:opacity-40"
+            className="btn btn-secondary"
           >
             💡 Ver una pista ({pistasVistas}/{pistas.length})
           </button>
@@ -223,7 +222,7 @@ export default function Problemas({ onVolver }) {
             type="button"
             onClick={() => setVerPasos((v) => !v)}
             aria-expanded={verPasos}
-            className="min-h-11 rounded-xl border-2 border-teal-600 px-3 font-semibold text-teal-700 active:bg-teal-50"
+            className="btn btn-secondary"
           >
             📋 {verPasos ? 'Ocultar la resolución' : 'Ver la resolución paso a paso'}
           </button>
@@ -233,13 +232,13 @@ export default function Problemas({ onVolver }) {
           <ol className="space-y-3" aria-label="Resolución paso a paso">
             {problema.pasos.map((p, i) => (
               <li key={i} className="rounded-xl bg-slate-50 p-3">
-                <div className="font-semibold text-slate-700">
+                <div className="font-semibold text-ink">
                   {i + 1}. {p.texto}
                 </div>
                 <Formula block tex={p.tex} />
                 <div>
                   Resultado:{' '}
-                  <strong className="text-teal-700">
+                  <strong className="text-brand-ink">
                     {fmt(p.valor, 4)} {p.unidad}
                   </strong>
                 </div>
@@ -253,14 +252,14 @@ export default function Problemas({ onVolver }) {
         <button
           type="button"
           onClick={otroParecido}
-          className="h-12 rounded-xl border-2 border-teal-600 font-semibold text-teal-700 active:bg-teal-50"
+          className="btn btn-secondary btn-lg"
         >
           🔁 Otro parecido
         </button>
         <button
           type="button"
           onClick={() => otroDistinto()}
-          className="h-12 rounded-xl bg-teal-600 font-semibold text-white active:bg-teal-700"
+          className="btn btn-primary btn-lg"
         >
           ➡️ Otro distinto
         </button>

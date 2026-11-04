@@ -4,20 +4,20 @@ export default function ProgressBar({ valor, max, etiqueta }) {
   return (
     <div>
       {etiqueta && (
-        <div className="mb-1 flex justify-between text-sm text-slate-600">
+        <div className="mb-1 flex justify-between text-sm text-muted">
           <span>{etiqueta}</span>
           <span>{valor}/{max}</span>
         </div>
       )}
       <div
-        className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200"
+        className="h-2.5 w-full overflow-hidden rounded-full bg-surface-2"
         role="progressbar"
         aria-valuenow={valor}
         aria-valuemin={0}
         aria-valuemax={max}
         aria-label={etiqueta || 'Progreso'}
       >
-        <div className="h-full rounded-full bg-teal-600 transition-all" style={{ width: `${pct}%` }} />
+        <div className="h-full rounded-full bg-brand transition-all" style={{ width: `${pct}%` }} />
       </div>
     </div>
   );

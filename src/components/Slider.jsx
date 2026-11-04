@@ -10,13 +10,13 @@ export default function Slider({ etiqueta, valor, onChange, min = 0, max = 100, 
   const cambiar = (n) => onChange(limpiar(Math.min(max, Math.max(min, n))));
 
   const botonClase =
-    'h-11 w-11 shrink-0 rounded-full bg-slate-100 text-xl font-bold text-slate-700 active:bg-slate-200 disabled:opacity-40';
+    'h-11 w-11 shrink-0 rounded-full bg-surface-2 text-xl font-bold text-ink transition active:bg-line disabled:opacity-40';
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-3">
+    <div className="card p-3">
       <div className="mb-2 flex items-baseline justify-between gap-2">
-        <span className="font-medium text-slate-700">{etiqueta}</span>
-        <span className="text-lg font-bold tabular-nums text-teal-700">
+        <span className="font-medium">{etiqueta}</span>
+        <span className="text-lg font-bold tabular-nums text-brand-ink">
           {fmt(valor, decimales)}
           {unidad && `${/^[°%]/.test(unidad) ? '' : ' '}${unidad}`}
         </span>

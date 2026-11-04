@@ -1,0 +1,174 @@
+/* Piezas comunes: todos los botones, cards, campos y avisos de la app salen de acá. */
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 1rem;            /* 16 px: evita el zoom automático de iOS en los campos */
+    line-height: 1.5;
+    background: var(--page);
+    color: var(--ink);
+  }
+  h1, h2, h3 { text-wrap: balance; }
+  button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  button:disabled { cursor: not-allowed; }
+  /* foco visible y con buen contraste, en todo lo que se puede tocar */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* ---------- Contenedor de página ---------- */
+  .page-wrap { margin-inline: auto; width: 100%; max-width: var(--container-page); padding-inline: var(--gutter); }
+
+  .skip-link {
+    position: absolute; left: 0.5rem; top: -4rem; z-index: 100;
+    background: var(--brand); color: var(--on-brand);
+    padding: 0.75rem 1rem; border-radius: var(--radius-control); font-weight: 600;
+  }
+  .skip-link:focus { top: 0.5rem; }
+
+  /* ---------- Botones ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    min-height: 2.75rem; padding: 0 1rem;
+    border: 2px solid transparent; border-radius: var(--radius-control);
+    font-weight: 600; line-height: 1.2; text-align: center;
+    cursor: pointer; user-select: none;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.08s;
+  }
+  .btn:active:not(:disabled) { transform: translateY(1px); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-lg { min-height: 3rem; padding: 0 1.25rem; font-size: 1.0625rem; }
+
+  .btn-primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+  .btn-secondary { background: transparent; border-color: var(--brand); color: var(--brand-ink); }
+  .btn-ghost { background: transparent; color: var(--brand-ink); }
+  .btn-danger { background: var(--bad-line); border-color: var(--bad-line); color: var(--c-white); }
+  :root[data-theme="dark"] .btn-danger { color: var(--c-slate-50); background: var(--c-red-400); border-color: var(--c-red-400); }
+  @media (hover: hover) {
+    .btn-primary:hover:not(:disabled) { background: var(--brand-hover); border-color: var(--brand-hover); }
+    .btn-secondary:hover:not(:disabled), .btn-ghost:hover:not(:disabled) { background: var(--brand-soft); }
+  }
+  .btn-secondary:active:not(:disabled), .btn-ghost:active:not(:disabled) { background: var(--brand-soft); }
+
+  /* Botón de filtro / opción (se marca con aria-pressed) */
+  .chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 2.75rem; min-width: 2.75rem; padding: 0 0.75rem;
+    border: 2px solid var(--line); border-radius: var(--radius-control);
+    background: var(--surface); color: var(--ink);
+    font-size: 0.875rem; font-weight: 600; cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .chip:active:not(:disabled) { background: var(--surface-2); }
+  .chip[aria-pressed="true"], .chip-on { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+  @media (hover: hover) {
+    .chip:hover:not(:disabled):not([aria-pressed="true"]):not(.chip-on) { border-color: var(--brand); }
+  }
+
+  /* ---------- Cards ---------- */
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-card); box-shadow: var(--shadow-card);
+  }
+  .card-link {
+    display: flex; width: 100%; text-align: left; cursor: pointer;
+    transition: border-color 0.15s, background-color 0.15s, transform 0.08s;
+  }
+  .card-link:active:not(:disabled) { background: var(--brand-soft); border-color: var(--brand); transform: translateY(1px); }
+  @media (hover: hover) {
+    .card-link:hover:not(:disabled) { border-color: var(--brand); }
+  }
+  .card-link:disabled { border-style: dashed; background: var(--surface-2); box-shadow: none; color: var(--ink-muted); }
+
+  /* ---------- Campos ---------- */
+  .field {
+    display: flex; align-items: center; min-height: 3rem; width: 100%;
+    padding: 0 0.75rem; border: 2px solid var(--field-line);
+    border-radius: var(--radius-control); background: var(--surface); color: var(--ink);
+    transition: border-color 0.15s, background-color 0.15s;
+  }
+  .field:focus-within { border-color: var(--brand); }
+  .field[data-estado="ok"] { border-color: var(--ok-line); background: var(--ok-soft); }
+  .field[data-estado="error"] { border-color: var(--bad-line); background: var(--bad-soft); }
+  .field input { width: 100%; min-height: 2.75rem; background: transparent; color: inherit; font-size: 1.0625rem; outline: none; }
+  .field input::placeholder { color: var(--ink-muted); opacity: 0.8; }
+  /* el aro de foco lo da el borde del contenedor, no el input */
+  .field input:focus-visible { outline: none; }
+  .field:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+  /* Campo de texto simple (o <select>) */
+  .input {
+    min-height: 3rem; border: 2px solid var(--field-line); border-radius: var(--radius-control);
+    background: var(--surface); color: var(--ink); padding: 0 0.75rem; font-size: 1.0625rem;
+    transition: border-color 0.15s;
+  }
+  .input:focus-visible { border-color: var(--brand); }
+  .input:disabled { background: var(--surface-2); color: var(--ink-muted); }
+  .input[aria-invalid="true"] { border-color: var(--bad-line); background: var(--bad-soft); }
+
+  /* ---------- Avisos (error / éxito / info / atención) ---------- */
+  .alert {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    padding: 0.75rem 1rem; border: 2px solid var(--info-line); border-radius: var(--radius-control);
+    background: var(--info-soft); color: var(--info-ink);
+  }
+  .alert-ok { border-color: var(--ok-line); background: var(--ok-soft); color: var(--ok-ink); }
+  .alert-bad { border-color: var(--bad-line); background: var(--bad-soft); color: var(--bad-ink); }
+  .alert-warn { border-color: var(--warn-line); background: var(--warn-soft); color: var(--warn-ink); }
+
+  /* ---------- Insignias ---------- */
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.125rem 0.625rem; border-radius: 9999px;
+    background: var(--surface-2); color: var(--ink-muted);
+    font-size: 0.875rem; font-weight: 600; white-space: nowrap;
+  }
+  .badge-ok { background: var(--ok-soft); color: var(--ok-ink); }
+  .badge-brand { background: var(--brand-soft); color: var(--brand-ink); }
+
+  /* ---------- Carga ---------- */
+  .skeleton { background: var(--surface-2); border-radius: var(--radius-control); animation: geo-pulso 1.4s ease-in-out infinite; }
+  @keyframes geo-pulso { 50% { opacity: 0.5; } }
+  .spinner {
+    width: 1.5rem; height: 1.5rem; border-radius: 9999px;
+    border: 3px solid var(--line); border-top-color: var(--brand);
+    animation: geo-giro 0.8s linear infinite;
+  }
+  @keyframes geo-giro { to { transform: rotate(360deg); } }
+
+  /* ---------- Ventana modal ---------- */
+  .modal-fondo { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 1rem; background: rgb(2 6 23 / 0.6); }
+  .modal { width: 100%; max-width: 26rem; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius-card); box-shadow: var(--shadow-pop); padding: 1.5rem; }
+}
+
+/* ---------- Deslizador con "perilla" grande, fácil de tocar con el dedo ---------- */
+.geo-range { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 9999px; background: var(--c-slate-300); outline: none; }
+.geo-range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--brand); border: 3px solid var(--surface); box-shadow: 0 1px 4px rgb(0 0 0 / 0.35); cursor: pointer;
+}
+.geo-range::-moz-range-thumb {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--brand); border: 3px solid var(--surface); box-shadow: 0 1px 4px rgb(0 0 0 / 0.35); cursor: pointer;
+}
+.geo-range:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+
+/* ---------- Impresión (Formulario / Evaluación): siempre en claro y sin adornos ---------- */
+@media print {
+  .no-imprimir { display: none !important; }
+  .tarjeta, .ejercicio { break-inside: avoid; }
+  body, .min-h-screen { background: #fff !important; }
+}

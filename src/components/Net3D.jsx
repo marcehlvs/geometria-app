@@ -12,7 +12,7 @@ import { fmt } from '../utils/format.js';
 //   medidas   true: rotula los lados (una cara por cada grupo de caras iguales)
 //   unidad    unidad de las medidas del desarrollo (por defecto 'cm')
 
-export const PALETA = ['#5eead4', '#fcd34d', '#fda4af', '#a5b4fc', '#bef264', '#fdba74'];
+export const PALETA = ['var(--c-teal-300)', 'var(--c-amber-300)', 'var(--c-rose-300)', 'var(--c-indigo-300)', 'var(--c-lime-300)', 'var(--c-orange-300)'];
 
 // Una cara: <div> 3D anidado dentro de su padre. Se coloca donde le toca en el
 // plano y gira alrededor de su bisagra (transform-origin). Como está DENTRO de
@@ -39,7 +39,7 @@ function CaraNet({ cara, porPadre, origen, k, t, colores, animar, rotular, unida
   return (
     <div style={estilo} data-cara={cara.id}>
       <svg width={ancho} height={alto} style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible' }} aria-hidden="true">
-        <polygon points={puntos} fill={colores[cara.grupo]} fillOpacity="0.92" stroke="#0f766e" strokeWidth="2" strokeLinejoin="round" />
+        <polygon points={puntos} fill={colores[cara.grupo]} fillOpacity="0.92" stroke="var(--c-teal-700)" strokeWidth="2" strokeLinejoin="round" />
         {rotular.has(cara.id) &&
           medidasDeCara(cara).map((m, i) => {
             // el texto se corre un poco hacia el interior de la cara
@@ -57,8 +57,8 @@ function CaraNet({ cara, porPadre, origen, k, t, colores, animar, rotular, unida
                 dominantBaseline="central"
                 fontSize="12"
                 fontWeight="700"
-                fill="#0f172a"
-                stroke="#ffffff"
+                fill="var(--c-slate-900)"
+                stroke="var(--c-white)"
                 strokeWidth="3"
                 paintOrder="stroke"
                 data-medida
@@ -84,7 +84,7 @@ export default function Net3D({ desarrollo, t, giroVista, colorear, animar, medi
   const centro = [(bb.minX + bb.maxX) / 2, (bb.minY + bb.maxY) / 2];
 
   const grupos = [...new Set(desarrollo.caras.map((c) => c.grupo))];
-  const colores = Object.fromEntries(grupos.map((g, i) => [g, colorear ? PALETA[i % PALETA.length] : '#e2e8f0']));
+  const colores = Object.fromEntries(grupos.map((g, i) => [g, colorear ? PALETA[i % PALETA.length] : 'var(--c-slate-200)']));
 
   const porPadre = {};
   desarrollo.caras.forEach((c) => {

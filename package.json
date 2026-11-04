@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:utils": "node scripts/check-utils.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "check:contraste": "node scripts/check-contraste.mjs",
+    "gen:paleta": "node scripts/gen-palette.mjs"
   },
   "dependencies": {
     "katex": "^0.16.11",

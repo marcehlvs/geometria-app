@@ -46,26 +46,26 @@ export default function StepNav({ pasos, onFinish, textoFinal = 'Terminar ✓' }
           >
             <span
               className={`block h-2.5 w-full rounded-full transition ${
-                k === indice ? 'bg-teal-600' : k <= maxVisto ? 'bg-teal-300' : 'bg-slate-200'
+                k === indice ? 'bg-brand' : k <= maxVisto ? 'bg-brand/40' : 'bg-line'
               }`}
             />
           </button>
         ))}
       </div>
 
-      <p className="text-sm font-medium text-slate-500">
+      <p className="text-sm font-medium text-muted">
         Paso {indice + 1} de {pasos.length}
       </p>
-      <h2 className="mb-3 text-xl font-bold">{actual.titulo}</h2>
+      <h2 className="mb-3 text-title font-bold">{actual.titulo}</h2>
 
       <div key={indice} className="space-y-4">{actual.contenido}</div>
 
-      <div className="mt-6 flex items-center gap-3">
+      <div className="mt-6 flex items-center gap-3 lg:mt-8">
         <button
           type="button"
           onClick={() => setI(indice - 1)}
           disabled={indice === 0}
-          className="h-12 rounded-xl border-2 border-slate-300 bg-white px-5 font-semibold text-slate-700 active:bg-slate-100 disabled:opacity-40"
+          className="btn btn-secondary btn-lg"
         >
           ← Anterior
         </button>
@@ -73,7 +73,7 @@ export default function StepNav({ pasos, onFinish, textoFinal = 'Terminar ✓' }
           <button
             type="button"
             onClick={onFinish}
-            className="h-12 flex-1 rounded-xl bg-teal-600 px-5 font-semibold text-white active:bg-teal-700"
+            className="btn btn-primary btn-lg flex-1"
           >
             {textoFinal}
           </button>
@@ -82,14 +82,15 @@ export default function StepNav({ pasos, onFinish, textoFinal = 'Terminar ✓' }
             type="button"
             onClick={() => ir(indice + 1)}
             disabled={actual.bloqueado}
-            className="h-12 flex-1 rounded-xl bg-teal-600 px-5 font-semibold text-white active:bg-teal-700 disabled:opacity-40"
+            aria-describedby={actual.bloqueado ? 'paso-ayuda' : undefined}
+            className="btn btn-primary btn-lg flex-1"
           >
             Siguiente →
           </button>
         )}
       </div>
       {actual.bloqueado && !esUltimo && (
-        <p className="mt-2 text-sm text-slate-500">Resolvé la actividad para continuar.</p>
+        <p id="paso-ayuda" className="mt-2 text-sm text-muted">Resolvé la actividad para continuar.</p>
       )}
     </div>
   );

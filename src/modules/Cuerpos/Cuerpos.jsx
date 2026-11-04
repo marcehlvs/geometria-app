@@ -47,10 +47,7 @@ const MODOS_REDONDO = {
   esfera: [],
 };
 
-const colorBoton = (activo) =>
-  activo
-    ? 'border-teal-600 bg-teal-600 text-white'
-    : 'border-slate-200 bg-white text-slate-700 active:bg-slate-100';
+const colorBoton = (activo) => (activo ? 'chip chip-on' : 'chip');
 
 export default function Cuerpos({ onVolver }) {
   const { marcarCompletado, anio } = useApp();
@@ -92,14 +89,14 @@ export default function Cuerpos({ onVolver }) {
       bloqueado: vistos.size < 3,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Elegí un cuerpo, girálo y tocá qué querés resaltar. Mirá al menos <strong>3 cuerpos distintos</strong> para seguir
             ({Math.min(vistos.size, 3)} de 3).
           </p>
 
           {GRUPOS_GALERIA.map((g) => (
             <div key={g.titulo}>
-              <p className="mb-1 text-sm font-semibold text-slate-500">{g.titulo}</p>
+              <p className="mb-1 text-sm font-semibold text-muted">{g.titulo}</p>
               <div className="flex flex-wrap gap-2">
                 {g.ids.map((id) => (
                   <button
@@ -108,7 +105,7 @@ export default function Cuerpos({ onVolver }) {
                     onClick={() => elegir(id)}
                     aria-pressed={elegido === id}
                     aria-label={buscar(id).nombre}
-                    className={`min-h-11 rounded-xl border-2 px-3 text-sm font-semibold transition ${colorBoton(elegido === id)}`}
+                    className={`${colorBoton(elegido === id)}`}
                   >
                     {NOMBRE_CORTO[id]}
                   </button>
@@ -117,9 +114,9 @@ export default function Cuerpos({ onVolver }) {
             </div>
           ))}
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="card p-4">
             <h3 className="text-lg font-bold">{cuerpo.nombre}</h3>
-            <p className="text-sm text-slate-600">{cuerpo.detalle}</p>
+            <p className="text-sm text-muted">{cuerpo.detalle}</p>
 
             {esPoliedro ? (
               <>
@@ -132,14 +129,14 @@ export default function Cuerpos({ onVolver }) {
                       type="button"
                       onClick={() => setResalte((r) => (r === m.id ? null : m.id))}
                       aria-pressed={resalte === m.id}
-                      className={`min-h-11 flex-1 rounded-xl border-2 px-3 font-semibold transition ${colorBoton(resalte === m.id)}`}
+                      className={`flex-1 ${colorBoton(resalte === m.id)}`}
                     >
                       {m.texto}
                     </button>
                   ))}
                 </div>
                 {resalte && (
-                  <p className="mt-3 rounded-lg bg-amber-50 p-2 text-amber-900" aria-live="polite">
+                  <p className="mt-3 rounded-lg bg-amber-50 p-2 text-warn-ink" aria-live="polite">
                     {resalte === 'caras' && (
                       <>
                         Tiene <strong>{cuentas.caras} caras</strong>: las de color verde son las <em>bases</em> y las amarillas las{' '}
@@ -170,14 +167,14 @@ export default function Cuerpos({ onVolver }) {
                         type="button"
                         onClick={() => setResalte((r) => (r === m.id ? null : m.id))}
                         aria-pressed={resalte === m.id}
-                        className={`min-h-11 flex-1 rounded-xl border-2 px-3 font-semibold transition ${colorBoton(resalte === m.id)}`}
+                        className={`flex-1 ${colorBoton(resalte === m.id)}`}
                       >
                         {m.texto}
                       </button>
                     ))}
                   </div>
                 )}
-                <p className="mt-3 rounded-lg bg-amber-50 p-2 text-amber-900">
+                <p className="mt-3 rounded-lg bg-amber-50 p-2 text-warn-ink">
                   Es un <strong>cuerpo redondo</strong>: tiene alguna superficie curva, por eso no tiene aristas ni caras como un poliedro.
                 </p>
               </>
@@ -191,7 +188,7 @@ export default function Cuerpos({ onVolver }) {
       bloqueado: !aristasOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Un prisma pentagonal tiene 2 bases pentagonales. Pensá: 5 aristas en cada base y 5 aristas que las unen.
           </p>
           <NumInput
@@ -229,13 +226,13 @@ export default function Cuerpos({ onVolver }) {
       titulo: 'Tabla comparativa',
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Fijate en las pirámides: el número de <strong>caras es igual al de vértices</strong>. En los prismas, los vértices son
             el doble de los lados de la base.
           </p>
-          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+          <div className="card overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-100 text-slate-600">
+              <thead className="bg-surface-2 text-muted">
                 <tr>
                   <th scope="col" className="p-2">Cuerpo</th>
                   <th scope="col" className="p-2 text-center">Caras</th>
@@ -248,7 +245,7 @@ export default function Cuerpos({ onVolver }) {
                   <tr key={c.id} className="border-t border-slate-100">
                     <th scope="row" className="p-2 font-semibold">{c.nombre}</th>
                     {c.tipo === 'redondo' ? (
-                      <td colSpan={3} className="p-2 text-center text-slate-400">cuerpo redondo</td>
+                      <td colSpan={3} className="p-2 text-center text-muted">cuerpo redondo</td>
                     ) : (
                       <>
                         <td className="p-2 text-center tabular-nums">{c.C}</td>
@@ -267,9 +264,9 @@ export default function Cuerpos({ onVolver }) {
     {
       titulo: '¡Listo!',
       contenido: (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="card p-4">
           <p className="font-semibold">Para recordar:</p>
-          <ul className="mt-2 list-disc space-y-1 pl-6 text-slate-700">
+          <ul className="mt-2 list-disc space-y-1 pl-6 text-ink">
             <li>Poliedros: todas las caras son planas (prismas y pirámides).</li>
             <li>Cuerpos redondos: tienen superficie curva (cilindro, cono, esfera).</li>
             <li>Cara, arista y vértice: la superficie, el borde donde se juntan dos caras y la punta.</li>

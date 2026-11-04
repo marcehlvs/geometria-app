@@ -105,15 +105,15 @@ function Forma({ id, diagonales }) {
   const pts = puntos.map((p) => p.join(',')).join(' ');
   return (
     <svg viewBox="0 0 200 120" className="mx-auto h-40 w-full max-w-xs" role="img" aria-label={CUADRILATEROS_ARBOL[id].nombre}>
-      <polygon points={pts} fill="#99f6e4" fillOpacity="0.6" stroke="#0f766e" strokeWidth="3" strokeLinejoin="round" />
+      <polygon points={pts} fill="var(--c-teal-200)" fillOpacity="0.6" stroke="var(--c-teal-700)" strokeWidth="3" strokeLinejoin="round" />
       {diagonales && (
         <>
-          <line x1={puntos[0][0]} y1={puntos[0][1]} x2={puntos[2][0]} y2={puntos[2][1]} stroke="#be123c" strokeWidth="2" strokeDasharray="5 4" />
-          <line x1={puntos[1][0]} y1={puntos[1][1]} x2={puntos[3][0]} y2={puntos[3][1]} stroke="#be123c" strokeWidth="2" strokeDasharray="5 4" />
+          <line x1={puntos[0][0]} y1={puntos[0][1]} x2={puntos[2][0]} y2={puntos[2][1]} stroke="var(--c-rose-700)" strokeWidth="2" strokeDasharray="5 4" />
+          <line x1={puntos[1][0]} y1={puntos[1][1]} x2={puntos[3][0]} y2={puntos[3][1]} stroke="var(--c-rose-700)" strokeWidth="2" strokeDasharray="5 4" />
         </>
       )}
       {puntos.map(([x, y], k) => (
-        <circle key={k} cx={x} cy={y} r="3.5" fill="#0f172a" />
+        <circle key={k} cx={x} cy={y} r="3.5" fill="var(--c-slate-900)" />
       ))}
     </svg>
   );
@@ -156,10 +156,10 @@ export default function Cuadrilateros({ onVolver }) {
         aria-pressed={activo}
         className={`min-h-11 rounded-xl border-2 px-3 py-2 text-sm font-semibold transition ${
           activo
-            ? 'border-teal-600 bg-teal-600 text-white'
+            ? 'border-brand bg-brand text-on-brand'
             : esAncestro
-              ? 'border-teal-300 bg-teal-50 text-teal-800'
-              : 'border-slate-200 bg-white text-slate-700 active:bg-slate-100'
+              ? 'border-teal-300 bg-brand-soft text-brand-ink'
+              : 'border-line bg-surface text-ink active:bg-surface-2'
         }`}
       >
         {CUADRILATEROS_ARBOL[id].nombre}
@@ -173,12 +173,12 @@ export default function Cuadrilateros({ onVolver }) {
       bloqueado: !vistoRombo,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Cada figura es un caso particular de la de arriba. Tocá una para ver sus propiedades
             (probá con el <strong>rombo</strong> y con el <strong>cuadrado</strong>).
           </p>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-3">
+          <div className="card p-3">
             <div className="flex flex-col items-center gap-1" aria-label="Árbol de clasificación">
               <Nodo id="cuadrilatero" />
               <span aria-hidden="true" className="text-slate-400">↓</span>
@@ -195,26 +195,26 @@ export default function Cuadrilateros({ onVolver }) {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="card p-4">
             <h3 className="text-lg font-bold">{CUADRILATEROS_ARBOL[elegido].nombre}</h3>
             <Forma id={elegido} diagonales={diagonales} />
             <button
               type="button"
               onClick={() => setDiagonales((d) => !d)}
-              className="mx-auto mt-1 block h-11 rounded-lg px-3 font-medium text-teal-700 underline"
+              className="mx-auto mt-1 block h-11 rounded-lg px-3 font-medium text-brand-ink underline"
             >
               {diagonales ? 'Ocultar diagonales' : 'Mostrar diagonales'}
             </button>
 
-            <p className="mt-2 text-sm font-semibold text-slate-500">Propiedades propias</p>
-            <ul className="list-disc space-y-1 pl-6 text-slate-800">
+            <p className="mt-2 text-sm font-semibold text-muted">Propiedades propias</p>
+            <ul className="list-disc space-y-1 pl-6 text-ink">
               {DETALLE[elegido].propias.map((p) => (
                 <li key={p}>{p}</li>
               ))}
             </ul>
 
             {heredaDe.length > 0 && (
-              <p className="mt-3 rounded-lg bg-teal-50 p-2 text-sm text-teal-900">
+              <p className="mt-3 rounded-lg bg-brand-soft p-2 text-sm text-teal-900">
                 Además cumple todo lo de:{' '}
                 <strong>{heredaDe.map((a) => CUADRILATEROS_ARBOL[a].nombre).join(', ')}</strong>.
               </p>
@@ -228,13 +228,13 @@ export default function Cuadrilateros({ onVolver }) {
       bloqueado: !todosResueltos,
       contenido: (
         <>
-          <p className="text-sm font-medium text-slate-500">
+          <p className="text-sm font-medium text-muted">
             Acertijo {ronda + 1} de {ACERTIJOS.length}
           </p>
           <ol className="space-y-2">
             {acertijo.pistas.slice(0, pistasVistas).map((p, k) => (
-              <li key={p} className="rounded-xl border border-slate-200 bg-white p-3">
-                <span className="font-bold text-teal-700">Pista {k + 1}:</span> {p}
+              <li key={p} className="card p-3">
+                <span className="font-bold text-brand-ink">Pista {k + 1}:</span> {p}
               </li>
             ))}
           </ol>
@@ -242,7 +242,7 @@ export default function Cuadrilateros({ onVolver }) {
             <button
               type="button"
               onClick={() => setPistasVistas((v) => v + 1)}
-              className="h-11 rounded-xl border-2 border-teal-600 px-4 font-semibold text-teal-700 active:bg-teal-50"
+              className="btn btn-secondary"
             >
               Dar otra pista
             </button>
@@ -265,7 +265,7 @@ export default function Cuadrilateros({ onVolver }) {
                 setPistasVistas(1);
                 setRondaResuelta(false);
               }}
-              className="h-12 w-full rounded-xl bg-teal-600 font-semibold text-white active:bg-teal-700"
+              className="btn btn-primary btn-lg w-full"
             >
               Siguiente acertijo →
             </button>
@@ -293,9 +293,9 @@ export default function Cuadrilateros({ onVolver }) {
     {
       titulo: '¡Listo!',
       contenido: (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="card p-4">
           <p className="font-semibold">Para recordar:</p>
-          <ul className="mt-2 list-disc space-y-1 pl-6 text-slate-700">
+          <ul className="mt-2 list-disc space-y-1 pl-6 text-ink">
             <li>Cuadrilátero → trapecio → paralelogramo → rectángulo / rombo → cuadrado.</li>
             <li>Lo que vale para una figura vale para todas las que están debajo.</li>
             <li>El cuadrado es a la vez rectángulo y rombo.</li>

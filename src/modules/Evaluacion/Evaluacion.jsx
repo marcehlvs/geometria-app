@@ -10,8 +10,7 @@ import { construirDesarrollo } from '../../data/nets.js';
 import { crearEvaluacion, corregirEvaluacion, DESCUENTO_UNIDAD } from '../../data/evaluacion.js';
 
 const APROBADO = 0.6; // con el 60 % del puntaje queda marcado el módulo
-const colorBoton = (activo) =>
-  activo ? 'border-teal-600 bg-teal-600 text-white' : 'border-slate-200 bg-white text-slate-700 active:bg-slate-100';
+const colorBoton = (activo) => (activo ? 'chip chip-on' : 'chip');
 
 const textoPuntos = (p) => `${fmt(p)} ${p === 1 ? 'punto' : 'puntos'}`;
 
@@ -38,9 +37,9 @@ function PatioL({ largo, ancho, rLargo, rAncho }) {
     .join(' ');
   return (
     <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Patio: un rectángulo al que se le quitó un rincón" className="mx-auto my-3 w-full max-w-sm">
-      <polygon points={puntos} fill="#ccfbf1" stroke="#0f766e" strokeWidth="2" strokeLinejoin="round" />
-      <rect x={izq + w - cw} y={arriba} width={cw} height={ch} fill="none" stroke="#64748b" strokeDasharray="4 3" />
-      <g fontSize="13" fontWeight="600" fill="#0f172a">
+      <polygon points={puntos} fill="var(--c-teal-100)" stroke="var(--c-teal-700)" strokeWidth="2" strokeLinejoin="round" />
+      <rect x={izq + w - cw} y={arriba} width={cw} height={ch} fill="none" stroke="var(--c-slate-500)" strokeDasharray="4 3" />
+      <g fontSize="13" fontWeight="600" fill="var(--c-slate-900)">
         <text x={izq + w / 2} y={arriba + h + 18} textAnchor="middle">{largo} m</text>
         <text x={izq - 6} y={arriba + h / 2} textAnchor="end" dominantBaseline="central">{ancho} m</text>
         <text x={izq + w - cw / 2} y={arriba - 8} textAnchor="middle">{rLargo} m</text>
@@ -68,15 +67,15 @@ function Figura({ figura }) {
 // ---------- Resultado de un paso (después de corregir) ----------
 function ResultadoParte({ parte, res }) {
   const respuesta = `${fmt(parte.valor, 4)} ${parte.unidad}`;
-  if (res.estado === 'ok') return <p className="mt-2 font-semibold text-green-700">✅ {fmt(res.puntos)} de {fmt(parte.puntos)}</p>;
+  if (res.estado === 'ok') return <p className="mt-2 font-semibold text-ok-ink">✅ {fmt(res.puntos)} de {fmt(parte.puntos)}</p>;
   if (res.estado === 'unidad')
     return (
-      <p className="mt-2 font-semibold text-amber-800">
+      <p className="mt-2 font-semibold text-warn-ink">
         ⚠️ {fmt(res.puntos)} de {fmt(parte.puntos)} · el número está bien, pero la unidad falta o está mal (−{fmt(DESCUENTO_UNIDAD)})
       </p>
     );
   return (
-    <p className="mt-2 font-semibold text-red-700">
+    <p className="mt-2 font-semibold text-bad-ink">
       {res.estado === 'vacio' ? '— Sin responder' : '❌'} · 0 de {fmt(parte.puntos)} · la respuesta era {respuesta}
     </p>
   );
@@ -89,7 +88,7 @@ function Hoja({ evaluacion, modo, respuestas, onCambio, resultado }) {
   return (
     <div className="space-y-5">
       {(papel || clave) && (
-        <header className="space-y-2 rounded-2xl border border-slate-300 bg-white p-4">
+        <header className="space-y-2 rounded-2xl border border-slate-300 bg-surface p-4">
           <h2 className="text-xl font-bold">
             Geometría · Evaluación N.º {evaluacion.semilla}
             {clave && <span className="ml-2 rounded bg-amber-200 px-2 py-0.5 text-sm">CLAVE DEL DOCENTE</span>}
@@ -107,16 +106,16 @@ function Hoja({ evaluacion, modo, respuestas, onCambio, resultado }) {
               </span>
             </p>
           )}
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-muted">
             Total: {textoPuntos(evaluacion.maximo)}. Escribí siempre la unidad: si falta o está mal, se descuentan {fmt(DESCUENTO_UNIDAD)} puntos en ese paso.
           </p>
         </header>
       )}
 
       {evaluacion.ejercicios.map((e) => (
-        <section key={e.numero} aria-labelledby={`ej-${modo}-${e.numero}`} className="ejercicio rounded-2xl border border-slate-200 bg-white p-4">
+        <section key={e.numero} aria-labelledby={`ej-${modo}-${e.numero}`} className="card ejercicio p-4">
           <h3 id={`ej-${modo}-${e.numero}`} className="text-lg font-bold">
-            Ejercicio {e.numero} · {e.titulo} <span className="text-sm font-normal text-slate-500">({textoPuntos(e.puntos)})</span>
+            Ejercicio {e.numero} · {e.titulo} <span className="text-sm font-normal text-muted">({textoPuntos(e.puntos)})</span>
           </h3>
           <p className="mt-2 text-lg leading-relaxed">{e.enunciado}</p>
           <Figura figura={e.figura} />
@@ -125,7 +124,7 @@ function Hoja({ evaluacion, modo, respuestas, onCambio, resultado }) {
             {e.partes.map((p) => (
               <li key={p.id} data-parte={p.id}>
                 <p>
-                  <strong>{p.letra})</strong> {p.consigna} <span className="text-sm text-slate-500">({textoPuntos(p.puntos)})</span>
+                  <strong>{p.letra})</strong> {p.consigna} <span className="text-sm text-muted">({textoPuntos(p.puntos)})</span>
                 </p>
 
                 {modo === 'pantalla' && (
@@ -139,14 +138,14 @@ function Hoja({ evaluacion, modo, respuestas, onCambio, resultado }) {
                         value={respuestas[p.id]?.texto ?? ''}
                         disabled={!!resultado}
                         onChange={(ev) => onCambio(p.id, { texto: ev.target.value })}
-                        className="h-12 min-w-0 flex-1 rounded-xl border-2 border-slate-300 bg-white px-3 text-lg outline-none focus:border-teal-500 disabled:bg-slate-100"
+                        className="input min-w-0 flex-1"
                       />
                       <select
                         aria-label={`Unidad ${p.id}`}
                         value={respuestas[p.id]?.unidad ?? ''}
                         disabled={!!resultado}
                         onChange={(ev) => onCambio(p.id, { unidad: ev.target.value })}
-                        className="h-12 w-28 rounded-xl border-2 border-slate-300 bg-white px-2 text-lg disabled:bg-slate-100"
+                        className="input w-28"
                       >
                         <option value="">Unidad</option>
                         {p.opciones.map((u) => (
@@ -178,7 +177,7 @@ function Hoja({ evaluacion, modo, respuestas, onCambio, resultado }) {
                       </strong>
                     </p>
                     <Formula block tex={p.tex} />
-                    {p.nota && <p className="text-sm text-slate-600">{p.nota}</p>}
+                    {p.nota && <p className="text-sm text-muted">{p.nota}</p>}
                   </div>
                 )}
               </li>
@@ -257,14 +256,14 @@ export default function Evaluacion({ onVolver }) {
               type="button"
               onClick={() => elegirAnio(valor)}
               aria-pressed={filtroAnio === valor}
-              className={`min-h-11 rounded-xl border-2 px-3 text-sm font-semibold transition ${colorBoton(filtroAnio === valor)}`}
+              className={`${colorBoton(filtroAnio === valor)}`}
             >
               {t}
             </button>
           ))}
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-3">
+        <div className="card p-3">
           <label htmlFor="numero-evaluacion" className="block font-semibold">
             Número de evaluación
           </label>
@@ -281,25 +280,25 @@ export default function Evaluacion({ onVolver }) {
               }}
               onKeyDown={(e) => e.key === 'Enter' && aplicarEntrada()}
               aria-invalid={errorEntrada}
-              className="h-12 min-w-0 flex-1 rounded-xl border-2 border-slate-300 bg-white px-3 text-lg outline-none focus:border-teal-500"
+              className="input min-w-0 flex-1"
             />
-            <button type="button" onClick={aplicarEntrada} className="min-h-12 rounded-xl border-2 border-teal-600 px-3 font-semibold text-teal-700 active:bg-teal-50">
+            <button type="button" onClick={aplicarEntrada} className="btn btn-secondary btn-lg">
               Usar
             </button>
             <button
               type="button"
               onClick={() => usarSemilla(nuevaSemilla())}
-              className="min-h-12 rounded-xl bg-teal-600 px-3 font-semibold text-white active:bg-teal-700"
+              className="btn btn-primary btn-lg"
             >
               Nueva
             </button>
           </div>
           {errorEntrada ? (
-            <p role="alert" className="mt-1 text-sm text-red-700">
+            <p role="alert" className="mt-1 text-sm text-bad-ink">
               Escribí un número entero positivo (por ejemplo 4821).
             </p>
           ) : (
-            <p className="mt-1 text-sm text-slate-500">Con el mismo número se obtiene siempre la misma evaluación y la misma clave.</p>
+            <p className="mt-1 text-sm text-muted">Con el mismo número se obtiene siempre la misma evaluación y la misma clave.</p>
           )}
         </div>
 
@@ -311,7 +310,7 @@ export default function Evaluacion({ onVolver }) {
               role="tab"
               aria-selected={modo === s.id}
               onClick={() => setModo(s.id)}
-              className={`min-h-11 flex-1 rounded-lg px-1 text-sm font-semibold transition ${modo === s.id ? 'bg-white text-teal-700 shadow' : 'text-slate-600'}`}
+              className={`min-h-11 flex-1 rounded-lg px-1 text-sm font-semibold transition ${modo === s.id ? 'bg-surface text-brand-ink shadow' : 'text-muted'}`}
             >
               {s.texto}
             </button>
@@ -322,7 +321,7 @@ export default function Evaluacion({ onVolver }) {
           <button
             type="button"
             onClick={() => window.print()}
-            className="min-h-11 w-full rounded-xl bg-teal-600 px-4 font-semibold text-white active:bg-teal-700"
+            className="btn btn-primary w-full"
           >
             🖨️ Imprimir {modo === 'clave' ? 'la clave' : 'la evaluación'}
           </button>
@@ -336,15 +335,15 @@ export default function Evaluacion({ onVolver }) {
           <div className="mt-4 space-y-3">
             {resultado ? (
               <>
-                <p role="status" data-puntaje={resultado.total} className="rounded-2xl border-2 border-teal-600 bg-teal-50 p-4 text-center text-xl font-bold">
+                <p role="status" data-puntaje={resultado.total} className="rounded-card border-2 border-brand bg-brand-soft p-4 text-center text-xl font-bold">
                   Puntaje: {fmt(resultado.total)} de {fmt(resultado.maximo)}
                 </p>
-                <button type="button" onClick={reiniciar} className="h-12 w-full rounded-xl border-2 border-teal-600 font-semibold text-teal-700 active:bg-teal-50">
+                <button type="button" onClick={reiniciar} className="btn btn-secondary btn-lg w-full">
                   Volver a intentarlo
                 </button>
               </>
             ) : (
-              <button type="button" onClick={corregir} className="h-12 w-full rounded-xl bg-teal-600 text-lg font-semibold text-white active:bg-teal-700">
+              <button type="button" onClick={corregir} className="btn btn-primary btn-lg w-full">
                 Corregir evaluación
               </button>
             )}

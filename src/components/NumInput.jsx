@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { parseNum, casiIgual, fmt } from '../utils/format.js';
 
 // Campo para responder con un número (acepta coma o punto).
@@ -8,6 +8,7 @@ import { parseNum, casiIgual, fmt } from '../utils/format.js';
 // Después de 2 intentos fallidos aparece "Ver resultado".
 
 export default function NumInput({ etiqueta, correcto, unidad = '', tolerancia = 0.01, pista, onResultado }) {
+  const id = useId();
   const [texto, setTexto] = useState('');
   const [estado, setEstado] = useState('inicial'); // inicial | ok | mal | invalido | revelado
   const [fallos, setFallos] = useState(0);
@@ -35,56 +36,55 @@ export default function NumInput({ etiqueta, correcto, unidad = '', tolerancia =
     onResultado?.({ correcto: false, intentos: fallos, revelado: true });
   };
 
-  const colorBorde =
-    estado === 'ok' ? 'border-green-500 bg-green-50'
-    : estado === 'mal' || estado === 'invalido' ? 'border-red-400 bg-red-50'
-    : 'border-slate-300 bg-white';
+  const estadoCampo = estado === 'ok' ? 'ok' : estado === 'mal' || estado === 'invalido' ? 'error' : undefined;
+  const hayError = estadoCampo === 'error';
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-      <label className="mb-2 block text-lg font-semibold" htmlFor="numinput-campo">{etiqueta}</label>
+    <div className="card p-4">
+      <label className="mb-2 block text-lg font-semibold" htmlFor={`${id}-campo`}>{etiqueta}</label>
       <div className="flex items-stretch gap-2">
-        <div className={`flex flex-1 items-center rounded-xl border-2 px-3 ${colorBorde}`}>
+        <div className="field flex-1" data-estado={estadoCampo}>
           <input
-            id="numinput-campo"
+            id={`${id}-campo`}
             type="text"
             inputMode="decimal"
             enterKeyHint="done"
             autoComplete="off"
             value={texto}
             readOnly={terminado}
+            aria-invalid={hayError || undefined}
+            aria-describedby={`${id}-msg`}
             onChange={(e) => setTexto(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && comprobar()}
             placeholder="Tu respuesta"
-            className="h-12 w-full bg-transparent text-lg outline-none"
           />
-          {unidad && <span className="ml-2 shrink-0 text-slate-500">{unidad}</span>}
+          {unidad && <span className="ml-2 shrink-0 text-muted">{unidad}</span>}
         </div>
         <button
           type="button"
           onClick={comprobar}
           disabled={terminado || texto.trim() === ''}
-          className="h-12 shrink-0 rounded-xl bg-teal-600 px-4 font-semibold text-white active:bg-teal-700 disabled:opacity-40"
+          className="btn btn-primary btn-lg shrink-0"
         >
           Comprobar
         </button>
       </div>
 
-      <div aria-live="polite" className="mt-3 min-h-6">
-        {estado === 'ok' && <p className="text-green-700">✅ ¡Correcto!</p>}
-        {estado === 'invalido' && <p className="text-red-600">Escribí solo un número (podés usar coma: 3,5).</p>}
+      <div id={`${id}-msg`} aria-live="polite" className="mt-3 min-h-6">
+        {estado === 'ok' && <p className="font-medium text-ok-ink">✅ ¡Correcto!</p>}
+        {estado === 'invalido' && <p className="font-medium text-bad-ink">Escribí solo un número (podés usar coma: 3,5).</p>}
         {estado === 'mal' && (
-          <p className="text-red-600">
+          <p className="font-medium text-bad-ink">
             ❌ No coincide. Revisá el cálculo.{pista ? ` Pista: ${pista}` : ''}
           </p>
         )}
         {estado === 'revelado' && (
-          <p className="text-slate-700">
+          <p>
             El resultado era <strong>{fmt(correcto)}{unidad && ` ${unidad}`}</strong>. Repasalo y seguimos.
           </p>
         )}
         {fallos >= 2 && !terminado && (
-          <button type="button" onClick={revelar} className="mt-2 h-11 rounded-lg px-3 font-medium text-teal-700 underline">
+          <button type="button" onClick={revelar} className="btn btn-ghost mt-2 underline">
             Ver resultado
           </button>
         )}

@@ -32,8 +32,7 @@ const MODOS = [
 ];
 const DATOS = Object.fromEntries(POLIEDROS.map((p) => [p.id, p]));
 
-const colorBoton = (activo) =>
-  activo ? 'border-teal-600 bg-teal-600 text-white' : 'border-slate-200 bg-white text-slate-700 active:bg-slate-100';
+const colorBoton = (activo) => (activo ? 'chip chip-on' : 'chip');
 
 export default function Euler({ onVolver }) {
   const { marcarCompletado } = useApp();
@@ -82,11 +81,11 @@ export default function Euler({ onVolver }) {
       bloqueado: !tablaOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Elegí un cuerpo, mirá el modelo y <strong>contá</strong> sus caras (C), vértices (V) y aristas (A). Completá toda la tabla.
           </p>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="card p-4">
             <div className="flex flex-wrap gap-2" role="group" aria-label="Cuerpo a mirar">
               {IDS_TABLA.map((id) => (
                 <button
@@ -94,7 +93,7 @@ export default function Euler({ onVolver }) {
                   type="button"
                   onClick={() => setElegido(id)}
                   aria-pressed={elegido === id}
-                  className={`min-h-11 rounded-xl border-2 px-3 text-sm font-semibold transition ${colorBoton(elegido === id)}`}
+                  className={`${colorBoton(elegido === id)}`}
                 >
                   {CORTO[id]}
                 </button>
@@ -108,7 +107,7 @@ export default function Euler({ onVolver }) {
                   type="button"
                   onClick={() => setResalte(m.id)}
                   aria-pressed={resalte === m.id}
-                  className={`min-h-11 flex-1 rounded-xl border-2 px-2 text-sm font-semibold transition ${colorBoton(resalte === m.id)}`}
+                  className={`flex-1 ${colorBoton(resalte === m.id)}`}
                 >
                   {m.texto}
                 </button>
@@ -119,10 +118,10 @@ export default function Euler({ onVolver }) {
             </div>
           </div>
 
-          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+          <div className="card overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-slate-200 text-sm text-slate-500">
+                <tr className="border-b border-line text-sm text-muted">
                   <th className="p-2 font-medium">Cuerpo</th>
                   {CAMPOS.map((c) => (
                     <th key={c.id} className="p-2 text-center font-medium">
@@ -154,7 +153,7 @@ export default function Euler({ onVolver }) {
                               if (e === 'mal') setEstado((s) => ({ ...s, [k]: undefined }));
                             }}
                             className={`h-11 w-full min-w-12 rounded-lg border-2 text-center text-lg outline-none ${
-                              e === 'ok' ? 'border-green-500 bg-green-50' : e === 'mal' ? 'border-red-400 bg-red-50' : 'border-slate-300 bg-white'
+                              e === 'ok' ? 'border-green-500 bg-green-50' : e === 'mal' ? 'border-red-400 bg-red-50' : 'border-slate-300 bg-surface'
                             }`}
                           />
                         </td>
@@ -169,19 +168,19 @@ export default function Euler({ onVolver }) {
           <button
             type="button"
             onClick={comprobarTabla}
-            className="h-12 w-full rounded-xl bg-teal-600 px-4 font-semibold text-white active:bg-teal-700"
+            className="btn btn-primary btn-lg w-full"
           >
             Comprobar tabla
           </button>
           <p aria-live="polite" className="min-h-6">
             {tablaOk ? (
-              <span className="text-green-700">✅ ¡Toda la tabla está bien!</span>
+              <span className="text-ok-ink">✅ ¡Toda la tabla está bien!</span>
             ) : hayErrores ? (
-              <span className="text-red-600">
+              <span className="text-bad-ink">
                 Hay números que no coinciden (en rojo). Volvé a contar con el modelo. Van {correctas} de {celdas.length} bien.
               </span>
             ) : correctas > 0 ? (
-              <span className="text-slate-600">
+              <span className="text-muted">
                 Van {correctas} de {celdas.length} bien.
               </span>
             ) : null}
@@ -194,13 +193,13 @@ export default function Euler({ onVolver }) {
       bloqueado: !relacionOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Con tus números, calculá <strong>C + V</strong> por un lado y <strong>A + 2</strong> por el otro. ¿Qué notás?
           </p>
-          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+          <div className="card overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-slate-200 text-sm text-slate-500">
+                <tr className="border-b border-line text-sm text-muted">
                   <th className="p-2 font-medium">Cuerpo</th>
                   <th className="p-2 text-center font-medium">C + V</th>
                   <th className="p-2 text-center font-medium">A + 2</th>
@@ -233,9 +232,9 @@ export default function Euler({ onVolver }) {
             explicacion="Siempre coinciden: es la fórmula de Euler para poliedros."
             onResolver={() => setRelacionOk(true)}
           />
-          <div className="rounded-2xl border border-slate-200 bg-white p-3 text-center">
+          <div className="card p-3 text-center">
             <Formula block tex={EULER.tex} />
-            <p className="text-sm text-slate-500">C = caras · V = vértices · A = aristas</p>
+            <p className="text-sm text-muted">C = caras · V = vértices · A = aristas</p>
           </div>
         </>
       ),
@@ -245,7 +244,7 @@ export default function Euler({ onVolver }) {
       bloqueado: !(aristasOk && existeOk),
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Ya no hace falta contar todo: si conocés dos números, el tercero sale de <Formula tex={EULER.tex} />.
           </p>
           <NumInput
@@ -269,13 +268,13 @@ export default function Euler({ onVolver }) {
       bloqueado: !regularesOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Un poliedro es <strong>regular</strong> si todas sus caras son polígonos regulares iguales y en cada vértice se juntan la misma cantidad de caras. Euler también se cumple en ellos.
           </p>
-          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+          <div className="card overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-slate-200 text-slate-500">
+                <tr className="border-b border-line text-muted">
                   <th className="p-2 font-medium">Poliedro</th>
                   <th className="p-2 font-medium">Cara</th>
                   <th className="p-2 text-center font-medium">En cada vértice</th>
@@ -315,15 +314,15 @@ export default function Euler({ onVolver }) {
       bloqueado: !agujeroOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             La fórmula tiene una condición: el cuerpo <strong>no puede tener agujeros</strong> que lo atraviesen. Mirá un marco de cuadro:
           </p>
-          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="card p-4">
             <h3 className="font-bold">{CONTRAEJEMPLO_EULER.nombre}</h3>
-            <p className="mt-1 tabular-nums text-slate-700">
+            <p className="mt-1 tabular-nums text-ink">
               C = {CONTRAEJEMPLO_EULER.C} · V = {CONTRAEJEMPLO_EULER.V} · A = {CONTRAEJEMPLO_EULER.A}
             </p>
-            <p className="mt-1 text-slate-700">
+            <p className="mt-1 text-ink">
               C + V = {CONTRAEJEMPLO_EULER.C + CONTRAEJEMPLO_EULER.V} y A + 2 = {CONTRAEJEMPLO_EULER.A + 2}.
             </p>
           </div>
@@ -340,10 +339,10 @@ export default function Euler({ onVolver }) {
     {
       titulo: '¡Listo!',
       contenido: (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="card p-4">
           <p className="font-semibold">Para recordar:</p>
           <Formula block tex={EULER.tex} />
-          <ul className="mt-2 list-disc space-y-1 pl-6 text-slate-700">
+          <ul className="mt-2 list-disc space-y-1 pl-6 text-ink">
             <li>Vale en todos los poliedros sin agujeros, sean prismas, pirámides o regulares.</li>
             <li>Si conocés dos números (C, V o A), calculás el tercero.</li>
             <li>Si no se cumple, el cuerpo no existe o tiene un agujero.</li>

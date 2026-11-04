@@ -5,7 +5,7 @@ import { construirPoliedro, rotar, caraVisible } from '../utils/solidos3d.js';
 // elementos» (Paso 8) y «Fórmula de Euler» (Paso 11).
 //   <Poliedro3D id="cubo" giro={30} resalte="caras" | "aristas" | "vertices" | null />
 
-const CARA_COLOR = { base: '#5eead4', lateral: '#fcd34d' };
+const CARA_COLOR = { base: 'var(--c-teal-300)', lateral: 'var(--c-amber-300)' };
 
 // ---------------- Poliedro en 3D (SVG) ----------------
 export default function Poliedro3D({ id, giro, resalte }) {
@@ -29,7 +29,7 @@ export default function Poliedro3D({ id, giro, resalte }) {
         <polygon
           key={k}
           points={f.pts.map((q) => proy(q).join(',')).join(' ')}
-          fill={resalte === 'caras' ? CARA_COLOR[f.rol] : '#ccfbf1'}
+          fill={resalte === 'caras' ? CARA_COLOR[f.rol] : 'var(--c-teal-100)'}
           fillOpacity={f.visible ? 0.85 : 0.25}
           stroke="none"
         />
@@ -46,7 +46,7 @@ export default function Poliedro3D({ id, giro, resalte }) {
             y1={y1}
             x2={x2}
             y2={y2}
-            stroke={resaltada ? '#be123c' : '#0f766e'}
+            stroke={resaltada ? 'var(--c-rose-700)' : 'var(--c-teal-700)'}
             strokeWidth={resaltada ? 4 : 2.5}
             strokeLinecap="round"
             strokeDasharray={visible ? undefined : '4 4'}
@@ -59,8 +59,8 @@ export default function Poliedro3D({ id, giro, resalte }) {
           const [x, y] = proy(p);
           return (
             <g key={k}>
-              <circle cx={x} cy={y} r="9" fill="#0f172a" />
-              <text x={x} y={y} fontSize="11" fill="#fff" textAnchor="middle" dominantBaseline="central" fontWeight="700">
+              <circle cx={x} cy={y} r="9" fill="var(--c-slate-900)" />
+              <text x={x} y={y} fontSize="11" fill="var(--c-white)" textAnchor="middle" dominantBaseline="central" fontWeight="700">
                 {k + 1}
               </text>
             </g>

@@ -197,7 +197,7 @@ export default function Triangulos({ onVolver }) {
       bloqueado: !quiz1Ok,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Mové cualquiera de los vértices <strong>A, B o C</strong> arrastrándolos con el dedo o el mouse.
             Observá cómo se clasifica automáticamente por sus <strong>lados</strong> y por sus <strong>ángulos</strong>:
           </p>
@@ -208,14 +208,14 @@ export default function Triangulos({ onVolver }) {
                 key={id}
                 type="button"
                 onClick={() => aplicarPreset(id)}
-                className="min-h-11 rounded-lg border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 active:bg-slate-100"
+                className="min-h-11 rounded-lg border border-line bg-surface px-3 text-sm font-semibold text-ink active:bg-surface-2"
               >
                 {label}
               </button>
             ))}
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm select-none">
+          <div className="card p-3 shadow-sm select-none">
             <svg
               ref={svgRef}
               viewBox="0 0 320 220"
@@ -228,26 +228,26 @@ export default function Triangulos({ onVolver }) {
             >
               <polygon
                 points={`${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}`}
-                fill="rgba(15, 118, 110, 0.12)"
-                stroke="#0f766e"
+                fill="color-mix(in srgb, var(--c-teal-700) 12%, transparent)"
+                stroke="var(--c-teal-700)"
                 strokeWidth="2.5"
                 strokeLinejoin="round"
               />
 
-              <text x={mAB.x} y={mAB.y + 16} textAnchor="middle" fontSize="11" fill="#475569" className="font-mono">
+              <text x={mAB.x} y={mAB.y + 16} textAnchor="middle" fontSize="11" fill="var(--c-slate-600)" className="font-mono">
                 c = {fmt(cCm, 1)} cm
               </text>
-              <text x={mBC.x + 8} y={mBC.y} textAnchor="start" fontSize="11" fill="#475569" className="font-mono">
+              <text x={mBC.x + 8} y={mBC.y} textAnchor="start" fontSize="11" fill="var(--c-slate-600)" className="font-mono">
                 a = {fmt(aCm, 1)} cm
               </text>
-              <text x={mAC.x - 8} y={mAC.y} textAnchor="end" fontSize="11" fill="#475569" className="font-mono">
+              <text x={mAC.x - 8} y={mAC.y} textAnchor="end" fontSize="11" fill="var(--c-slate-600)" className="font-mono">
                 b = {fmt(bCm, 1)} cm
               </text>
 
               {[
-                { id: 'A', pt: A, color: '#0d9488' },
-                { id: 'B', pt: B, color: '#0284c7' },
-                { id: 'C', pt: C, color: '#e11d48' },
+                { id: 'A', pt: A, color: 'var(--c-teal-600)' },
+                { id: 'B', pt: B, color: 'var(--c-sky-600)' },
+                { id: 'C', pt: C, color: 'var(--c-rose-600)' },
               ].map(({ id, pt, color }) => (
                 <g
                   key={id}
@@ -258,8 +258,8 @@ export default function Triangulos({ onVolver }) {
                   }}
                 >
                   <circle cx={pt.x} cy={pt.y} r="18" fill="transparent" />
-                  <circle cx={pt.x} cy={pt.y} r="8" fill={color} stroke="#ffffff" strokeWidth="2" />
-                  <text x={pt.x} y={pt.y - 12} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0f172a">
+                  <circle cx={pt.x} cy={pt.y} r="8" fill={color} stroke="var(--c-white)" strokeWidth="2" />
+                  <text x={pt.x} y={pt.y - 12} textAnchor="middle" fontSize="13" fontWeight="bold" fill="var(--c-slate-900)">
                     {id}
                   </text>
                 </g>
@@ -267,10 +267,10 @@ export default function Triangulos({ onVolver }) {
             </svg>
 
             <div className="mt-2 grid grid-cols-2 gap-2 text-center">
-              <div className="rounded-xl border border-teal-200 bg-teal-50 p-2">
-                <span className="text-sm font-bold uppercase tracking-wide text-teal-700">Por sus lados</span>
+              <div className="rounded-xl border border-teal-200 bg-brand-soft p-2">
+                <span className="text-sm font-bold uppercase tracking-wide text-brand-ink">Por sus lados</span>
                 <p className="text-base font-extrabold capitalize text-teal-900">{clasifLados}</p>
-                <p className="text-sm text-teal-700">
+                <p className="text-sm text-brand-ink">
                   {clasifLados === 'equilátero' ? '3 lados iguales' : clasifLados === 'isósceles' ? '2 lados iguales' : '3 lados distintos'}
                 </p>
               </div>
@@ -304,28 +304,28 @@ export default function Triangulos({ onVolver }) {
       bloqueado: !num2Ok,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Sin importar la forma del triángulo, la <strong>suma de los tres ángulos interiores es siempre 180°</strong>:
           </p>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm select-none">
+          <div className="card p-3 shadow-sm select-none">
             {!mostrarJuntos ? (
               <svg viewBox="0 0 320 220" className="mx-auto w-full max-w-sm" role="img" aria-label="Ángulos interiores del triángulo">
                 <polygon
                   points={`${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}`}
-                  fill="#f8fafc"
-                  stroke="#334155"
+                  fill="var(--c-slate-50)"
+                  stroke="var(--c-slate-700)"
                   strokeWidth="2"
                   strokeLinejoin="round"
                 />
-                {rotuloAngulo(A, `α = ${angA}°`, { fondo: 'rgba(13, 148, 136, 0.3)', texto: '#0f766e' })}
-                {rotuloAngulo(B, `β = ${angB}°`, { fondo: 'rgba(217, 119, 6, 0.3)', texto: '#b45309' })}
-                {rotuloAngulo(C, `γ = ${angC}°`, { fondo: 'rgba(79, 70, 229, 0.3)', texto: '#4338ca' })}
+                {rotuloAngulo(A, `α = ${angA}°`, { fondo: 'color-mix(in srgb, var(--c-teal-600) 30%, transparent)', texto: 'var(--c-teal-700)' })}
+                {rotuloAngulo(B, `β = ${angB}°`, { fondo: 'color-mix(in srgb, var(--c-amber-600) 30%, transparent)', texto: 'var(--c-amber-700)' })}
+                {rotuloAngulo(C, `γ = ${angC}°`, { fondo: 'color-mix(in srgb, var(--c-indigo-600) 30%, transparent)', texto: 'var(--c-indigo-700)' })}
               </svg>
             ) : (
               /* Demostración: los 3 sectores unidos en una recta forman 180° */
               <svg viewBox="0 0 320 140" className="mx-auto w-full max-w-sm" role="img" aria-label="Demostración visual de 180 grados">
-                <line x1="40" y1="110" x2="280" y2="110" stroke="#0f172a" strokeWidth="2.5" />
+                <line x1="40" y1="110" x2="280" y2="110" stroke="var(--c-slate-900)" strokeWidth="2.5" />
                 {(() => {
                   const cx = 160, cy = 110, r = 70;
                   const radA = (angA * Math.PI) / 180;
@@ -335,14 +335,14 @@ export default function Triangulos({ onVolver }) {
                   const [xAB, yAB] = pt(radA + radB);
                   return (
                     <>
-                      <path d={`M ${cx + r} ${cy} A ${r} ${r} 0 0 0 ${xA} ${yA} L ${cx} ${cy} Z`} fill="rgba(13, 148, 136, 0.45)" stroke="#0f766e" />
-                      <path d={`M ${xA} ${yA} A ${r} ${r} 0 0 0 ${xAB} ${yAB} L ${cx} ${cy} Z`} fill="rgba(217, 119, 6, 0.45)" stroke="#b45309" />
-                      <path d={`M ${xAB} ${yAB} A ${r} ${r} 0 0 0 ${cx - r} ${cy} L ${cx} ${cy} Z`} fill="rgba(79, 70, 229, 0.45)" stroke="#4338ca" />
+                      <path d={`M ${cx + r} ${cy} A ${r} ${r} 0 0 0 ${xA} ${yA} L ${cx} ${cy} Z`} fill="color-mix(in srgb, var(--c-teal-600) 45%, transparent)" stroke="var(--c-teal-700)" />
+                      <path d={`M ${xA} ${yA} A ${r} ${r} 0 0 0 ${xAB} ${yAB} L ${cx} ${cy} Z`} fill="color-mix(in srgb, var(--c-amber-600) 45%, transparent)" stroke="var(--c-amber-700)" />
+                      <path d={`M ${xAB} ${yAB} A ${r} ${r} 0 0 0 ${cx - r} ${cy} L ${cx} ${cy} Z`} fill="color-mix(in srgb, var(--c-indigo-600) 45%, transparent)" stroke="var(--c-indigo-700)" />
                     </>
                   );
                 })()}
-                <circle cx="160" cy="110" r="4" fill="#0f172a" />
-                <text x="160" y="130" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#0f172a">
+                <circle cx="160" cy="110" r="4" fill="var(--c-slate-900)" />
+                <text x="160" y="130" textAnchor="middle" fontSize="12" fontWeight="bold" fill="var(--c-slate-900)">
                   Ángulo llano completo = 180°
                 </text>
               </svg>
@@ -352,7 +352,7 @@ export default function Triangulos({ onVolver }) {
               <button
                 type="button"
                 onClick={() => setMostrarJuntos((m) => !m)}
-                className="min-h-11 rounded-xl border border-teal-300 bg-teal-50 px-3 text-sm font-bold text-teal-800 active:bg-teal-100"
+                className="min-h-11 rounded-xl border border-teal-300 bg-brand-soft px-3 text-sm font-bold text-brand-ink active:bg-teal-100"
               >
                 {mostrarJuntos ? '← Ver triángulo' : '✨ Juntar los 3 ángulos en una recta'}
               </button>
@@ -379,7 +379,7 @@ export default function Triangulos({ onVolver }) {
       bloqueado: !quiz3Ok,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             ¿Se puede armar un triángulo con tres medidas cualesquiera? <strong>No siempre:</strong>{' '}
             los dos lados menores, juntos, tienen que ser más largos que el mayor.
           </p>
@@ -390,52 +390,52 @@ export default function Triangulos({ onVolver }) {
             <Slider etiqueta="Lado c" valor={ladoC} onChange={setLadoC} min={2} max={12} unidad="cm" />
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm select-none">
+          <div className="card p-3 shadow-sm select-none">
             <svg viewBox="0 0 320 240" className="mx-auto w-full max-w-sm" role="img" aria-label="Comprobación visual de la desigualdad triangular">
               {/* Arriba: el triángulo, si se puede armar */}
-              <line x1={X0} y1={Y_TRI} x2={X0 + mayorPx} y2={Y_TRI} stroke="#0f172a" strokeWidth="3.5" />
+              <line x1={X0} y1={Y_TRI} x2={X0 + mayorPx} y2={Y_TRI} stroke="var(--c-slate-900)" strokeWidth="3.5" />
               {sePuedeArmar ? (
                 <>
                   <polygon
                     points={`${X0},${Y_TRI} ${X0 + mayorPx},${Y_TRI} ${xV},${yV}`}
-                    fill="rgba(16, 185, 129, 0.15)"
-                    stroke="#10b981"
+                    fill="color-mix(in srgb, var(--c-emerald-500) 15%, transparent)"
+                    stroke="var(--c-emerald-500)"
                     strokeWidth="3"
                     strokeLinejoin="round"
                   />
-                  <text x={(X0 + xV) / 2 - 6} y={(Y_TRI + yV) / 2} textAnchor="end" fontSize="11" fontWeight="bold" fill="#047857">
+                  <text x={(X0 + xV) / 2 - 6} y={(Y_TRI + yV) / 2} textAnchor="end" fontSize="11" fontWeight="bold" fill="var(--c-emerald-700)">
                     {s1} cm
                   </text>
-                  <text x={(X0 + mayorPx + xV) / 2 + 6} y={(Y_TRI + yV) / 2} textAnchor="start" fontSize="11" fontWeight="bold" fill="#047857">
+                  <text x={(X0 + mayorPx + xV) / 2 + 6} y={(Y_TRI + yV) / 2} textAnchor="start" fontSize="11" fontWeight="bold" fill="var(--c-emerald-700)">
                     {s2} cm
                   </text>
                 </>
               ) : (
                 <>
                   {/* Las dos varillas, apoyadas en los extremos de la base: no alcanzan a cerrarse */}
-                  <line x1={X0} y1={Y_TRI - 8} x2={X0 + s1Px} y2={Y_TRI - 8} stroke="#ef4444" strokeWidth="4" strokeLinecap="round" />
-                  <line x1={X0 + mayorPx - s2Px} y1={Y_TRI - 8} x2={X0 + mayorPx} y2={Y_TRI - 8} stroke="#ef4444" strokeWidth="4" strokeLinecap="round" />
-                  <text x="160" y="70" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#dc2626">
+                  <line x1={X0} y1={Y_TRI - 8} x2={X0 + s1Px} y2={Y_TRI - 8} stroke="var(--c-red-500)" strokeWidth="4" strokeLinecap="round" />
+                  <line x1={X0 + mayorPx - s2Px} y1={Y_TRI - 8} x2={X0 + mayorPx} y2={Y_TRI - 8} stroke="var(--c-red-500)" strokeWidth="4" strokeLinecap="round" />
+                  <text x="160" y="70" textAnchor="middle" fontSize="13" fontWeight="bold" fill="var(--c-red-500)">
                     No se puede cerrar el triángulo
                   </text>
                 </>
               )}
-              <text x={X0 + mayorPx / 2} y={Y_TRI + 16} textAnchor="middle" fontSize="12" fontWeight="bold" fill="#0f172a">
+              <text x={X0 + mayorPx / 2} y={Y_TRI + 16} textAnchor="middle" fontSize="12" fontWeight="bold" fill="var(--c-slate-900)">
                 {mayor} cm
               </text>
 
               {/* Abajo: la comparación «los dos menores, uno a continuación del otro, contra el mayor» */}
-              <text x={X0} y="184" fontSize="11" fill="#475569">Lado mayor: {mayor} cm</text>
-              <line x1={X0} y1="192" x2={X0 + mayorPx} y2="192" stroke="#0f172a" strokeWidth="6" strokeLinecap="round" />
-              <text x={X0} y="212" fontSize="11" fill="#475569">Los otros dos, juntos: {s1} + {s2} = {sumaMenores} cm</text>
-              <line x1={X0} y1="220" x2={X0 + s1Px} y2="220" stroke="#0d9488" strokeWidth="6" />
-              <line x1={X0 + s1Px} y1="220" x2={X0 + s1Px + s2Px} y2="220" stroke="#d97706" strokeWidth="6" />
+              <text x={X0} y="184" fontSize="11" fill="var(--c-slate-600)">Lado mayor: {mayor} cm</text>
+              <line x1={X0} y1="192" x2={X0 + mayorPx} y2="192" stroke="var(--c-slate-900)" strokeWidth="6" strokeLinecap="round" />
+              <text x={X0} y="212" fontSize="11" fill="var(--c-slate-600)">Los otros dos, juntos: {s1} + {s2} = {sumaMenores} cm</text>
+              <line x1={X0} y1="220" x2={X0 + s1Px} y2="220" stroke="var(--c-teal-600)" strokeWidth="6" />
+              <line x1={X0 + s1Px} y1="220" x2={X0 + s1Px + s2Px} y2="220" stroke="var(--c-amber-600)" strokeWidth="6" />
               <line
                 x1={X0 + mayorPx}
                 y1="180"
                 x2={X0 + mayorPx}
                 y2="228"
-                stroke={sePuedeArmar ? '#16a34a' : '#dc2626'}
+                stroke={sePuedeArmar ? 'var(--c-green-600)' : 'var(--c-red-500)'}
                 strokeWidth="2"
                 strokeDasharray="4 3"
               />
@@ -474,7 +474,7 @@ export default function Triangulos({ onVolver }) {
       titulo: '4. Puntos notables del triángulo',
       contenido: (
         <div className="space-y-4">
-          <p className="text-slate-600">
+          <p className="text-muted">
             Las líneas especiales de un triángulo (medianas, alturas, mediatrices y bisectrices) se cortan, de a tres, en un único punto:
           </p>
 
@@ -492,8 +492,8 @@ export default function Triangulos({ onVolver }) {
                 onClick={() => setPuntoNotable(id)}
                 className={`min-h-11 rounded-xl p-2 text-center text-sm transition ${
                   puntoNotable === id
-                    ? 'bg-teal-600 font-bold text-white shadow-sm'
-                    : 'border border-slate-200 bg-white font-medium text-slate-700 active:bg-slate-50'
+                    ? 'bg-brand font-bold text-on-brand shadow-sm'
+                    : 'border border-line bg-surface font-medium text-ink active:bg-slate-50'
                 }`}
               >
                 {label}
@@ -502,36 +502,36 @@ export default function Triangulos({ onVolver }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm text-slate-500">Probá con otro triángulo:</span>
+            <span className="text-sm text-muted">Probá con otro triángulo:</span>
             {PRESETS.map(([id, label]) => (
               <button
                 key={id}
                 type="button"
                 onClick={() => aplicarPreset(id)}
-                className="min-h-11 rounded-lg border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 active:bg-slate-100"
+                className="min-h-11 rounded-lg border border-line bg-surface px-3 text-sm font-semibold text-ink active:bg-surface-2"
               >
                 {label}
               </button>
             ))}
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm select-none">
+          <div className="card p-3 shadow-sm select-none">
             <svg
               viewBox={`${vbX0} ${vbY0} ${vbX1 - vbX0} ${vbY1 - vbY0}`}
               className="mx-auto w-full max-w-sm"
               role="img"
               aria-label="Visualización de puntos notables"
             >
-              <polygon points={`${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}`} fill="#f8fafc" stroke="#334155" strokeWidth="2" strokeLinejoin="round" />
+              <polygon points={`${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}`} fill="var(--c-slate-50)" stroke="var(--c-slate-700)" strokeWidth="2" strokeLinejoin="round" />
 
               {/* Baricentro: las 3 medianas (de cada vértice al punto medio del lado opuesto) */}
               {puntoNotable === 'baricentro' && (
                 <>
                   {[[A, mBC], [B, mAC], [C, mAB]].map(([v, m], k) => (
-                    <line key={k} x1={v.x} y1={v.y} x2={m.x} y2={m.y} stroke="#0d9488" strokeWidth="1.5" strokeDasharray="4 3" />
+                    <line key={k} x1={v.x} y1={v.y} x2={m.x} y2={m.y} stroke="var(--c-teal-600)" strokeWidth="1.5" strokeDasharray="4 3" />
                   ))}
-                  <circle cx={bariX} cy={bariY} r="6" fill="#0f766e" />
-                  <text x={bariX} y={bariY - 10} textAnchor="middle" fontSize="12" fontWeight="bold" fill="#0f766e">G</text>
+                  <circle cx={bariX} cy={bariY} r="6" fill="var(--c-teal-700)" />
+                  <text x={bariX} y={bariY - 10} textAnchor="middle" fontSize="12" fontWeight="bold" fill="var(--c-teal-700)">G</text>
                 </>
               )}
 
@@ -546,16 +546,16 @@ export default function Triangulos({ onVolver }) {
                           y1={(p.t < 0 ? lado[0] : lado[1]).y}
                           x2={p.x}
                           y2={p.y}
-                          stroke="#94a3b8"
+                          stroke="var(--c-slate-400)"
                           strokeWidth="1.5"
                           strokeDasharray="2 3"
                         />
                       )}
-                      <line x1={v.x} y1={v.y} x2={p.x} y2={p.y} stroke="#e11d48" strokeWidth="1.5" strokeDasharray="4 3" />
+                      <line x1={v.x} y1={v.y} x2={p.x} y2={p.y} stroke="var(--c-rose-600)" strokeWidth="1.5" strokeDasharray="4 3" />
                     </g>
                   ))}
-                  <circle cx={ortoX} cy={ortoY} r="6" fill="#be123c" />
-                  <text x={ortoX} y={ortoY - 10} textAnchor="middle" fontSize="12" fontWeight="bold" fill="#be123c">H</text>
+                  <circle cx={ortoX} cy={ortoY} r="6" fill="var(--c-rose-700)" />
+                  <text x={ortoX} y={ortoY - 10} textAnchor="middle" fontSize="12" fontWeight="bold" fill="var(--c-rose-700)">H</text>
                 </>
               )}
 
@@ -563,47 +563,47 @@ export default function Triangulos({ onVolver }) {
               {puntoNotable === 'circuncentro' && (
                 <>
                   {radioCircun < 1500 && (
-                    <circle cx={circunX} cy={circunY} r={radioCircun} fill="none" stroke="#0284c7" strokeWidth="1.5" strokeDasharray="5 4" />
+                    <circle cx={circunX} cy={circunY} r={radioCircun} fill="none" stroke="var(--c-sky-600)" strokeWidth="1.5" strokeDasharray="5 4" />
                   )}
                   {[mAB, mBC, mAC].map((m, k) => (
-                    <line key={k} x1={m.x} y1={m.y} x2={circunX} y2={circunY} stroke="#0284c7" strokeWidth="1.5" strokeDasharray="4 3" />
+                    <line key={k} x1={m.x} y1={m.y} x2={circunX} y2={circunY} stroke="var(--c-sky-600)" strokeWidth="1.5" strokeDasharray="4 3" />
                   ))}
-                  <circle cx={circunX} cy={circunY} r="6" fill="#0284c7" />
-                  <text x={circunX} y={circunY - 10} textAnchor="middle" fontSize="12" fontWeight="bold" fill="#0284c7">O</text>
+                  <circle cx={circunX} cy={circunY} r="6" fill="var(--c-sky-600)" />
+                  <text x={circunX} y={circunY - 10} textAnchor="middle" fontSize="12" fontWeight="bold" fill="var(--c-sky-600)">O</text>
                 </>
               )}
 
               {/* Incentro: las 3 bisectrices y la circunferencia inscripta */}
               {puntoNotable === 'incentro' && (
                 <>
-                  <circle cx={incentroX} cy={incentroY} r={radioIn} fill="none" stroke="#7c3aed" strokeWidth="1.5" />
+                  <circle cx={incentroX} cy={incentroY} r={radioIn} fill="none" stroke="var(--c-violet-600)" strokeWidth="1.5" />
                   {bisectrices.map(({ v, p }, k) => (
-                    <line key={k} x1={v.x} y1={v.y} x2={p.x} y2={p.y} stroke="#7c3aed" strokeWidth="1.5" strokeDasharray="4 3" />
+                    <line key={k} x1={v.x} y1={v.y} x2={p.x} y2={p.y} stroke="var(--c-violet-600)" strokeWidth="1.5" strokeDasharray="4 3" />
                   ))}
-                  <circle cx={incentroX} cy={incentroY} r="6" fill="#6d28d9" />
-                  <text x={incentroX} y={incentroY - 10} textAnchor="middle" fontSize="12" fontWeight="bold" fill="#6d28d9">I</text>
+                  <circle cx={incentroX} cy={incentroY} r="6" fill="var(--c-violet-700)" />
+                  <text x={incentroX} y={incentroY - 10} textAnchor="middle" fontSize="12" fontWeight="bold" fill="var(--c-violet-700)">I</text>
                 </>
               )}
 
               {[A, B, C].map((P, k) => (
-                <circle key={k} cx={P.x} cy={P.y} r="4" fill="#0f172a" />
+                <circle key={k} cx={P.x} cy={P.y} r="4" fill="var(--c-slate-900)" />
               ))}
             </svg>
 
-            <div className="mt-2 space-y-1 text-center text-sm text-slate-700">
+            <div className="mt-2 space-y-1 text-center text-sm text-ink">
               {puntoNotable === 'baricentro' && <p><strong>Baricentro (G):</strong> corte de las 3 medianas. Es el centro de gravedad del triángulo.</p>}
               {puntoNotable === 'ortocentro' && <p><strong>Ortocentro (H):</strong> corte de las 3 alturas (perpendiculares a cada lado).</p>}
               {puntoNotable === 'circuncentro' && <p><strong>Circuncentro (O):</strong> corte de las 3 mediatrices. Es el centro de la circunferencia que pasa por los tres vértices.</p>}
               {puntoNotable === 'incentro' && <p><strong>Incentro (I):</strong> corte de las 3 bisectrices. Es el centro de la circunferencia inscripta, tangente a los tres lados.</p>}
               {!puntoDentro && (
-                <p className="rounded-lg bg-amber-50 p-2 text-amber-900">
+                <p className="rounded-lg bg-amber-50 p-2 text-warn-ink">
                   Fijate: acá el punto quedó <strong>fuera del triángulo</strong>. Les pasa al ortocentro y al circuncentro de los obtusángulos.
                 </p>
               )}
             </div>
           </div>
 
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-muted">
             Para mover los vértices a mano, volvé al paso 1. Tocá el botón para guardar tu progreso y volver al menú principal.
           </p>
         </div>

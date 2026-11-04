@@ -43,9 +43,9 @@ export default function Angulos({ onVolver }) {
   const badgeColor1 =
     tipoAngulo1 === 'agudo' ? 'bg-sky-100 text-sky-800 border-sky-300'
     : tipoAngulo1 === 'recto' ? 'bg-emerald-100 text-emerald-800 border-emerald-400'
-    : tipoAngulo1 === 'obtuso' ? 'bg-amber-100 text-amber-800 border-amber-300'
+    : tipoAngulo1 === 'obtuso' ? 'bg-amber-100 text-warn-ink border-amber-300'
     : tipoAngulo1 === 'llano' ? 'bg-purple-100 text-purple-800 border-purple-300'
-    : 'bg-slate-100 text-slate-800 border-slate-300';
+    : 'bg-surface-2 text-ink border-slate-300';
 
   const definicion1 =
     tipoAngulo1 === 'agudo' ? 'Mide más de 0° y menos de 90°.'
@@ -95,7 +95,7 @@ export default function Angulos({ onVolver }) {
       bloqueado: !quiz1Ok,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Un <strong>ángulo</strong> es la abertura entre dos semirrectas con un origen común (el vértice).
             Mové el deslizador para ver cómo cambia y cómo se llama:
           </p>
@@ -110,13 +110,13 @@ export default function Angulos({ onVolver }) {
             unidad="°"
           />
 
-          <div className="relative rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+          <div className="card relative p-3 shadow-sm">
             <svg viewBox="0 0 320 200" className="mx-auto w-full max-w-sm" role="img" aria-label={`Transportador mostrando ángulo de ${angulo1}°`}>
               {/* Transportador de fondo */}
               <path
                 d="M 40 160 A 120 120 0 0 1 280 160 Z"
-                fill="#f8fafc"
-                stroke="#cbd5e1"
+                fill="var(--c-slate-50)"
+                stroke="var(--c-slate-300)"
                 strokeWidth="2"
               />
               {/* Marcas de grados */}
@@ -131,8 +131,8 @@ export default function Angulos({ onVolver }) {
                 const yText = 160 - 95 * Math.sin(rad);
                 return (
                   <g key={g}>
-                    <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#94a3b8" strokeWidth={g % 90 === 0 ? '2' : '1'} />
-                    <text x={xText} y={yText + 3} textAnchor="middle" fontSize="9" fill="#64748b" className="font-mono">
+                    <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--c-slate-400)" strokeWidth={g % 90 === 0 ? '2' : '1'} />
+                    <text x={xText} y={yText + 3} textAnchor="middle" fontSize="9" fill="var(--c-slate-500)" className="font-mono">
                       {g}°
                     </text>
                   </g>
@@ -140,13 +140,13 @@ export default function Angulos({ onVolver }) {
               })}
 
               {/* Lado inicial (fijo en horizontal a la derecha) */}
-              <line x1="160" y1="160" x2="280" y2="160" stroke="#0f172a" strokeWidth="3" strokeLinecap="round" />
+              <line x1="160" y1="160" x2="280" y2="160" stroke="var(--c-slate-900)" strokeWidth="3" strokeLinecap="round" />
 
               {/* Sector sombreado del ángulo */}
               {angulo1 > 0 && (
                 <path
                   d={`M 160 160 L 280 160 A 120 120 0 0 0 ${160 + 120 * Math.cos(-rad1)} ${160 + 120 * Math.sin(-rad1)} Z`}
-                  fill={angulo1 === 90 ? 'rgba(16, 185, 129, 0.2)' : 'rgba(13, 148, 136, 0.18)'}
+                  fill={angulo1 === 90 ? 'color-mix(in srgb, var(--c-emerald-500) 20%, transparent)' : 'color-mix(in srgb, var(--c-teal-600) 18%, transparent)'}
                 />
               )}
 
@@ -156,21 +156,21 @@ export default function Angulos({ onVolver }) {
                 y1="160"
                 x2={160 + 120 * Math.cos(-rad1)}
                 y2={160 + 120 * Math.sin(-rad1)}
-                stroke="#0f766e"
+                stroke="var(--c-teal-700)"
                 strokeWidth="3.5"
                 strokeLinecap="round"
               />
 
               {/* Indicador de ángulo recto (cuadrado) */}
               {angulo1 === 90 ? (
-                <path d="M 180 160 L 180 140 L 160 140" fill="none" stroke="#059669" strokeWidth="2.5" />
+                <path d="M 180 160 L 180 140 L 160 140" fill="none" stroke="var(--c-emerald-600)" strokeWidth="2.5" />
               ) : (
-                <path d={dArco1} fill="none" stroke="#0d9488" strokeWidth="2" strokeDasharray="3,3" />
+                <path d={dArco1} fill="none" stroke="var(--c-teal-600)" strokeWidth="2" strokeDasharray="3,3" />
               )}
 
               {/* Vértice central */}
-              <circle cx="160" cy="160" r="5" fill="#0f766e" />
-              <text x="160" y="180" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0f172a">
+              <circle cx="160" cy="160" r="5" fill="var(--c-teal-700)" />
+              <text x="160" y="180" textAnchor="middle" fontSize="13" fontWeight="bold" fill="var(--c-slate-900)">
                 Vértice
               </text>
             </svg>
@@ -180,7 +180,7 @@ export default function Angulos({ onVolver }) {
               <span className={`inline-block rounded-full border px-4 py-1 text-base font-bold uppercase tracking-wide ${badgeColor1}`}>
                 Ángulo {tipoAngulo1} ({angulo1}°)
               </span>
-              <p className="mt-1 text-sm text-slate-600">{definicion1}</p>
+              <p className="mt-1 text-sm text-muted">{definicion1}</p>
             </div>
           </div>
 
@@ -199,7 +199,7 @@ export default function Angulos({ onVolver }) {
       bloqueado: !num2Ok,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Dos ángulos son <strong>adyacentes</strong> cuando comparten el vértice y un lado común:
           </p>
 
@@ -211,7 +211,7 @@ export default function Angulos({ onVolver }) {
                 setAnguloAlfa(35);
               }}
               className={`h-11 flex-1 rounded-xl font-semibold transition ${
-                esComp ? 'bg-teal-600 text-white shadow-sm' : 'border border-slate-200 bg-white text-slate-700'
+                esComp ? 'bg-brand text-on-brand shadow-sm' : 'border border-line bg-surface text-ink'
               }`}
             >
               Complementarios (suman 90°)
@@ -223,7 +223,7 @@ export default function Angulos({ onVolver }) {
                 setAnguloAlfa(70);
               }}
               className={`h-11 flex-1 rounded-xl font-semibold transition ${
-                !esComp ? 'bg-teal-600 text-white shadow-sm' : 'border border-slate-200 bg-white text-slate-700'
+                !esComp ? 'bg-brand text-on-brand shadow-sm' : 'border border-line bg-surface text-ink'
               }`}
             >
               Suplementarios (suman 180°)
@@ -240,21 +240,21 @@ export default function Angulos({ onVolver }) {
             unidad="°"
           />
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+          <div className="card p-3 shadow-sm">
             <svg viewBox="0 0 320 200" className="mx-auto w-full max-w-sm" role="img" aria-label={`Ángulos ${tipoPares}`}>
               {/* Lado base (horizontal) */}
-              <line x1="160" y1="160" x2={160 + rPares} y2="160" stroke="#334155" strokeWidth="2.5" />
+              <line x1="160" y1="160" x2={160 + rPares} y2="160" stroke="var(--c-slate-700)" strokeWidth="2.5" />
               {/* Lado extremo (vertical si complementario, horizontal izq si suplementario) */}
-              <line x1="160" y1="160" x2={xTotal} y2={yTotal} stroke="#334155" strokeWidth="2.5" strokeDasharray="4,4" />
+              <line x1="160" y1="160" x2={xTotal} y2={yTotal} stroke="var(--c-slate-700)" strokeWidth="2.5" strokeDasharray="4,4" />
               {/* Lado compartido móvil */}
-              <line x1="160" y1="160" x2={xAlfa} y2={yAlfa} stroke="#0f766e" strokeWidth="3" />
+              <line x1="160" y1="160" x2={xAlfa} y2={yAlfa} stroke="var(--c-teal-700)" strokeWidth="3" />
 
               {/* Sectores coloreados */}
-              <path d={dArcoAlfa} fill="rgba(20, 184, 166, 0.25)" stroke="#0d9488" strokeWidth="1.5" />
-              <path d={dArcoBeta} fill="rgba(245, 158, 11, 0.25)" stroke="#d97706" strokeWidth="1.5" />
+              <path d={dArcoAlfa} fill="color-mix(in srgb, var(--c-teal-500) 25%, transparent)" stroke="var(--c-teal-600)" strokeWidth="1.5" />
+              <path d={dArcoBeta} fill="color-mix(in srgb, var(--c-amber-500) 25%, transparent)" stroke="var(--c-amber-600)" strokeWidth="1.5" />
 
               {/* Etiquetas */}
-              <text x={160 + 35 * Math.cos(-radAlfa / 2)} y={160 + 35 * Math.sin(-radAlfa / 2) + 4} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0f766e">
+              <text x={160 + 35 * Math.cos(-radAlfa / 2)} y={160 + 35 * Math.sin(-radAlfa / 2) + 4} textAnchor="middle" fontSize="13" fontWeight="bold" fill="var(--c-teal-700)">
                 α ({anguloAlfa}°)
               </text>
               <text
@@ -263,18 +263,18 @@ export default function Angulos({ onVolver }) {
                 textAnchor="middle"
                 fontSize="13"
                 fontWeight="bold"
-                fill="#b45309"
+                fill="var(--c-amber-700)"
               >
                 β ({anguloBeta}°)
               </text>
 
-              <circle cx="160" cy="160" r="4" fill="#0f172a" />
+              <circle cx="160" cy="160" r="4" fill="var(--c-slate-900)" />
             </svg>
 
             <div className="rounded-xl bg-slate-50 p-3 text-center">
               <Formula block tex={`\\alpha + \\beta = ${totalPares}^\\circ`} />
               <Formula block tex={`${texNum(anguloAlfa)}^\\circ + ${texNum(anguloBeta)}^\\circ = ${totalPares}^\\circ`} />
-              <p className="mt-1 text-sm text-slate-600">
+              <p className="mt-1 text-sm text-muted">
                 El {esComp ? 'complemento' : 'suplemento'} de {anguloAlfa}° es <strong>{anguloBeta}°</strong>.
               </p>
             </div>
@@ -300,7 +300,7 @@ export default function Angulos({ onVolver }) {
       bloqueado: !quiz3Ok,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Al cortar dos rectas paralelas con una recta transversal se forman <strong>8 ángulos</strong>,
             pero ¡solo hay <strong>dos medidas posibles</strong>!
           </p>
@@ -315,13 +315,13 @@ export default function Angulos({ onVolver }) {
             unidad="°"
           />
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+          <div className="card p-3 shadow-sm">
             <svg viewBox="0 0 320 230" className="mx-auto w-full max-w-sm" role="img" aria-label="Paralelas cortadas por transversal con 8 ángulos">
               {/* Rectas paralelas L1 y L2 */}
-              <line x1="20" y1="75" x2="300" y2="75" stroke="#475569" strokeWidth="2.5" />
-              <text x="305" y="79" fontSize="12" fontWeight="bold" fill="#475569">L₁</text>
-              <line x1="20" y1="165" x2="300" y2="165" stroke="#475569" strokeWidth="2.5" />
-              <text x="305" y="169" fontSize="12" fontWeight="bold" fill="#475569">L₂</text>
+              <line x1="20" y1="75" x2="300" y2="75" stroke="var(--c-slate-600)" strokeWidth="2.5" />
+              <text x="305" y="79" fontSize="12" fontWeight="bold" fill="var(--c-slate-600)">L₁</text>
+              <line x1="20" y1="165" x2="300" y2="165" stroke="var(--c-slate-600)" strokeWidth="2.5" />
+              <text x="305" y="169" fontSize="12" fontWeight="bold" fill="var(--c-slate-600)">L₂</text>
 
               {/* Transversal T */}
               {/* Transversal T («/»): pasa por (160, 120) y forma `inclinacion` con las paralelas */}
@@ -357,19 +357,19 @@ export default function Angulos({ onVolver }) {
 
                 return (
                   <>
-                    <line x1={xArriba} y1="15" x2={xAbajo} y2="225" stroke="#0f766e" strokeWidth="3" />
-                    <text x={xArriba + 8} y="22" fontSize="12" fontWeight="bold" fill="#0f766e">T</text>
+                    <line x1={xArriba} y1="15" x2={xAbajo} y2="225" stroke="var(--c-teal-700)" strokeWidth="3" />
+                    <text x={xArriba + 8} y="22" fontSize="12" fontWeight="bold" fill="var(--c-teal-700)">T</text>
 
                     {angulosData.map(({ num, x, y, agudo }) => {
                       const destacado = angulosResaltados.includes(num);
-                      const bg = agudo ? '#0d9488' : '#d97706';
+                      const bg = agudo ? 'var(--c-teal-600)' : 'var(--c-amber-600)';
                       return (
                         <g key={num}>
                           {destacado && (
-                            <circle cx={x} cy={y} r="14" fill="none" stroke="#2563eb" strokeWidth="3" strokeDasharray="3,3" />
+                            <circle cx={x} cy={y} r="14" fill="none" stroke="var(--c-blue-600)" strokeWidth="3" strokeDasharray="3,3" />
                           )}
                           <circle cx={x} cy={y} r="11" fill={bg} />
-                          <text x={x} y={y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill="#ffffff">
+                          <text x={x} y={y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill="var(--c-white)">
                             {num}
                           </text>
                         </g>
@@ -382,7 +382,7 @@ export default function Angulos({ onVolver }) {
 
             {/* Clasificación de relaciones */}
             <div className="mt-3 space-y-2">
-              <span className="text-sm font-semibold uppercase text-slate-500">Tocá una relación para explorar:</span>
+              <span className="text-sm font-semibold uppercase text-muted">Tocá una relación para explorar:</span>
               <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
                 {[
                   ['alternos-internos', 'Alternos internos'],
@@ -398,7 +398,7 @@ export default function Angulos({ onVolver }) {
                     className={`min-h-11 rounded-lg px-2 text-sm font-semibold transition ${
                       relacionSeleccionada === id
                         ? 'bg-blue-600 text-white'
-                        : 'border border-slate-200 bg-slate-50 text-slate-700 active:bg-slate-100'
+                        : 'border border-line bg-slate-50 text-ink active:bg-surface-2'
                     }`}
                   >
                     {label}
@@ -435,15 +435,15 @@ export default function Angulos({ onVolver }) {
       titulo: '4. ¡Resumen de ángulos!',
       contenido: (
         <div className="space-y-4">
-          <div className="rounded-2xl border border-slate-200 bg-white p-4">
-            <h3 className="text-lg font-bold text-teal-800">Lo que aprendiste en este módulo:</h3>
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-slate-700">
+          <div className="card p-4">
+            <h3 className="text-lg font-bold text-brand-ink">Lo que aprendiste en este módulo:</h3>
+            <ul className="mt-3 list-disc space-y-2 pl-5 text-ink">
               <li>
                 <strong>Clasificación:</strong> Agudo (&lt; 90°), Recto (= 90°), Obtuso (&gt; 90° y &lt; 180°) y Llano (= 180°).
               </li>
               <li>
                 <strong>Pares de ángulos:</strong>
-                <ul className="list-circle pl-4 pt-1 text-sm text-slate-600">
+                <ul className="list-circle pl-4 pt-1 text-sm text-muted">
                   <li><strong>Complementarios:</strong> suman 90° (α + β = 90°).</li>
                   <li><strong>Suplementarios:</strong> suman 180° (α + β = 180°).</li>
                 </ul>
@@ -453,7 +453,7 @@ export default function Angulos({ onVolver }) {
               </li>
             </ul>
           </div>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-muted">
             Tocá el botón para guardar tu progreso y volver al menú principal.
           </p>
         </div>

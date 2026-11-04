@@ -38,8 +38,8 @@ function Plano2D({ figura, lado = 44, coloreado = false, marcar = [], etiqueta }
           width={lado}
           height={lado}
           rx="3"
-          fill={coloreado ? PALETA[orden.indexOf(caraPorCelda[i]) % PALETA.length] : '#e2e8f0'}
-          stroke={marcar.includes(i) ? '#dc2626' : '#0f766e'}
+          fill={coloreado ? PALETA[orden.indexOf(caraPorCelda[i]) % PALETA.length] : 'var(--c-slate-200)'}
+          stroke={marcar.includes(i) ? 'var(--c-red-500)' : 'var(--c-teal-700)'}
           strokeWidth={marcar.includes(i) ? 4 : 2}
         />
       ))}
@@ -47,7 +47,7 @@ function Plano2D({ figura, lado = 44, coloreado = false, marcar = [], etiqueta }
   );
 }
 
-const botonPrimario = 'h-12 w-full rounded-xl bg-teal-600 px-4 font-semibold text-white active:bg-teal-700';
+const botonPrimario = 'btn btn-primary btn-lg w-full';
 
 export default function ArmaUnCubo({ onVolver, semilla }) {
   const { marcarCompletado } = useApp();
@@ -126,10 +126,10 @@ export default function ArmaUnCubo({ onVolver, semilla }) {
       bloqueado: !plegoCruz,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Este desarrollo está formado por <strong>6 cuadrados</strong>. Llevá el deslizador hasta <strong>100 %</strong> y mirá si se cierra un cubo.
           </p>
-          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="card p-4">
             <Net3D desarrollo={CRUZ.desarrollo} t={tCruz} giroVista={-25} colorear animar={animarCruz} etiqueta="Cruz de 6 cuadrados" />
             <div className="mt-3 space-y-2">
               <Slider
@@ -152,21 +152,21 @@ export default function ArmaUnCubo({ onVolver, semilla }) {
                     plegar(1, setTCruz, setAnimarCruz);
                     setPlegoCruz(true);
                   }}
-                  className="h-11 flex-1 rounded-xl bg-teal-600 font-semibold text-white active:bg-teal-700"
+                  className="btn btn-primary flex-1"
                 >
                   Plegar solo
                 </button>
                 <button
                   type="button"
                   onClick={() => plegar(0, setTCruz, setAnimarCruz)}
-                  className="h-11 flex-1 rounded-xl border-2 border-teal-600 font-semibold text-teal-700 active:bg-teal-50"
+                  className="btn btn-secondary flex-1"
                 >
                   Desplegar
                 </button>
               </div>
             </div>
           </div>
-          <p className="rounded-lg bg-amber-50 p-2 text-amber-900">
+          <p className="rounded-lg bg-amber-50 p-2 text-warn-ink">
             Cada cuadrado pasa a ser <strong>una cara</strong> y cada una queda de un color distinto. Si el desarrollo arma un cubo, las 6 caras quedan distintas.
           </p>
         </>
@@ -177,18 +177,18 @@ export default function ArmaUnCubo({ onVolver, semilla }) {
       bloqueado: !jugado,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Mirá el desarrollo y decidí: ¿se puede plegar para formar un cubo? Después lo comprobamos plegándolo.
           </p>
 
-          <div className="flex items-center justify-between text-sm font-medium text-slate-600" aria-live="polite">
+          <div className="flex items-center justify-between text-sm font-medium text-muted" aria-live="polite">
             <span>
               Desarrollo {idx + 1} de {ronda.length}
             </span>
             <span>Aciertos: {aciertos}</span>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <div className="card p-4">
             <Plano2D
               key={`${semillaJuego}-${idx}`}
               figura={figura}
@@ -199,16 +199,16 @@ export default function ArmaUnCubo({ onVolver, semilla }) {
 
             {respuesta === null ? (
               <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <button type="button" onClick={() => responder(true)} className="min-h-12 rounded-xl border-2 border-teal-600 px-3 font-semibold text-teal-800 active:bg-teal-50">
+                <button type="button" onClick={() => responder(true)} className="btn btn-secondary btn-lg">
                   ✅ Sí, arma un cubo
                 </button>
-                <button type="button" onClick={() => responder(false)} className="min-h-12 rounded-xl border-2 border-slate-300 px-3 font-semibold text-slate-700 active:bg-slate-100">
+                <button type="button" onClick={() => responder(false)} className="min-h-12 rounded-xl border-2 border-slate-300 px-3 font-semibold text-ink active:bg-surface-2">
                   ❌ No, no arma un cubo
                 </button>
               </div>
             ) : (
               <div className="mt-4 space-y-3">
-                <p className={`rounded-lg p-2 font-semibold ${acerto ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-700'}`} aria-live="polite">
+                <p className={`rounded-lg p-2 font-semibold ${acerto ? 'bg-green-50 text-ok-ink' : 'bg-red-50 text-bad-ink'}`} aria-live="polite">
                   {acerto ? '✅ ¡Bien!' : '❌ No era así.'}{' '}
                   {figura.valido
                     ? 'Sí arma un cubo: los 6 cuadrados caen sobre 6 caras distintas.'
@@ -234,11 +234,11 @@ export default function ArmaUnCubo({ onVolver, semilla }) {
                     Siguiente desarrollo →
                   </button>
                 ) : (
-                  <div className="rounded-xl bg-teal-50 p-3 text-center">
-                    <p className="text-lg font-bold text-teal-800">
+                  <div className="rounded-xl bg-brand-soft p-3 text-center">
+                    <p className="text-lg font-bold text-brand-ink">
                       Terminaste: {aciertos} de {ronda.length}
                     </p>
-                    <button type="button" onClick={jugarDeNuevo} className="mt-2 h-11 rounded-xl border-2 border-teal-600 px-4 font-semibold text-teal-700 active:bg-teal-100">
+                    <button type="button" onClick={jugarDeNuevo} className="btn btn-secondary mt-2">
                       Jugar de nuevo
                     </button>
                   </div>
@@ -254,12 +254,12 @@ export default function ArmaUnCubo({ onVolver, semilla }) {
       bloqueado: !quizOk,
       contenido: (
         <>
-          <p className="text-slate-600">
+          <p className="text-muted">
             Con 6 cuadrados se pueden armar 35 figuras distintas, pero <strong>solo 11</strong> se pliegan en un cubo.
           </p>
           <div className="space-y-3">
             {FAMILIAS.map((fam) => (
-              <div key={fam.id} className="rounded-2xl border border-slate-200 bg-white p-3">
+              <div key={fam.id} className="card p-3">
                 <h3 className="font-bold">{fam.titulo}</h3>
                 <div className="mt-2 flex flex-wrap items-end gap-3">
                   {VALIDOS.filter((v) => v.familia === fam.id).map((v) => (
@@ -269,7 +269,7 @@ export default function ArmaUnCubo({ onVolver, semilla }) {
               </div>
             ))}
           </div>
-          <ul className="list-disc space-y-1 pl-6 text-slate-700">
+          <ul className="list-disc space-y-1 pl-6 text-ink">
             <li>Una fila de 4 con un cuadrado arriba y otro abajo (en cualquier lugar) <strong>siempre</strong> arma un cubo.</li>
             <li>Si hay 4 cuadrados formando un bloque de 2 × 2, <strong>nunca</strong> arma.</li>
           </ul>
@@ -286,9 +286,9 @@ export default function ArmaUnCubo({ onVolver, semilla }) {
     {
       titulo: '¡Listo!',
       contenido: (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div className="card p-4">
           <p className="font-semibold">Para recordar:</p>
-          <ul className="mt-2 list-disc space-y-1 pl-6 text-slate-700">
+          <ul className="mt-2 list-disc space-y-1 pl-6 text-ink">
             <li>Un cubo tiene 6 caras: el desarrollo necesita 6 cuadrados unidos por los lados.</li>
             <li>Si al plegar dos cuadrados caen sobre la misma cara, no arma un cubo.</li>
             <li>Existen 11 desarrollos distintos del cubo.</li>

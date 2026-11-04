@@ -1,0 +1,90 @@
+/*
+  TOKENS DE DISEÑO — la única fuente de verdad del estilo.
+  Para cambiar el aspecto de TODA la app se toca acá (y nada más).
+
+  Escala de espaciado (usar solo estos pasos de Tailwind): 1=4px · 2=8px · 3=12px · 4=16px · 6=24px · 8=32px · 12=48px
+  Radios:       control (botones, campos) 12px · card 16px · pastilla 9999px
+  Tipografía:   text-display (título de portada) · text-title (título de pantalla) · base 16px · text-sm 14px (solo apoyo)
+  Colores:      semánticos (abajo) → bg-page, bg-surface, text-ink, text-muted, bg-brand, bg-ok-soft…
+  Modo oscuro:  :root[data-theme="dark"] (lo pone el script de index.html y el botón de tema)
+*/
+
+:root {
+  color-scheme: light;
+
+  /* superficies y texto */
+  --page: var(--c-slate-50);
+  --surface: var(--c-white);
+  --surface-2: var(--c-slate-100);
+  --line: var(--c-slate-200);
+  --field-line: var(--c-slate-500);     /* borde de campos y controles: contraste ≥ 3:1 */
+  --ink: var(--c-slate-900);
+  --ink-muted: var(--c-slate-600);      /* ≥ 4,5:1 sobre page y surface */
+
+  /* marca */
+  --brand: var(--c-teal-700);
+  --brand-hover: var(--c-teal-800);
+  --brand-soft: var(--c-teal-50);
+  --brand-ink: var(--c-teal-800);
+  --on-brand: #ffffff;
+  --focus: var(--c-teal-700);
+
+  /* estados: soft = fondo · line = borde · ink = texto */
+  --ok-soft: var(--c-green-50);   --ok-line: var(--c-green-600);   --ok-ink: var(--c-green-800);
+  --bad-soft: var(--c-red-50);    --bad-line: var(--c-red-600);    --bad-ink: var(--c-red-800);
+  --warn-soft: var(--c-amber-50); --warn-line: var(--c-amber-600); --warn-ink: var(--c-amber-900);
+  --info-soft: var(--c-sky-50);   --info-line: var(--c-sky-600);   --info-ink: var(--c-sky-900);
+
+  /* sombras */
+  --shadow-card-v: 0 1px 2px rgb(15 23 42 / 0.05), 0 2px 8px rgb(15 23 42 / 0.05);
+  --shadow-pop-v: 0 12px 32px rgb(15 23 42 / 0.2);
+
+  /* márgenes laterales de la página: 16 px en celular, 24 en tablet, 32 en escritorio */
+  --gutter: 1rem;
+}
+@media (min-width: 768px) { :root { --gutter: 1.5rem; } }
+@media (min-width: 1280px) { :root { --gutter: 2rem; } }
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  /* en oscuro --c-* ya viene "dado vuelta" (ver palette.css); solo la marca se ajusta a mano */
+  --brand: var(--c-teal-500);        /* = teal-400 real */
+  --brand-hover: var(--c-teal-600);  /* = teal-300 real */
+  --on-brand: var(--c-teal-50);      /* = teal-950 real */
+  --focus: var(--c-teal-600);
+  --shadow-card-v: 0 1px 2px rgb(0 0 0 / 0.5);
+  --shadow-pop-v: 0 12px 32px rgb(0 0 0 / 0.6);
+}
+
+/* Tailwind: nombres de utilidades que usan los tokens (bg-surface, text-muted, rounded-card…) */
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-field: var(--field-line);
+  --color-ink: var(--ink);
+  --color-muted: var(--ink-muted);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-ink: var(--brand-ink);
+  --color-on-brand: var(--on-brand);
+  --color-ok-soft: var(--ok-soft);   --color-ok-line: var(--ok-line);   --color-ok-ink: var(--ok-ink);
+  --color-bad-soft: var(--bad-soft); --color-bad-line: var(--bad-line); --color-bad-ink: var(--bad-ink);
+  --color-warn-soft: var(--warn-soft); --color-warn-line: var(--warn-line); --color-warn-ink: var(--warn-ink);
+  --color-info-soft: var(--info-soft); --color-info-line: var(--info-line); --color-info-ink: var(--info-ink);
+  --shadow-card: var(--shadow-card-v);
+  --shadow-pop: var(--shadow-pop-v);
+}
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radius-control: 0.75rem;
+  --radius-card: 1rem;
+  --text-display: clamp(1.875rem, 1.35rem + 2.2vw, 2.875rem);
+  --text-display--line-height: 1.1;
+  --text-title: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --text-title--line-height: 1.25;
+  --container-page: 72rem;
+}
