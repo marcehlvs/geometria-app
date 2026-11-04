@@ -1,6 +1,8 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import "tailwindcss";
+import "katex/dist/katex.min.css";
 
 // Publicada en GitHub Pages: https://marcehlvs.github.io/geometria-app/
 // Por eso "base" lleva el nombre del repo. Si algún día la pasás a Vercel o a un
