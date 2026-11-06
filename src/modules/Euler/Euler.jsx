@@ -99,7 +99,7 @@ export default function Euler({ onVolver }) {
                 </button>
               ))}
             </div>
-            <Poliedro3D id={elegido} giro={giro} resalte={resalte} />
+            <Poliedro3D id={elegido} giro={giro} onGiro={setGiro} resalte={resalte} />
             <div className="flex gap-2" role="group" aria-label="Resaltar">
               {MODOS.map((m) => (
                 <button

@@ -1,16 +1,21 @@
 import { POLIEDROS } from '../data/cuerpos.js';
 import { construirPoliedro, rotar, caraVisible } from '../utils/solidos3d.js';
+import Visor from './Visor.jsx';
 
 // Poliedro en 3D dibujado con SVG (sin librerías). Lo usan «Cuerpos y sus
 // elementos» (Paso 8) y «Fórmula de Euler» (Paso 11).
-//   <Poliedro3D id="cubo" giro={30} resalte="caras" | "aristas" | "vertices" | null />
+//   <Poliedro3D id="cubo" giro={30} onGiro={setGiro} resalte="caras" | "aristas" | "vertices" | null />
+//
+// Se puede girar arrastrando, hacer zoom y mover (ver Visor). `giro` + `onGiro` lo
+// conectan con un deslizador del módulo; sin `onGiro`, `giro` es solo el valor inicial.
+// `interactivo={false}` lo deja como dibujo fijo (por ejemplo, para imprimir).
 
 const CARA_COLOR = { base: 'var(--c-teal-300)', lateral: 'var(--c-amber-300)' };
 
 // ---------------- Poliedro en 3D (SVG) ----------------
-export default function Poliedro3D({ id, giro, resalte }) {
+function Dibujo({ id, yaw, pitch, resalte }) {
   const { vertices, caras, aristas } = construirPoliedro(id);
-  const puntos = rotar(vertices, giro);
+  const puntos = rotar(vertices, yaw, pitch);
   const E = 62; // escala
   const proy = ([x, y]) => [120 + x * E, 125 - y * E];
 
@@ -67,5 +72,14 @@ export default function Poliedro3D({ id, giro, resalte }) {
           );
         })}
     </svg>
+  );
+}
+
+export default function Poliedro3D({ id, giro = 30, onGiro, resalte, interactivo = true }) {
+  const nombre = POLIEDROS.find((c) => c.id === id).nombre;
+  return (
+    <Visor key={id} etiqueta={`${nombre} en 3D`} yaw={giro} onYaw={onGiro} yawInicial={giro} pitchInicial={25} interactivo={interactivo}>
+      {({ yaw, pitch }) => <Dibujo id={id} yaw={yaw} pitch={pitch} resalte={resalte} />}
+    </Visor>
   );
 }

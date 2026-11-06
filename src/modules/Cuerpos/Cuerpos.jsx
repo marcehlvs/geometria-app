@@ -120,8 +120,8 @@ export default function Cuerpos({ onVolver }) {
 
             {esPoliedro ? (
               <>
-                <Poliedro3D id={elegido} giro={giro} resalte={resalte} />
-                <Slider etiqueta="Girar" valor={giro} onChange={setGiro} min={0} max={360} paso={10} unidad="°" />
+                <Poliedro3D id={elegido} giro={giro} onGiro={setGiro} resalte={resalte} />
+                <Slider etiqueta="Girar" valor={giro} onChange={setGiro} min={-180} max={180} paso={10} unidad="°" />
                 <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Resaltar">
                   {MODOS_POLIEDRO.map((m) => (
                     <button

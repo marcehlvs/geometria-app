@@ -1,13 +1,16 @@
 import { cuadroDelimitador, ejeBisagra, medidasDeCara, carasRepresentativas } from '../data/nets.js';
 import { fmt } from '../utils/format.js';
+import Visor from './Visor.jsx';
 
 // Dibuja un desarrollo plano (árbol de caras unidas por bisagras) con CSS 3D.
 // Lo usan «Desarrollo plano interactivo» (Paso 9) y «¿Arma un cubo?» (Paso 10).
 //
-//   <Net3D desarrollo={net} t={0.5} giroVista={-20} colorear animar={false}
+//   <Net3D desarrollo={net} t={0.5} giroVista={-20} onGiroVista={setGiro} colorear animar={false}
 //          etiqueta="Desarrollo plano del cubo" />
 //
 //   t         plegado de 0 (plano) a 1 (cuerpo armado)
+//   giroVista giro de la vista en grados; con `onGiroVista` el visor y un deslizador comparten el valor
+//   interactivo  false: dibujo fijo, sin arrastrar ni zoom (por ejemplo, para imprimir)
 //   colorear  true: cada `grupo` de caras con su color; false: todas grises
 //   medidas   true: rotula los lados (una cara por cada grupo de caras iguales)
 //   unidad    unidad de las medidas del desarrollo (por defecto 'cm')
@@ -75,7 +78,18 @@ function CaraNet({ cara, porPadre, origen, k, t, colores, animar, rotular, unida
   );
 }
 
-export default function Net3D({ desarrollo, t, giroVista, colorear, animar, medidas = false, unidad = 'cm', etiqueta = 'Desarrollo plano' }) {
+export default function Net3D({
+  desarrollo,
+  t,
+  giroVista = -20,
+  onGiroVista,
+  colorear,
+  animar,
+  medidas = false,
+  unidad = 'cm',
+  etiqueta = 'Desarrollo plano',
+  interactivo = true,
+}) {
   const todos = desarrollo.caras.flatMap((c) => c.poly);
   const bb = cuadroDelimitador(todos);
   const w = bb.maxX - bb.minX;
@@ -93,26 +107,31 @@ export default function Net3D({ desarrollo, t, giroVista, colorear, animar, medi
   const raiz = desarrollo.caras.find((c) => !c.padre);
   const rotular = new Set(medidas ? carasRepresentativas(desarrollo) : []);
 
+  // «pitch» es la altura de la cámara sobre el piso: 90° = vista desde arriba (plano), 35° = vista inclinada
   return (
-    <div
-      className="relative mx-auto h-80 w-full max-w-sm overflow-hidden rounded-2xl bg-slate-50"
-      style={{ perspective: '1000px' }}
-      role="img"
-      aria-label={`${etiqueta}, plegado al ${Math.round(t * 100)} %`}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          width: 0,
-          height: 0,
-          transformStyle: 'preserve-3d',
-          transform: `rotateX(55deg) rotateZ(${giroVista}deg)`,
-        }}
-      >
-        <CaraNet cara={raiz} porPadre={porPadre} origen={centro} k={k} t={t} colores={colores} animar={animar} rotular={rotular} unidad={unidad} />
-      </div>
-    </div>
+    <Visor key={desarrollo.id} etiqueta={etiqueta} yaw={giroVista} onYaw={onGiroVista} yawInicial={giroVista} pitchInicial={35} pitchMin={5} pitchMax={90} interactivo={interactivo}>
+      {({ yaw, pitch }) => (
+        <div
+          className="relative mx-auto h-80 w-full max-w-sm overflow-hidden"
+          style={{ perspective: '1000px' }}
+          role="img"
+          aria-label={`${etiqueta}, plegado al ${Math.round(t * 100)} %`}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              width: 0,
+              height: 0,
+              transformStyle: 'preserve-3d',
+              transform: `rotateX(${90 - pitch}deg) rotateZ(${yaw}deg)`,
+            }}
+          >
+            <CaraNet cara={raiz} porPadre={porPadre} origen={centro} k={k} t={t} colores={colores} animar={animar} rotular={rotular} unidad={unidad} />
+          </div>
+        </div>
+      )}
+    </Visor>
   );
 }

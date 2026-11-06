@@ -15,6 +15,7 @@ import {
   areaTotalDesarrollo,
 } from '../../data/nets.js';
 import Net3D from '../../components/Net3D.jsx';
+import DesarrolloRedondo3D from '../../components/DesarrolloRedondo3D.jsx';
 import { fmt } from '../../utils/format.js';
 
 const NOMBRES = Object.fromEntries([...POLIEDROS, ...REDONDOS].map((c) => [c.id, c.nombre]));
@@ -33,35 +34,6 @@ const CORTO = {
 const IDS_REDONDOS = ['cilindro', 'cono'];
 
 const colorBoton = (activo) => (activo ? 'chip chip-on' : 'chip');
-
-// ---------- Cilindro y cono: la superficie lateral se desenrolla ----------
-function DesarrolloRedondo({ id, r, h, t }) {
-  const gen = Math.sqrt(r * r + h * h);
-  const trazo = { stroke: 'var(--c-teal-700)', strokeWidth: 2, vectorEffect: 'non-scaling-stroke' };
-  if (id === 'cilindro') {
-    const W = 2 * Math.PI * r;
-    const w = W * Math.max(t, 0.02);
-    return (
-      <svg viewBox={`${-W / 2 - 1} ${-2 * r - 1} ${W + 2} ${h + 4 * r + 2}`} className="mx-auto h-72 w-full max-w-sm" role="img" aria-label="Desarrollo del cilindro">
-        <circle cx="0" cy={-r} r={r} fill="var(--c-teal-300)" fillOpacity="0.9" {...trazo} />
-        <circle cx="0" cy={h + r} r={r} fill="var(--c-teal-300)" fillOpacity="0.9" {...trazo} />
-        <rect x={-w / 2} y="0" width={w} height={h} fill="var(--c-amber-300)" fillOpacity="0.92" {...trazo} />
-      </svg>
-    );
-  }
-  const total = (360 * r) / gen;
-  const ang = Math.max(total * t, 4);
-  const a1 = ((90 - ang / 2) * Math.PI) / 180;
-  const a2 = ((90 + ang / 2) * Math.PI) / 180;
-  const p1 = [gen * Math.cos(a1), gen * Math.sin(a1)];
-  const p2 = [gen * Math.cos(a2), gen * Math.sin(a2)];
-  return (
-    <svg viewBox={`${-gen - 1} ${-gen - 1} ${2 * gen + 2} ${2 * gen + 2 * r + 2}`} className="mx-auto h-72 w-full max-w-sm" role="img" aria-label="Desarrollo del cono">
-      <circle cx="0" cy={gen + r} r={r} fill="var(--c-teal-300)" fillOpacity="0.9" {...trazo} />
-      <path d={`M0 0 L${p1[0]} ${p1[1]} A${gen} ${gen} 0 ${ang > 180 ? 1 : 0} 1 ${p2[0]} ${p2[1]} Z`} fill="var(--c-amber-300)" fillOpacity="0.92" {...trazo} />
-    </svg>
-  );
-}
 
 export default function DesarrolloPlano({ onVolver }) {
   const { marcarCompletado, pi } = useApp();
@@ -83,7 +55,14 @@ export default function DesarrolloPlano({ onVolver }) {
   const [tRedondo, setTRedondo] = useState(0);
 
   const temporizador = useRef(null);
-  useEffect(() => () => clearTimeout(temporizador.current), []);
+  const cuadro = useRef(null);
+  useEffect(
+    () => () => {
+      clearTimeout(temporizador.current);
+      cancelAnimationFrame(cuadro.current);
+    },
+    []
+  );
 
   const terminar = () => {
     marcarCompletado('desarrollo');
@@ -95,10 +74,33 @@ export default function DesarrolloPlano({ onVolver }) {
   const desarrollo = esRedondo ? null : construirDesarrollo(id, medidas);
 
   const elegir = (nuevo) => {
+    cancelAnimationFrame(cuadro.current);
     setId(nuevo);
     setT(0);
     setTRedondo(0);
     setAnimar(false);
+  };
+
+  // Cilindro y cono se dibujan con SVG (no con CSS 3D): el plegado se anima cuadro a cuadro
+  const cambiarTRedondo = (valor) => {
+    cancelAnimationFrame(cuadro.current);
+    setTRedondo(valor);
+    if (valor >= 1) setPlegoTodo(true);
+  };
+  const animarRedondoA = (destino) => {
+    cancelAnimationFrame(cuadro.current);
+    const desde = tRedondo;
+    const duracion = 300 + 1800 * Math.abs(destino - desde);
+    let inicio = null;
+    const paso = (ahora) => {
+      inicio ??= ahora;
+      const k = Math.min(1, (ahora - inicio) / duracion);
+      const suave = k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2;
+      setTRedondo(desde + (destino - desde) * suave);
+      if (k < 1) cuadro.current = requestAnimationFrame(paso);
+      else if (destino >= 1) setPlegoTodo(true);
+    };
+    cuadro.current = requestAnimationFrame(paso);
   };
 
   const cambiarT = (valor) => {
@@ -129,7 +131,7 @@ export default function DesarrolloPlano({ onVolver }) {
       contenido: (
         <>
           <p className="text-muted">
-            Elegí un cuerpo y llevá el deslizador hasta <strong>100 %</strong> para armarlo.
+            Elegí un cuerpo y llevá el deslizador hasta <strong>100 %</strong> para armarlo (o tocá <strong>Plegar</strong>). Podés girar la figura arrastrándola.
           </p>
 
           <div className="flex flex-wrap gap-2" role="group" aria-label="Cuerpo">
@@ -151,7 +153,7 @@ export default function DesarrolloPlano({ onVolver }) {
 
             {!esRedondo && (
               <>
-                <Net3D desarrollo={desarrollo} t={t} giroVista={giroVista} colorear={colorear} animar={animar} medidas={verMedidas} etiqueta={`Desarrollo plano de ${NOMBRES[desarrollo.id]}`} />
+                <Net3D desarrollo={desarrollo} t={t} giroVista={giroVista} onGiroVista={setGiroVista} colorear={colorear} animar={animar} medidas={verMedidas} etiqueta={`Desarrollo plano de ${NOMBRES[desarrollo.id]}`} />
                 <div className="mt-3 space-y-2">
                   <Slider etiqueta="Plegar" valor={Math.round(t * 100)} onChange={(v) => cambiarT(v / 100)} min={0} max={100} paso={5} unidad="%" />
                   <div className="flex gap-2">
@@ -200,20 +202,17 @@ export default function DesarrolloPlano({ onVolver }) {
 
             {esRedondo && (
               <>
-                <DesarrolloRedondo id={id} r={r} h={hRedondo} t={Math.max(tRedondo, 0.02)} />
+                <DesarrolloRedondo3D id={id} r={r} h={hRedondo} t={tRedondo} />
                 <div className="mt-3 space-y-2">
-                  <Slider
-                    etiqueta="Desenrollar"
-                    valor={Math.round(tRedondo * 100)}
-                    onChange={(v) => {
-                      setTRedondo(v / 100);
-                      if (v >= 100) setPlegoTodo(true);
-                    }}
-                    min={0}
-                    max={100}
-                    paso={5}
-                    unidad="%"
-                  />
+                  <Slider etiqueta="Plegar" valor={Math.round(tRedondo * 100)} onChange={(v) => cambiarTRedondo(v / 100)} min={0} max={100} paso={5} unidad="%" />
+                  <div className="flex gap-2">
+                    <button type="button" onClick={() => animarRedondoA(1)} className="btn btn-primary flex-1">
+                      Plegar
+                    </button>
+                    <button type="button" onClick={() => animarRedondoA(0)} className="btn btn-secondary flex-1">
+                      Desplegar
+                    </button>
+                  </div>
                   <Slider etiqueta="Radio" valor={r} onChange={setR} min={1} max={4} paso={0.5} unidad="cm" decimales={1} />
                   <Slider etiqueta="Altura" valor={hRedondo} onChange={setHRedondo} min={1} max={6} paso={0.5} unidad="cm" decimales={1} />
                 </div>
@@ -282,7 +281,7 @@ export default function DesarrolloPlano({ onVolver }) {
             Su superficie lateral se desenrolla en un rectángulo.
           </p>
           <div className="card p-3">
-            <DesarrolloRedondo id="cilindro" r={2} h={4} t={1} />
+            <DesarrolloRedondo3D id="cilindro" r={2} h={4} t={0} interactivo={false} />
             <Formula block tex="\text{largo del rectángulo} = 2 \cdot \pi \cdot r" />
             <p className="text-sm text-muted">
               Área de cada círculo: {fmt(areaBaseCir)} cm² · Área lateral con r = {fmt(r, 1)} y h = {fmt(hRedondo, 1)}: {fmt(areaLateralCil)} cm².

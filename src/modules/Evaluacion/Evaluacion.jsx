@@ -55,11 +55,11 @@ function Figura({ figura }) {
     const net = construirDesarrollo(figura.id, figura.medidas);
     return (
       <div className="my-3">
-        <Net3D desarrollo={net} t={0} giroVista={0} colorear={false} animar={false} medidas={figura.rotular} etiqueta="Desarrollo plano del cuerpo" />
+        <Net3D desarrollo={net} t={0} giroVista={0} colorear={false} animar={false} medidas={figura.rotular} etiqueta="Desarrollo plano del cuerpo" interactivo={false} />
       </div>
     );
   }
-  if (figura.tipo === 'redondo') return <Redondo3D id={figura.id} resalte={null} />;
+  if (figura.tipo === 'redondo') return <Redondo3D id={figura.id} resalte={null} interactivo={false} />;
   if (figura.tipo === 'patio-L') return <PatioL {...figura} />;
   return null;
 }
@@ -114,9 +114,9 @@ function Hoja({ evaluacion, modo, respuestas, onCambio, resultado }) {
 
       {evaluacion.ejercicios.map((e) => (
         <section key={e.numero} aria-labelledby={`ej-${modo}-${e.numero}`} className="card ejercicio p-4">
-          <h3 id={`ej-${modo}-${e.numero}`} className="text-lg font-bold">
+          <h2 id={`ej-${modo}-${e.numero}`} className="text-lg font-bold">
             Ejercicio {e.numero} · {e.titulo} <span className="text-sm font-normal text-muted">({textoPuntos(e.puntos)})</span>
-          </h3>
+          </h2>
           <p className="mt-2 text-lg leading-relaxed">{e.enunciado}</p>
           <Figura figura={e.figura} />
 

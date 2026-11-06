@@ -6,7 +6,7 @@ export const POLIEDROS = [
   // ----- Prismas -----
   { id: 'cubo', nombre: 'Cubo', tipo: 'prisma', C: 6, V: 8, A: 12, anios: [1, 2],
     detalle: '6 caras cuadradas iguales', regular: true },
-  { id: 'ortoedro', nombre: 'Prisma rectangular (ortoedro)', tipo: 'prisma', C: 6, V: 8, A: 12, anios: [1, 2],
+  { id: 'ortoedro', nombre: 'Ortoedro (prisma rectangular)', tipo: 'prisma', C: 6, V: 8, A: 12, anios: [1, 2],
     detalle: '6 caras rectangulares' },
   { id: 'prisma-triangular', nombre: 'Prisma triangular', tipo: 'prisma', C: 5, V: 6, A: 9, anios: [1, 2],
     detalle: '2 bases triangulares y 3 caras laterales rectangulares' },

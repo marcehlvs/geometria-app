@@ -41,7 +41,7 @@ Todo el aspecto sale de **tokens** (variables CSS) y de un puñado de clases com
 
 **Verificación del estado actual del repo**
 - `npm run test:utils`: 22 pruebas OK.
-- `npm test`: 176 pruebas OK (componentes y menú 17, Pasos 4 a 8: 19, Paso 9: 25, Paso 10: 9, Paso 11: 4, Paso 12: 15, Paso 13: 21, Paso 14: 44, Paso 15: 22).
+- `npm test`: 254 pruebas OK (176 de los Pasos 1 a 15, 14 de la revisión y 64 del visor 3D y el plegado de cilindro y cono).
 - `npm run build`: compila sin errores.
 - Los módulos de los Pasos 4 a 15 están registrados en `src/modules/index.js`, se abren desde el menú y entran en el build.
 
@@ -64,6 +64,7 @@ Todo el aspecto sale de **tokens** (variables CSS) y de un puñado de clases com
 | 13 | Formulario | Ver más abajo |
 | 14 | Problemas | Ver más abajo |
 | 15 | Modo evaluación | Ver más abajo |
+| Extra | Visor 3D | Zoom, giro y desplazamiento en todas las figuras, giro automático y plegado 3D del cilindro y del cono: ver más abajo |
 
 ### ✅ Paso 9 · Desarrollo plano interactivo
 - `data/nets.js`: 8 desarrollos (cubo, ortoedro, prismas triangular, pentagonal y hexagonal, pirámides triangular, cuadrada y pentagonal) modelados como árbol de caras unidas por bisagras. Nuevas funciones: `medidasDeCara` (un lado por cada longitud distinta de la cara) y `carasRepresentativas` (una cara por grupo de caras iguales).
@@ -115,6 +116,25 @@ Todo el aspecto sale de **tokens** (variables CSS) y de un puñado de clases com
 - `index.css`: la clase `ejercicio` evita que un ejercicio se corte entre dos hojas al imprimir.
 - Pruebas (`paso15.test.jsx`, 22): estructura de la evaluación para cada año y 60 números distintos, que todos los pasos sean válidos con los dos valores de π, que el área total coincida con la calculada **con las caras del desarrollo plano**, el puntaje (todo bien, sin unidades, en blanco), y el módulo completo (pantalla, impresión, clave, número de evaluación y medidas en el dibujo).
 - El menú ya no tiene módulos «Próximamente»; la prueba de ese comportamiento se hace quitando un componente a propósito.
+
+### ✅ Visor 3D: zoom, giro y plegado del cilindro y del cono
+Pedido después de probar la app: poder acercar y mover todas las figuras, un «play» para que giren solas y que el cilindro y el cono formen realmente el cuerpo al plegarse.
+- `components/Visor.jsx`: marco común que usan **todas** las figuras 3D (`Poliedro3D`, `Redondo3D`, `Net3D` y `DesarrolloRedondo3D`). Se maneja así:
+  - **Girar:** arrastrar con el mouse o con un dedo (horizontal = giro, vertical = inclinación).
+  - **Acercar y mover:** botones **+** y **−**, pellizcar con dos dedos, **Ctrl + rueda** (o pellizcar en el trackpad) y **Mayús + arrastrar** para mover la figura. La rueda sola sigue desplazando la página.
+  - **▶ Girar:** la figura gira sola (una vuelta cada 10 s) hasta que se toca **Detener** o la figura. **⟲** restablece la vista.
+  - **Teclado:** con el foco en la figura, flechas para girar, `+` y `-` para acercar y `0` para restablecer. Los botones tienen 44 px y `aria-label`; el área de la figura anuncia cómo usarla.
+  - Cada cuerpo arranca con su vista inicial al cambiar de cuerpo. Si el módulo tiene un deslizador de giro (Cuerpos, Euler, Desarrollo plano), el deslizador y el arrastre mueven lo mismo (`giro` + `onGiro`).
+  - `interactivo={false}` deja la figura fija, sin botones ni gestos: lo usa el **Modo evaluación** para que la hoja impresa salga limpia.
+- `utils/solidos3d.js`: `construirRedondo` arma cilindro, cono y esfera como mallas de caras planas, y `aristasDeContorno` calcula el contorno que se ve al girar. **`Redondo3D` pasó de ser un dibujo fijo a ser 3D de verdad** (con sombreado, bases y ecuador con línea cortada si quedan ocultos, vértice del cono y radio de la esfera).
+- **Cilindro y cono ahora se pliegan hasta armar el cuerpo** (`data/desarrolloRedondo.js` + `components/DesarrolloRedondo3D.jsx`). Antes el deslizador solo ensanchaba un rectángulo plano y nunca aparecía el cuerpo.
+  - **Cilindro:** el rectángulo de `2πr × h` se enrolla (etapa 1, hasta el 70 %) y después los dos círculos giran 90° sobre su punto de unión y tapan los extremos (etapa 2). Queda recostado.
+  - **Cono:** el sector circular se curva (la semiapertura baja de 90° a `asin(r/g)`) y el vértice sube hasta la altura del cono (etapa 1); después el círculo de la base gira 180° sobre su punto de unión y cierra el fondo (etapa 2).
+  - En todo momento **la superficie lateral conserva su área** (no se estira) y la tapa sigue unida por su punto de unión; las pruebas lo comprueban en 9 momentos del plegado.
+  - En «Plegá el desarrollo» hay un deslizador **Plegar**, los botones **Plegar** y **Desplegar** (animados) y los de radio y altura. El paso se habilita al llegar al 100 %. Mientras se arma, la cámara gira y baja un poco para que el cuerpo se vea bien; eso se suma a lo que el usuario mueva.
+- Revisión de accesibilidad con un navegador real (axe, a 375, 768 y 1280 px, en claro y oscuro): sin desbordes horizontales ni zonas táctiles menores a 44 px. Se arreglaron tres detalles: el nombre del ortoedro ahora es **«Ortoedro (prisma rectangular)»** en toda la app (el texto visible quedaba fuera del nombre accesible), los ejercicios del Modo evaluación pasaron de `h3` a `h2` (el orden de los encabezados) y las fórmulas en bloque que no entran en pantalla se pueden **enfocar con el teclado solo cuando desbordan**.
+- Pruebas (`visor3d.test.jsx`, 64): gestos (arrastre, pellizco, Mayús, Ctrl + rueda, teclado, restablecer, girar solo con reloj simulado), mallas cerradas y contorno continuo desde varios ángulos, geometría del plegado (área conservada, radio exacto, vértice y base en su lugar, tapas unidas), las cuatro figuras con visor y el módulo completo (cilindro y cono hasta el 100 %, animación y corte al cambiar de cuerpo).
+- Nota de uso en celular: la figura captura el dedo para poder girarla; para seguir desplazando la página, deslizar por fuera de la figura. Si más adelante se prefiere lo contrario, se cambia `touch-none` por `touch-pan-y` en `Visor.jsx` (pierde el giro vertical con un dedo).
 
 ### ☐ Pendiente
 
@@ -204,7 +224,9 @@ geometria-app/
    │  ├─ NumInput.jsx        # respuesta numérica (coma o punto, tolerancia)
    │  ├─ ProgressBar.jsx
    │  ├─ Poliedro3D.jsx      # poliedro en SVG con caras, aristas y vértices resaltables (Pasos 8 y 11)
-   │  ├─ Redondo3D.jsx       # cilindro, cono y esfera en SVG (Pasos 8 y 12)
+   │  ├─ Redondo3D.jsx       # cilindro, cono y esfera en 3D con SVG (Pasos 8 y 12)
+   │  ├─ DesarrolloRedondo3D.jsx # cilindro y cono que se pliegan hasta armar el cuerpo (Paso 9)
+   │  ├─ Visor.jsx           # girar, zoom, mover y «girar solo» para todas las figuras 3D
    │  ├─ Net3D.jsx           # desarrollo plano que se pliega (CSS 3D) y puede rotular medidas, compartido por los Pasos 9 y 10
    │  ├─ ModuloLayout.jsx    # marco común de cada módulo
    │  └─ BarraAjustes.jsx    # selector de año y de π
@@ -230,6 +252,7 @@ geometria-app/
    │  ├─ figuras.js          # fórmulas y propiedades de figuras planas
    │  ├─ cuerpos.js          # C, V, A, fórmulas de cada cuerpo
    │  ├─ nets.js             # desarrollos planos y medidas de cada cara (Paso 9)
+   │  ├─ desarrolloRedondo.js # plegado del cilindro y del cono (geometría pura)
    │  ├─ cuboNets.js         # los 35 hexaminós y cuáles arman un cubo (Paso 10)
    │  ├─ areasVolumenes.js   # desglose de áreas y volúmenes, unidades y capacidad (Paso 12)
    │  ├─ formulario.js       # tarjetas, buscador y mini calculadoras (Paso 13)
@@ -237,7 +260,7 @@ geometria-app/
    │  └─ evaluacion.js       # evaluación de dos ejercicios, puntaje y clave (Paso 15)
    └─ utils/
       ├─ geometry.js         # áreas, perímetros, volúmenes, Pitágoras, unidades
-      ├─ solidos3d.js        # geometría de los cuerpos para CSS 3D (Paso 8)
+      ├─ solidos3d.js        # geometría de los cuerpos para CSS 3D, mallas de cuerpos redondos y contorno (Pasos 8 y 9)
       ├─ format.js           # números en es-AR, parseNum, tolerancia
       └─ rand.js             # aleatorios con semilla
 ```
@@ -370,7 +393,7 @@ export const cubo = {
 ```
 - Componente `Net3D`: renderiza cada cara como `div` anidado dentro de su padre, con `transform-origin` en el borde de la charnela y `rotateX/rotateY(angulo * plegado)`, donde `plegado` va de 0 a 1 con un slider.
 - Botones: «Plegar», «Desplegar», rotar la vista, mostrar/ocultar medidas, colorear caras según sean iguales.
-- Cilindro y cono: SVG que «desenrolla» la superficie lateral (rectángulo de largo `2πr`; sector circular de ángulo `360°·r/g` para el cono).
+- Cilindro y cono: la superficie lateral se pliega **en 3D** hasta armar el cuerpo (rectángulo de largo `2πr` más dos círculos; sector circular de ángulo `360°·r/g` más un círculo para el cono). Ver «Visor 3D».
 - Panel lateral: «Área total = suma de las áreas del desarrollo», con el cálculo.
 
 **Por qué:** el desarrollo plano es la forma más concreta de entender el área total, y se conecta con tu PDF de redes desplegables con hilo (misma idea: mismas caras y medidas).
